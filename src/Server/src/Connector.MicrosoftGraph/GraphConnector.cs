@@ -45,20 +45,27 @@ public class GraphConnector : Connector
     {
         StringValues validationToken = httpContext.Request.Query["validationToken"];
 
-        ProcessHookResult result = new ProcessHookResult();
+        
 
         if (validationToken is { Count: 1 })
         {
             httpContext.Response.StatusCode = 200;
             await httpContext.Response.WriteAsync(validationToken, httpContext.RequestAborted);
 
-            return result;
+            return ProcessHookResult.Empty;
         }
 
         ChangeNotificationCollection notification = await ReadNotificationAsync(httpContext);
 
         ValidatesState(notification, webHook);
 
+        return HandleChangeNotification(notification);
+    }
+
+    protected virtual ProcessHookResult HandleChangeNotification(
+        ChangeNotificationCollection notification)
+    {
+        ProcessHookResult result = new ProcessHookResult();
         var items = new List<ConnectorItem>();
 
         foreach (ChangeNotification item in notification.Value)

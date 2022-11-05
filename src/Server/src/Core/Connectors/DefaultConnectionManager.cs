@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using TagIt.Messaging;
 using TagIt.Store.Mongo;
 
 namespace TagIt.Connectors;
@@ -26,7 +27,9 @@ public class DefaultConnectionManager : IConnectionManager
         switch (defintion.Type)
         {
             case "LFS":
-                connector = new FileSystemConnector(idSerializer);
+                connector = new FileSystemConnector(
+                    idSerializer,
+                    _serviceProvider.GetRequiredService<IMessagePublisher>());
                 break;
             case "GridFS":
                 connector = new DatabaseFileConnector(

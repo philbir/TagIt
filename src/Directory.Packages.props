@@ -6,7 +6,7 @@
     <PackageVersion Include="HotChocolate.AspNetCore" Version="12.15.0" />
     <PackageVersion Include="HotChocolate.AspNetCore.Authorization" Version="12.15.0" />
     <PackageVersion Include="HotChocolate.Data" Version="12.15.0" />
-    <PackageVersion Include="HotChocolate.Types" Version="12.15.0" />
+    <PackageVersion Include="HotChocolate.Types" Version="12.15.1" />
     <PackageVersion Include="GreenDonut" Version="12.15.0" />
     <PackageVersion Include="IdentityModel" Version="6.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.10" />
@@ -27,12 +27,16 @@
     <PackageVersion Include="MongoDB.Driver.GridFS" Version="2.18.0" />
     <PackageVersion Include="AnyDiff" Version="1.0.88" />
     <PackageVersion Include="AnyClone" Version="1.1.6" />
-    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.0.6" />
-    <PackageVersion Include="MassTransit" Version="8.0.6" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.0.8" />
+    <PackageVersion Include="MassTransit" Version="8.0.8" />
     <PackageVersion Include="Quartz" Version="3.5.0" />
     <PackageVersion Include="Azure.Identity" Version="1.6.1" />
     <PackageVersion Include="Microsoft.Graph" Version="4.40.0" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
+    <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.5.0" />
+    <PackageVersion Include="Serilog" Version="2.12.0" />
+    <PackageVersion Include="Serilog.Extensions.Hosting" Version="5.0.1" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
     <PackageVersion Include="Microsoft.Identity.Web" Version="1.25.5" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ Use uses connectors to connect to your stuff which is spreaded around the digita
 
 | name | harvest | watch | state |
 | -----| :-:| :-:|-------|
-| Local File System | ✔️ | | alpha |
+| Local File System | ✔️ | ✔️ | alpha |
 | MongoDB GridFS | ✔️ | | alpha |
 | OneDrive | ✔️ | | alpha |
 | Outlook Mail | ✔️ | ✔️ | alpha |

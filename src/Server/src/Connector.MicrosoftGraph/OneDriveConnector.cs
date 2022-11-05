@@ -131,11 +131,19 @@ public class OneDriveConnector : GraphConnector, IConnector
     {
         Subscription subscription = base.GetSubscription(hook, job);
         subscription.ChangeType = "updated";
-        //subscription.Resource = $"me/drive/items/{Root}";
         subscription.Resource = $"me/drive/root";
         subscription.ExpirationDateTime = DateTime.Now.AddDays(7);
 
         return subscription;
+    }
+
+    protected override ProcessHookResult HandleChangeNotification(ChangeNotificationCollection notification)
+    {
+        // Needs special handling here
+        // OneDrive does not include an data in the notification, the changes need to be handled using the delta api
+        // https://learn.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0&tabs=http
+
+        return ProcessHookResult.Empty;
     }
 
     protected override string GetItemType(ChangeNotification change)

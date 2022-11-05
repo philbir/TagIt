@@ -1,12 +1,21 @@
 using Microsoft.AspNetCore.Http;
+using Serilog;
+using TagIt.Messaging;
+using static AnyDiff.DifferenceLines;
 
 namespace TagIt.Connectors;
 
 public class FileSystemConnector : Connector, IConnector
 {
-    public FileSystemConnector(IConnectorItemIdSerializer connectorItemIdSerializer)
+    private readonly IMessagePublisher _messagePublisher;
+
+    public FileSystemConnector(
+        IConnectorItemIdSerializer connectorItemIdSerializer,
+        IMessagePublisher messagePublisher)
         : base(connectorItemIdSerializer)
-    { }
+    {
+        _messagePublisher = messagePublisher;
+    }
 
     public virtual Task<GetItemsResult> GetItemsAsync(
         GetItemsFilter filter,
@@ -33,18 +42,23 @@ public class FileSystemConnector : Connector, IConnector
         IEnumerable<ConnectorItem> items = files.Select(x =>
         {
             var file = new FileInfo(x);
-            return new ConnectorItem
-            {
-                Id = GetItemId(file.FullName),
-                ConnectorId = Id,
-                Location = file.Name,
-                Name = Path.GetFileNameWithoutExtension(file.Name),
-                Type = Path.GetExtension(file.Name).Split('.').Last().ToLower(),
-                CreatedAt = file.CreationTime
-            };
+            return BuildConnectorItemFromFile(file);
         });
 
         return Task.FromResult(new GetItemsResult { Items = items.ToList() });
+    }
+
+    private ConnectorItem BuildConnectorItemFromFile(FileInfo file)
+    {
+        return new ConnectorItem
+        {
+            Id = GetItemId(file.FullName.Replace(Root, "").TrimStart(new[] { Path.DirectorySeparatorChar })),
+            ConnectorId = Id,
+            Location = file.Name,
+            Name = Path.GetFileNameWithoutExtension(file.Name),
+            Type = Path.GetExtension(file.Name).Split('.').Last().ToLower(),
+            CreatedAt = file.CreationTime
+        };
     }
 
     private string SanitizeFilename(string fileName)
@@ -77,7 +91,7 @@ public class FileSystemConnector : Connector, IConnector
 
     public async Task<string> UploadAsync(string name, Stream stream, CancellationToken cancellationToken)
     {
-        var path = GetFullPath(name.Split('/'));
+        var path = GetFullPath(SanitizePaths(name.Split('/')));
 
         CreateDirectoryIfNotExists(Path.GetDirectoryName(path));
 
@@ -87,6 +101,19 @@ public class FileSystemConnector : Connector, IConnector
         await stream.CopyToAsync(file, cancellationToken);
 
         return name;
+    }
+
+    private string[] SanitizePaths(params string[] paths)
+    {
+        for (int i = 0; i < paths.Length; i++)
+        {
+            if (i == paths.Length - 1)
+            {
+                paths[i] = SanitizeFilename(paths[i]);
+            }
+        }
+
+        return paths;
     }
 
     public Task MoveAsync(string id, string path, CancellationToken cancellationToken)
@@ -103,14 +130,6 @@ public class FileSystemConnector : Connector, IConnector
 
     private string GetFullPath(params string[] paths)
     {
-        for (int i = 0; i < paths.Length; i++)
-        {
-            if (i == paths.Length - 1)
-            {
-                paths[i] = SanitizeFilename(paths[i]);
-            }
-        }
-
         return Path.Combine(
             new string[] { Root }.Concat(paths).ToArray());
     }
@@ -128,14 +147,38 @@ public class FileSystemConnector : Connector, IConnector
         throw new NotImplementedException();
     }
 
-    public Task StartWatchingAsync(JobDefintion job, WatchOptions options, CancellationToken cancellationToken)
+    public Task StartWatchingAsync(
+        JobDefintion job,
+        WatchOptions options,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var watcher = new FileSystemWatcher(Root);
+
+        watcher.Created += async (object sender, FileSystemEventArgs e) =>
+        {
+            Log.Information("FS Watcher: new file created {Path}", e.FullPath);
+
+            await _messagePublisher.PublishAsync(
+               new NewConnectorItemMessage(
+                   BuildConnectorItemFromFile(new FileInfo(e.FullPath)),
+                   job.Action),
+               cancellationToken);
+        };
+
+        watcher.Filter = "*.pdf";
+        watcher.IncludeSubdirectories = true;
+        watcher.EnableRaisingEvents = true;
+
+        Log.Information("Watcher started on {Path}", Root);
+
+        return Task.CompletedTask;
     }
 
     public Task<ConnectorItemInfo> GetInfoAsync(string id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
+
+
 }
 

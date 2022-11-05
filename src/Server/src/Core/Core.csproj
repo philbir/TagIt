@@ -7,16 +7,20 @@
   <ItemGroup>
     <PackageReference Include="AnyClone" />
     <PackageReference Include="HotChocolate.Types" />
+    <PackageReference Include="IdentityModel" />
     <PackageReference Include="MassTransit.RabbitMQ" />
     <PackageReference Include="MassTransit" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
     <PackageReference Include="Quartz" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\AuthServer\AuthServer.csproj" />
     <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
   </ItemGroup>
   

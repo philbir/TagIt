@@ -30,7 +30,11 @@ public interface IConnector
     Task InitializeAsync(ConnectorDefintion defintion, CancellationToken cancellationToken);
     Task MoveAsync(string id, string path, CancellationToken cancellationToken);
     Task<ProcessHookResult> ProcessWebHookRequestAsync(HttpContext httpContext, WebHook webHook);
-    Task StartWatchingAsync(JobDefintion job, WatchOptions options, CancellationToken cancellationToken);
+    Task StartWatchingAsync(
+        JobDefintion job,
+        WatchOptions options,
+        CancellationToken cancellationToken);
+
     Task<string> UploadAsync(string name, Stream stream, CancellationToken cancellationToken);
 }
 
@@ -60,6 +64,8 @@ public class ProcessHookResult
 {
     public IReadOnlyList<ConnectorItem> Items { get; set; } = new List<ConnectorItem>();
     public bool RequestItemInfo { get; set; }
+
+    public static ProcessHookResult Empty => new ProcessHookResult();
 }
 
 public class GetItemsResult

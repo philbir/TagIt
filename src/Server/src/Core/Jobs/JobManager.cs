@@ -52,7 +52,10 @@ public class JobManager : IJobManager
             IConnector connector = await _connectorFactory
                 .CreateAsync(job.SourceConnectorId, cancellationToken);
 
-            await connector.StartWatchingAsync(job, new WatchOptions(), cancellationToken);
+            await Task.Factory.StartNew(async () =>
+            {
+                await connector.StartWatchingAsync(job, new WatchOptions(), cancellationToken);
+            });
         }
     }
 

@@ -50,7 +50,10 @@ public class ThingService : IThingService
         return Task.FromResult(_thingStore.Query());
     }
 
-    private async Task ResolveTypeAsync(AddThingRequest request, Thing thing, CancellationToken cancellationToken)
+    private async Task ResolveTypeAsync(
+        AddThingRequest request,
+        Thing thing,
+        CancellationToken cancellationToken)
     {
         if (thing.TypeId is null && request.Type is { })
         {
