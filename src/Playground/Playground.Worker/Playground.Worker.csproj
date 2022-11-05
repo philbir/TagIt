@@ -9,11 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" />
-    <PackageReference Include="Serilog.Extensions.Hosting" />
-    <PackageReference Include="Serilog.Sinks.Console" />
+
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\Hosting\Hosting.csproj" />
     <ProjectReference Include="..\..\Server\src\Connector.MicrosoftGraph\Connector.Microsoft.Graph.csproj" />
     <ProjectReference Include="..\..\Server\src\Core\Core.csproj" />
     <ProjectReference Include="..\..\Server\src\Store.Mongo\Store.Mongo.csproj" />

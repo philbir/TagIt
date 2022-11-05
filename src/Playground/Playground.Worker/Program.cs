@@ -6,12 +6,7 @@ using TagIt.Messaging;
 using TagIt.Security;
 using TagIt.Store.Mongo;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .CreateLogger();
+Logging.CreateLogger();
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context,services) =>

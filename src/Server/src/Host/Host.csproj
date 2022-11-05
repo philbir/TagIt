@@ -7,11 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" />
-    <PackageReference Include="Serilog.Extensions.Hosting" />
-    <PackageReference Include="Serilog.Sinks.Console" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Hosting\Hosting.csproj" />
     <ProjectReference Include="..\Connector.MicrosoftGraph\Connector.Microsoft.Graph.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\GraphQL\GraphQL.csproj" />

@@ -1,3 +1,4 @@
+using Serilog;
 using TagIt;
 using TagIt.ClientAppAuthorization;
 using TagIt.Messaging;
@@ -5,6 +6,7 @@ using TagIt.Security;
 using TagIt.Store.Mongo;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddTagItServer(builder.Configuration)
     .AddGraphQL()
@@ -22,8 +24,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
+
 builder.Services.AddSingleton<IUserContextFactory, UserContextFactory>();
-WebApplication app = builder.Build();
+WebApplication app = builder
+    .Build();
 
 app.UseRouting();
 //app.UseAuthentication();
