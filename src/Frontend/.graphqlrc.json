@@ -1,0 +1,3 @@
+{
+  "schema": ["./schema.graphql", "./schema-extensions/*.graphql"]
+}

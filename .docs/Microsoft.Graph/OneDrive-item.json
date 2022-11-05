@@ -1,0 +1,1115 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('p7eb%40outlook.com')/drive/root/children",
+    "@odata.count": 20,
+    "value": [
+        {
+            "createdDateTime": "2022-08-28T18:47:25.623Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExMjg5ODIuNjM4MDIzNjcyMjk1NjMwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTI4OTgyLjE",
+            "id": "F7B0535AD9AB181E!1128982",
+            "lastModifiedDateTime": "2022-10-26T07:47:09.563Z",
+            "name": "_My",
+            "size": 6220713952,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xPQW",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "1880002b6a5f3c"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "e0ec5f27-08ce-4e70-8d1a-ffff04000000"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "1880002b6a5f3c"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "e0ec5f27-08ce-4e70-8d1a-ffff05000000"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2022-08-28T18:47:25.623Z",
+                "lastModifiedDateTime": "2022-08-28T18:46:52Z"
+            },
+            "folder": {
+                "childCount": 18,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2020-03-03T10:50:50.39Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITg2MTEwNC42Mzc5MDIyODE0MTI2NzAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE4NjExMDQuMA",
+            "id": "F7B0535AD9AB181E!861104",
+            "lastModifiedDateTime": "2022-06-07T19:49:01.267Z",
+            "name": "Apps",
+            "size": 15175216,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3tMcw",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "Joplin",
+                    "id": "401e0832"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "Joplin",
+                    "id": "401e0832"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2020-03-03T10:50:50.39Z",
+                "lastModifiedDateTime": "2020-03-03T10:50:50.39Z"
+            },
+            "folder": {
+                "childCount": 1,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            },
+            "specialFolder": {
+                "name": "apps"
+            }
+        },
+        {
+            "createdDateTime": "2022-10-19T15:38:07.777Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExNDkwMTAuNjM4MDE3OTE2NDgxMzcwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTQ5MDEwLjA",
+            "id": "F7B0535AD9AB181E!1149010",
+            "lastModifiedDateTime": "2022-10-19T15:54:08.137Z",
+            "name": "Attachments",
+            "size": 28547,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xpBS",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2022-10-19T15:38:07.776Z",
+                "lastModifiedDateTime": "2022-10-19T15:38:07.776Z"
+            },
+            "folder": {
+                "childCount": 1,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            },
+            "specialFolder": {
+                "name": "attachments"
+            }
+        },
+        {
+            "createdDateTime": "2020-08-13T06:22:19.22Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITg3NTQ4Ni42Mzc5OTk3NzUxNDUyMDAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE4NzU0ODYuMQ",
+            "id": "F7B0535AD9AB181E!875486",
+            "lastModifiedDateTime": "2022-09-28T15:58:34.52Z",
+            "name": "Backgrounds",
+            "size": 17029856,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3tbde",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "18c00139510f8b"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "c1a6b18b-17ad-47b5-9c74-d8345055e413"
+                }
+            },
+            "lastModifiedBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2020-08-13T06:22:03Z",
+                "lastModifiedDateTime": "2020-08-13T06:22:03Z"
+            },
+            "folder": {
+                "childCount": 8,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "takenOrCreatedDateTime",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2022-08-28T04:48:49.21Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExMjg5ODAuNjM3OTk5Nzc1MTMxMjAwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTI4OTgwLjA",
+            "id": "F7B0535AD9AB181E!1128980",
+            "lastModifiedDateTime": "2022-09-28T15:58:33.12Z",
+            "name": "Coding",
+            "size": 401892378,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xPQU",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "7374b2c0-8909-4ba5-bdd0-ffff3e000000"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "7374b2c0-8909-4ba5-bdd0-ffff3e000000"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2022-08-28T04:48:49.21Z",
+                "lastModifiedDateTime": "2022-08-28T04:48:08Z"
+            },
+            "folder": {
+                "childCount": 3,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2021-11-03T18:43:13.843Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExMjU4NTYuNjM4MDI5OTkxMTA2OTcwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTI1ODU2LjA",
+            "id": "F7B0535AD9AB181E!1125856",
+            "lastModifiedDateTime": "2022-11-02T15:18:30.697Z",
+            "name": "Desktop",
+            "size": 19071632,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xNtg",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2021-11-03T18:43:13.843Z",
+                "lastModifiedDateTime": "2021-11-03T18:43:13.843Z"
+            },
+            "folder": {
+                "childCount": 15,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            },
+            "specialFolder": {
+                "name": "desktop"
+            }
+        },
+        {
+            "createdDateTime": "2019-03-08T13:45:41.327Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITgwMTY2Ny42MzgwMzE0MTIzMzQ0MDAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE4MDE2NjcuMA",
+            "id": "F7B0535AD9AB181E!801667",
+            "lastModifiedDateTime": "2022-11-04T06:47:13.44Z",
+            "name": "Documents",
+            "size": 261874188,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3sPcD",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "Office.com",
+                    "id": "4804ec1e"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "Office.com",
+                    "id": "4804ec1e"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2019-03-08T13:45:41.326Z",
+                "lastModifiedDateTime": "2019-03-08T13:45:41.326Z"
+            },
+            "folder": {
+                "childCount": 18,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            },
+            "specialFolder": {
+                "name": "documents"
+            }
+        },
+        {
+            "createdDateTime": "2015-03-25T03:14:54.027Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITIxMjYxOS42Mzc4NjQ3MjA5ODQzMDAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSEyMTI2MTkuMA",
+            "id": "F7B0535AD9AB181E!212619",
+            "lastModifiedDateTime": "2022-04-25T08:28:18.43Z",
+            "name": "Music",
+            "size": 178149486110,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3jP0L",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2015-03-25T03:14:54.026Z",
+                "lastModifiedDateTime": "2015-03-25T03:14:54.027Z"
+            },
+            "folder": {
+                "childCount": 503,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            },
+            "specialFolder": {
+                "name": "music"
+            }
+        },
+        {
+            "createdDateTime": "2021-11-07T06:02:42.873Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExMjU4OTguNjM3OTk5Nzc1NDAzMjcwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTI1ODk4LjA",
+            "id": "F7B0535AD9AB181E!1125898",
+            "lastModifiedDateTime": "2022-09-28T15:59:00.327Z",
+            "name": "PCSetup",
+            "size": 95506992,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xNwK",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "18c00139510f8b"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "045c5fff-20d6-431e-82f2-ffff01000000"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "18c00139510f8b"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "045c5fff-20d6-431e-82f2-ffff01000000"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2021-11-07T06:02:42.873Z",
+                "lastModifiedDateTime": "2021-11-07T06:02:17Z"
+            },
+            "folder": {
+                "childCount": 2,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2012-12-02T16:01:19.673Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITEwNDAwLjYzODAyOTcwODk4NzI3MDAwMA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMDQwMC4z",
+            "id": "F7B0535AD9AB181E!10400",
+            "lastModifiedDateTime": "2022-11-02T07:28:18.727Z",
+            "name": "Pictures",
+            "size": 12018282886,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D30SA",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "device": {
+                    "id": "18bffdb3e1fa8f"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "41815061-876c-4cfc-a1e5-d1d2ea108013"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "OneDrive Modern 8.1",
+                    "id": "40105124"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2012-12-02T16:00:21Z",
+                "lastModifiedDateTime": "2012-12-05T17:36:35.353Z"
+            },
+            "folder": {
+                "childCount": 10,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "takenOrCreatedDateTime",
+                    "sortOrder": "ascending"
+                }
+            },
+            "shared": {
+                "scope": "users",
+                "sharedDateTime": "2014-06-15T07:06:08.34615Z",
+                "owner": {
+                    "user": {
+                        "displayName": "Philippe Birbaum",
+                        "id": "f7b0535ad9ab181e"
+                    }
+                }
+            },
+            "specialFolder": {
+                "name": "photos"
+            }
+        },
+        {
+            "createdDateTime": "2020-09-23T08:51:12Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITg3NzAzNi42MzgwMTk2MzcwMzIzMDAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE4NzcwMzYuMQ",
+            "id": "F7B0535AD9AB181E!877036",
+            "lastModifiedDateTime": "2022-10-21T15:41:43.23Z",
+            "name": "Screenshot",
+            "size": 16387210,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3tcNs",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "18c00139510f8b"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "c1a6b18b-17ad-47b5-9c74-d8345055e413"
+                }
+            },
+            "lastModifiedBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2020-09-23T08:49:15Z",
+                "lastModifiedDateTime": "2020-09-23T08:49:15Z"
+            },
+            "folder": {
+                "childCount": 9,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "takenOrCreatedDateTime",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2014-10-27T11:21:05.46Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITc3NTMwLjYzNzk5OTc2MzQ1NDgwMDAwMA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE3NzUzMC4w",
+            "id": "F7B0535AD9AB181E!77530",
+            "lastModifiedDateTime": "2022-09-28T15:39:05.48Z",
+            "name": "Software",
+            "size": 25713709,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3hN1a",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "device": {
+                    "id": "187ffef0b2a371"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "fb18697d-9f2b-4434-8b1f-b7f7d6f46324"
+                }
+            },
+            "lastModifiedBy": {
+                "device": {
+                    "id": "187ffef0b2a371"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "fb18697d-9f2b-4434-8b1f-b7f7d6f46324"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2014-10-27T11:20:55Z",
+                "lastModifiedDateTime": "2014-10-27T11:21:01Z"
+            },
+            "folder": {
+                "childCount": 4,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2018-04-27T21:42:35.98Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITM4ODc1NS42MzgwMTg0MjkxNzc3MDAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSEzODg3NTUuMA",
+            "id": "F7B0535AD9AB181E!388755",
+            "lastModifiedDateTime": "2022-10-20T06:08:37.77Z",
+            "name": "Synology",
+            "size": 528672443274,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3l90T",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "Synology Cloud Sync",
+                    "id": "4c118d0f"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "Synology Cloud Sync",
+                    "id": "4c118d0f"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2018-04-27T21:42:35.98Z",
+                "lastModifiedDateTime": "2018-04-27T21:42:35.98Z"
+            },
+            "folder": {
+                "childCount": 1,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2014-09-30T19:15:08.717Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITcyNDM2LjYzODAxNTgzMTQ0MDcwMDAwMA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE3MjQzNi4x",
+            "id": "F7B0535AD9AB181E!72436",
+            "lastModifiedDateTime": "2022-10-17T05:59:04.07Z",
+            "name": "Tools",
+            "size": 166239367,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3hLV0",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "device": {
+                    "id": "18bffd0c8685bc"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "2f341eba-2e2b-4b06-8af6-04e8aae30d3b"
+                }
+            },
+            "lastModifiedBy": {
+                "device": {
+                    "id": "18bffd0c8685bc"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "2f341eba-2e2b-4b06-8af6-04e8aae30d3b"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2014-09-30T19:15:01Z",
+                "lastModifiedDateTime": "2014-09-30T19:15:01Z"
+            },
+            "folder": {
+                "childCount": 30,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2015-08-16T15:04:26.887Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITI3ODY1MS42MzgwMTk2MzcwMzE3MDAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSEyNzg2NTEuMjI",
+            "id": "F7B0535AD9AB181E!278651",
+            "lastModifiedDateTime": "2022-10-21T15:41:43.17Z",
+            "name": "Travelling",
+            "size": 596379533,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3kYB7",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "187ffef0b2a371"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "e883ca17-abd2-4bee-8e2b-90f872422975"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "187ffef0b2a371"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "e883ca17-abd2-4bee-8e2b-90f872422975"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2015-08-16T15:03:58Z",
+                "lastModifiedDateTime": "2015-08-16T15:03:58Z"
+            },
+            "folder": {
+                "childCount": 18,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            },
+            "shared": {
+                "scope": "users",
+                "sharedDateTime": "2021-10-09T15:17:31.4636591Z",
+                "owner": {
+                    "user": {
+                        "displayName": "Philippe Birbaum",
+                        "id": "f7b0535ad9ab181e"
+                    }
+                }
+            }
+        },
+        {
+            "createdDateTime": "2022-06-04T10:13:56.7Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExMjY2OTkuNjM3OTQwOTM3NzQ5ODAwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTI2Njk5LjE",
+            "id": "F7B0535AD9AB181E!1126699",
+            "lastModifiedDateTime": "2022-07-22T13:36:14.98Z",
+            "name": "VLCSnaps",
+            "size": 3553932,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xOIr",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "03a3ba44-fd36-4ac8-a428-ffff01000000"
+                }
+            },
+            "lastModifiedBy": {
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2022-06-04T10:13:56.7Z",
+                "lastModifiedDateTime": "2022-06-04T10:11:47Z"
+            },
+            "folder": {
+                "childCount": 5,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "takenOrCreatedDateTime",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2022-01-28T14:01:01.767Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITExMjY0MTYuNjM3OTk5Nzc1NDMwNTMwMDAw",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTI2NDE2LjA",
+            "id": "F7B0535AD9AB181E!1126416",
+            "lastModifiedDateTime": "2022-09-28T15:59:03.053Z",
+            "name": "Wieswald",
+            "size": 11153412,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3xOAQ",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2022-01-28T14:01:01.766Z",
+                "lastModifiedDateTime": "2022-01-28T14:01:01.766Z"
+            },
+            "folder": {
+                "childCount": 5,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "createdDateTime": "2019-11-23T19:33:03.883Z",
+            "cTag": "adDpGN0IwNTM1QUQ5QUIxODFFITg0MjE1OS42MzgwMDM3Nzc2OTgyNzAwMDA",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSE4NDIxNTkuMA",
+            "id": "F7B0535AD9AB181E!842159",
+            "lastModifiedDateTime": "2022-10-03T07:09:29.827Z",
+            "name": "Yael",
+            "size": 297923,
+            "webUrl": "https://1drv.ms/f/s!AB4Yq9laU7D3s7Mv",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "18bffff723cb77"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "bc8ab3ba-952e-432e-82d8-656126a14f10"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "18bffff723cb77"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "bc8ab3ba-952e-432e-82d8-656126a14f10"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2019-11-23T19:32:47Z",
+                "lastModifiedDateTime": "2019-11-23T19:32:47Z"
+            },
+            "folder": {
+                "childCount": 5,
+                "view": {
+                    "viewType": "thumbnails",
+                    "sortBy": "name",
+                    "sortOrder": "ascending"
+                }
+            }
+        },
+        {
+            "@microsoft.graph.downloadUrl": "https://public.am.files.1drv.com/y4m3AGxgIOppO-zxGgnPwN08HIiZ0raD1zuwcYCUMLxRq3FcLN07t1o0e-4emx6k1aFb5q0wGQs6NqMoqYie2YDXt10lF06aAIYAkkNj4tAgMy9jRuXrxPrzfcE1Z_Pit-3Eo1jV1DocEpPAmJD9Dgj7bZd7OFPU2j9mJ1bHkeTRYvLuwYOJmEOMl-xRY-nVN_dXeZWszZW3o1VSPY9Y6lReDSpWb3BBLusrYMGKzFoZJdUEvV6mEJKzH5rqA6jVxDRGo6q4iH6HK_masPx7aiUsweQqq-n_w8osL50YxR1r3mAURw2BdzBm7lOBjtK_X7VFBKIaDm2m_b19ez_udJscg",
+            "createdDateTime": "2022-10-20T06:10:37.85Z",
+            "cTag": "aYzpGN0IwNTM1QUQ5QUIxODFFITExNDkwMTQuMjU3",
+            "eTag": "aRjdCMDUzNUFEOUFCMTgxRSExMTQ5MDE0LjM",
+            "id": "F7B0535AD9AB181E!1149014",
+            "lastModifiedDateTime": "2022-10-20T06:10:45.197Z",
+            "name": "ChargeLog_Wieswaldweg32.pdf",
+            "size": 146108,
+            "webUrl": "https://1drv.ms/b/s!AB4Yq9laU7D3xpBW",
+            "reactions": {
+                "commentCount": 0
+            },
+            "createdBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "b9cbcdec-637d-4ca5-adac-ffff02000000"
+                }
+            },
+            "lastModifiedBy": {
+                "application": {
+                    "displayName": "MSOffice15",
+                    "id": "480728c5"
+                },
+                "device": {
+                    "id": "180007efc97882"
+                },
+                "user": {
+                    "displayName": "Philippe Birbaum",
+                    "id": "f7b0535ad9ab181e"
+                },
+                "oneDriveSync": {
+                    "@odata.type": "#microsoft.graph.identity",
+                    "id": "b9cbcdec-637d-4ca5-adac-ffff02000000"
+                }
+            },
+            "parentReference": {
+                "driveId": "f7b0535ad9ab181e",
+                "driveType": "personal",
+                "id": "F7B0535AD9AB181E!104",
+                "path": "/drive/root:"
+            },
+            "file": {
+                "mimeType": "application/pdf",
+                "hashes": {
+                    "quickXorHash": "hdgJcTV28s0Isw7/Qw4S0ZDCiEc=",
+                    "sha1Hash": "5845F905E7C32D2E1A6824CC95E809E0384606DF",
+                    "sha256Hash": "6E8BFDC939D27F14037CFD105F6B25E8EB58CFA61B8DC129D1D69E068A28167B"
+                }
+            },
+            "fileSystemInfo": {
+                "createdDateTime": "2022-10-20T06:10:37.85Z",
+                "lastModifiedDateTime": "2022-10-20T06:09:49Z"
+            }
+        }
+    ]
+}

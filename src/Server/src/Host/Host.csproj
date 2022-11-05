@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <AssemblyName>TagIt.Host</AssemblyName>
+    <UserSecretsId>dotnet-tagit</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityModel" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Connector.MicrosoftGraph\Connector.MSGraph.csproj" />
+    <ProjectReference Include="..\..\Store.Mongo\Store.Mongo.csproj" />
+    <ProjectReference Include="..\Connector.MicrosoftGraph\Connector.Microsoft.Graph.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\GraphQL\GraphQL.csproj" />
+    <ProjectReference Include="..\Store.Mongo\Store.Mongo.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,43 @@
+<Project>
+  <PropertyGroup>
+    <PropsAbove>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</PropsAbove>
+  </PropertyGroup>
+  <Import Project="$(PropsAbove)" Condition="Exists($(PropsAbove))" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TagIt</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version Condition="$(Version) == ''">0.1.0</Version>
+    <Product>TagIt</Product>
+    <Authors>Philippe Birbaum</Authors>
+    <Copyright>Copyright © 2022 Philippe Birbaum</Copyright>
+    <PackageProjectUrl>https://github.com/philbir/TagIt</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/philbir/TagIt.git</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/philbir/TagIt/main/LICENSE</PackageLicenseUrl>
+    <PackageTags>Tag</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>GIT</RepositoryType>
+    <IsPackable>false</IsPackable>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+</Project>

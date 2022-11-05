@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>TagIt.GraphQL</AssemblyName>
+    <RootNamespace>TagIt.GraphQL</RootNamespace>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HotChocolate.AspNetCore" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" />
+    <PackageReference Include="HotChocolate.Data" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AuthServer\AuthServer.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>

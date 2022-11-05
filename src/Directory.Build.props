@@ -1,0 +1,16 @@
+<Project>
+
+  <PropertyGroup>
+    <PropsAbove>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</PropsAbove>
+  </PropertyGroup>
+  <Import Condition="Exists($(PropsAbove))" Project="$(PropsAbove)" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>TagIt</RootNamespace>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

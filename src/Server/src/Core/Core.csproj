@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>TagIt.Core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AnyClone" />
+    <PackageReference Include="HotChocolate.Types" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="Quartz" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\AuthServer\AuthServer.csproj" />
+    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+  </ItemGroup>
+  
+</Project>
