@@ -2,6 +2,7 @@ using System.Data;
 using System.Diagnostics;
 using Quartz;
 using Quartz.Spi;
+using Serilog;
 using TagIt.Connectors;
 using TagIt.Store;
 
@@ -72,6 +73,8 @@ public class JobManager : IJobManager
         {
             if (job.CronSchedule is { })
             {
+                Log.Information("Scheduling job: {Name}", job.Name);
+
                 IJobDetail jobDetail = JobBuilder
                     .Create(typeof(HarvesterJob))
                     .UsingJobData("JobDefintionId", job.Id)

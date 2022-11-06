@@ -1,6 +1,8 @@
 using Quartz;
+using Serilog;
 using TagIt.Connectors;
 using TagIt.Messaging;
+using static Quartz.Logging.OperationName;
 
 namespace TagIt.Jobs;
 
@@ -25,11 +27,14 @@ public class HarvesterJob : IJob
         Guid id = Guid.Parse(
             context.JobDetail.JobDataMap["JobDefintionId"]!.ToString());
 
+        Log.Information("Executing harvester ({Id})", id);
+
         JobRun? run = await _jobManager.CreateRunAsync(id, context.CancellationToken);
 
         if (run is null)
         {
             // There is allready a job running
+            Log.Warning("There is allready a run for this job in progress ({Id})", id);
             return;
         }
 

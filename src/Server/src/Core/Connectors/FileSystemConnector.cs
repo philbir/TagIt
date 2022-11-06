@@ -75,6 +75,8 @@ public class FileSystemConnector : Connector, IConnector
     {
         ItemIdentifier itemId = _itemIdSerializer.Deserialize(id);
 
+        Log.Information("LocalFileSystem: Download {Id}", itemId.id);
+
         Stream stream = File.OpenRead(GetFullPath(itemId.id));
 
         return Task.FromResult(stream);
@@ -83,6 +85,7 @@ public class FileSystemConnector : Connector, IConnector
     public Task DeleteAsync(string id, CancellationToken cancellationToken)
     {
         ItemIdentifier itemId = _itemIdSerializer.Deserialize(id);
+        Log.Information("LocalFileSystem: Delete {Id}", itemId.id);
 
         File.Delete(GetFullPath(itemId.id));
 
@@ -92,6 +95,7 @@ public class FileSystemConnector : Connector, IConnector
     public async Task<string> UploadAsync(string name, Stream stream, CancellationToken cancellationToken)
     {
         var path = GetFullPath(SanitizePaths(name.Split('/')));
+        Log.Information("LocalFileSystem: Upload {Name}", name);
 
         CreateDirectoryIfNotExists(Path.GetDirectoryName(path));
 
@@ -120,10 +124,14 @@ public class FileSystemConnector : Connector, IConnector
     {
         ItemIdentifier itemId = _itemIdSerializer.Deserialize(id);
 
+
         var newFolder = Path.Combine(Root, path);
         CreateDirectoryIfNotExists(newFolder);
 
-        File.Move(GetFullPath(itemId.id), Path.Combine(newFolder, itemId.id));
+        string newPath = Path.Combine(newFolder, itemId.id);
+        Log.Information("LocalFileSystem: Move {From} -> {To}", newPath);
+
+        File.Move(GetFullPath(itemId.id), newPath);
 
         return Task.CompletedTask;
     }

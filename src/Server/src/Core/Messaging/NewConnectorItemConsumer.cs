@@ -1,4 +1,5 @@
 using MassTransit;
+using Serilog;
 using TagIt.Connectors;
 
 namespace TagIt.Messaging;
@@ -20,6 +21,8 @@ public class NewConnectorItemConsumer : IConsumer<NewConnectorItemMessage>
     {
         // TODO: Handle item locking
         ConnectorItem item = context.Message.Item;
+
+        Log.Information("NewConnectorItemMessage: {Id}", item.Id);
 
         if (context.Message.RequestItemInfo)
         {

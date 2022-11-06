@@ -8,7 +8,7 @@ using TagIt.Store.Mongo;
 Logging.CreateLogger();
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((context,services) =>
+    .ConfigureServices((context, services) =>
     {
         ITagItServerBuilder builder = services.AddTagItServer(context.Configuration);
         builder
@@ -19,10 +19,7 @@ IHost host = Host.CreateDefaultBuilder(args)
                 b.AddConsumer<NewConnectorItemConsumer>();
             });
         builder.Services.AddHttpClient();
-
         builder.Services.AddSingleton<IUserContextFactory, UserContextFactory>();
-        builder.Services.AddSingleton<DataSeeder>();
-        //services.AddHostedService<TagItWorker>();
         services.AddHostedService<JobWorker>();
     })
     .UseSerilog()
@@ -32,5 +29,5 @@ IUserContextAccessor accessor = host.Services.GetRequiredService<IUserContextAcc
 accessor.Context = await host.Services.GetRequiredService<IUserContextFactory>()
     .CreateAsync(CancellationToken.None);
 
-//await host.Services.GetRequiredService<DataSeeder>().SeedAsync(CancellationToken.None);
+
 await host.RunAsync();

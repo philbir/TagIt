@@ -14,8 +14,8 @@ public class DataSeeder
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        await SeedConnectorsAsync(cancellationToken);
-        await SeedJobsAsync(cancellationToken);
+        //await SeedConnectorsAsync(cancellationToken);
+        //await SeedJobsAsync(cancellationToken);
         await SeedThingTypesAsync(cancellationToken);
         await SeedThingClassesAsync(cancellationToken);
     }

@@ -1,0 +1,12 @@
+
+# Ignore everything
+**
+
+# Allow files and directories
+!/src/Server/**
+!/src/Shared/**
+!/src/Directory.Build.props
+!/src/Directory.Packages.props
+!/src/Versions.props
+!/global.json
+!/Directory.Build.props

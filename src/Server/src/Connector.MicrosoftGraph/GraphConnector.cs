@@ -29,7 +29,7 @@ public class GraphConnector : Connector
     {
         var subscription = new Subscription
         {
-            ChangeType = "created",
+            ChangeType = "updated",
             NotificationUrl = hook.Url,
             ExpirationDateTime = DateTimeOffset.UtcNow.AddDays(1),
             ClientState = hook.ClientState,
@@ -44,8 +44,6 @@ public class GraphConnector : Connector
         WebHook webHook)
     {
         StringValues validationToken = httpContext.Request.Query["validationToken"];
-
-        
 
         if (validationToken is { Count: 1 })
         {

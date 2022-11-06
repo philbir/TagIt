@@ -1,4 +1,5 @@
 using IdentityModel.Client;
+using Serilog;
 
 namespace TagIt;
 
@@ -18,7 +19,6 @@ public class CredentialStoreTokenManager : ICredentialStoreTokenManager
         _openIdConnectDiscoveryService = openIdConnectDiscoveryService;
     }
 
-
     public async Task<string> GetAccessToken(Guid id, CancellationToken cancellationToken)
     {
         Credential creds = await _credentialStoreService.GetByIdAsync(id, cancellationToken);
@@ -37,6 +37,8 @@ public class CredentialStoreTokenManager : ICredentialStoreTokenManager
         }
         else
         {
+            Log.Information("Access token expired, refreshing");
+
             CredentialToken? refreshToken = creds.Tokens
                 .FirstOrDefault(x => x.Type == TokenType.Refresh);
 

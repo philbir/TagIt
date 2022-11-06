@@ -1,4 +1,5 @@
 using Microsoft.Graph;
+using Serilog;
 using TagIt.Store;
 
 namespace TagIt.MicrosoftGraph;
@@ -20,6 +21,8 @@ public class GraphClientFactory : IGraphClientFactory
         Guid connectorId,
         CancellationToken cancellationToken)
     {
+        Log.Information("Create GraphClient for connector: {Id}", connectorId);
+
         ConnectorDefintion connector = await _connectorStore.GetByIdAsync(connectorId, cancellationToken);
         string token = await _tokenManager.GetAccessToken(connector.CredentialId.Value, cancellationToken);
 

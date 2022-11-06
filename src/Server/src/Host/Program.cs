@@ -14,6 +14,7 @@ builder.Services.AddTagItServer(builder.Configuration)
     .AddMessaging()
     .AddMongoStore();
 
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy( policy =>
@@ -31,6 +32,8 @@ builder.Services.AddSingleton<IUserContextFactory, UserContextFactory>();
 WebApplication app = builder
     .Build();
 
+app.UseDefaultForwardedHeaders();
+app.UseStaticFiles();
 app.UseRouting();
 //app.UseAuthentication();
 //app.UseAuthorization();

@@ -16,3 +16,39 @@ https://learn.microsoft.com/en-us/samples/microsoftgraph/aspnetcore-webhooks-sam
 ```
 ngrok http --region=eu --hostname=tagit.eu.ngrok.io https://localhost:5001
 ```
+
+### Add Azure AD Client
+
+```graphql
+mutation addCreds($input: AddOAuthCredentialClientInput! ){
+  addOAuthCredentialClient(input: $input) {
+    credential {
+      id
+      name
+    }
+  }
+}
+
+{
+  "input": {
+    "name": "Azure",
+    "client": {
+      "flow": "CODE",
+      "id": "xxx",
+      "secret": {
+        "value": "xxx"
+      },
+      "scopes": [
+        "openid",
+        "profile",
+        "offline_access",
+        "user.read",
+        "mail.readwrite",
+        "files.readwrite.all"
+      ],
+      "authority": "https://login.microsoftonline.com/common/v2.0/",
+      "product": "AzureAD"
+    }
+  }
+}
+```

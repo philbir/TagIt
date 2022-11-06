@@ -2,18 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-tagit</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" />
-
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Server\Hosting\Hosting.csproj" />
+    <ProjectReference Include="..\..\Server\src\Hosting\Hosting.csproj" />
     <ProjectReference Include="..\..\Server\src\Connector.MicrosoftGraph\Connector.Microsoft.Graph.csproj" />
     <ProjectReference Include="..\..\Server\src\Core\Core.csproj" />
     <ProjectReference Include="..\..\Server\src\Store.Mongo\Store.Mongo.csproj" />

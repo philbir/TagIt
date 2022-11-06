@@ -1,4 +1,5 @@
 using Microsoft.Graph;
+using Serilog;
 using TagIt.Connectors;
 
 namespace TagIt.MicrosoftGraph;
@@ -16,6 +17,8 @@ public class OneDriveConnector : GraphConnector, IConnector
         CancellationToken cancellationToken)
     {
         ItemIdentifier itemId = _itemIdSerializer.Deserialize(id);
+        Log.Information("OneDrive: Delete {Id}", itemId.id);
+
         GraphServiceClient client = await CreateClient(cancellationToken);
 
         await client.Me.Drive.Items[itemId.id]
@@ -28,6 +31,8 @@ public class OneDriveConnector : GraphConnector, IConnector
         CancellationToken cancellationToken)
     {
         ItemIdentifier itemId = _itemIdSerializer.Deserialize(id);
+        Log.Information("OneDrive: Download {Id}", itemId.id);
+
         GraphServiceClient client = await CreateClient(cancellationToken);
 
         Stream stream = await client.Me.Drive.Items[itemId.id].Content
@@ -46,13 +51,23 @@ public class OneDriveConnector : GraphConnector, IConnector
         GetItemsFilter filter,
         CancellationToken cancellationToken)
     {
+        Log.Information("OneDrive GetItems with filter {Filter}", filter.Filter);
+
         GraphServiceClient client = await _graphClientFactory.CreateClientAsync(Id, cancellationToken);
 
         try
         {
-            IDriveItemSearchCollectionPage items = await client.Me.Drive.Items[Root]
-                .Search(filter.Filter)
+            // Search is better for recursive search, but needs more time to be availlable when a new item is added to OneDrive
+
+            //IDriveItemSearchCollectionPage items = await client.Me.Drive.Items[Root]
+            //    .Search(filter.Filter)
+            //    .Request()
+            //    .Top(50)
+            //    .GetAsync(cancellationToken);
+
+            IDriveItemChildrenCollectionPage items = await client.Me.Drive.Items[Root].Children
                 .Request()
+                .Filter(filter.Filter)
                 .Top(50)
                 .GetAsync(cancellationToken);
 
@@ -71,6 +86,8 @@ public class OneDriveConnector : GraphConnector, IConnector
                         CreatedAt = item.CreatedDateTime!.Value.DateTime
                     });
             }
+
+            Log.Information("{Count} Items found in OneDrive", items.Count);
 
             return new GetItemsResult
             {
