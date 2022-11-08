@@ -13,14 +13,14 @@ public class Connector
 
     public string Root { get; set; } = default!;
 
-    public virtual Task InitializeAsync(
+    public virtual ValueTask InitializeAsync(
         ConnectorDefintion defintion,
         CancellationToken cancellationToken)
     {
         Id = defintion.Id;
         Root = defintion.Root;
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     public virtual string GetItemId(string itemId)

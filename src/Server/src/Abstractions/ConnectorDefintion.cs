@@ -27,7 +27,7 @@ public interface IConnector
     Task<Stream> DownloadAsync(string id, CancellationToken cancellationToken);
     Task<ConnectorItemInfo> GetInfoAsync(string id, CancellationToken cancellationToken);
     Task<GetItemsResult> GetItemsAsync(GetItemsFilter filter, CancellationToken cancellationToken);
-    Task InitializeAsync(ConnectorDefintion defintion, CancellationToken cancellationToken);
+    ValueTask InitializeAsync(ConnectorDefintion defintion, CancellationToken cancellationToken);
     Task MoveAsync(string id, string path, CancellationToken cancellationToken);
     Task<ProcessHookResult> ProcessWebHookRequestAsync(HttpContext httpContext, WebHook webHook);
     Task StartWatchingAsync(

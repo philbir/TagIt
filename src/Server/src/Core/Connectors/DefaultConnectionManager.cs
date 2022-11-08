@@ -15,7 +15,7 @@ public class DefaultConnectionManager : IConnectionManager
 
     public string[] ManagedTypes => new[] { "LFS", "GridFS" };
 
-    public async Task<IConnector> CreateAsync(
+    public async ValueTask<IConnector> CreateAsync(
         ConnectorDefintion defintion,
         CancellationToken cancellationToken)
     {

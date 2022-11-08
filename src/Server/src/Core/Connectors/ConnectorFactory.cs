@@ -17,7 +17,7 @@ public class ConnectorFactory : IConnectorFactory
 
     private IReadOnlyList<ConnectorDefintion>? _connectorDefintions;
 
-    public async Task<IConnector> CreateAsync(
+    public async ValueTask<IConnector> CreateAsync(
         Guid id,
         CancellationToken cancellationToken)
     {

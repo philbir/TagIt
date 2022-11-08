@@ -51,7 +51,7 @@ public class OneDriveConnector : GraphConnector, IConnector
         GetItemsFilter filter,
         CancellationToken cancellationToken)
     {
-        Log.Information("OneDrive GetItems with filter {Filter}", filter.Filter);
+        Log.Information("OneDrive GetItems in {Root} with filter {Filter}", Root, filter.Filter);
 
         GraphServiceClient client = await _graphClientFactory.CreateClientAsync(Id, cancellationToken);
 
@@ -96,6 +96,7 @@ public class OneDriveConnector : GraphConnector, IConnector
         }
         catch (Exception ex)
         {
+            Log.Error(ex, "Error loading items");
             throw new ApplicationException("Could no get items", ex);
         }
 

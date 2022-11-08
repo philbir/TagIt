@@ -14,7 +14,7 @@ public class MicrosoftGraphConnectionManager : IConnectionManager
 
     public string[] ManagedTypes => new[] { "OneDrive", "OutlookMail" };
 
-    public async Task<IConnector> CreateAsync(
+    public async ValueTask<IConnector> CreateAsync(
         ConnectorDefintion defintion,
         CancellationToken cancellationToken)
     {
