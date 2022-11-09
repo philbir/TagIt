@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>TagIt.Store.Mongo</AssemblyName>
@@ -18,6 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="MongoDB.Driver.Linq;" />
+    <Using Include="MongoDB.Driver.Linq" />
   </ItemGroup>
 </Project>
