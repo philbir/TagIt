@@ -8,8 +8,8 @@ public static class Logging
     public static void CreateLogger()
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Debug()
+            //.MinimumLevel.Debug("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.Console()
         .CreateLogger();
