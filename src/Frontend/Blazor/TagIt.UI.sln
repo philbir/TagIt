@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagIt.UI", "TagIt.UI.csproj", "{4A1D6097-3821-4FA4-9D9C-F39731B5C77F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A1D6097-3821-4FA4-9D9C-F39731B5C77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A1D6097-3821-4FA4-9D9C-F39731B5C77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A1D6097-3821-4FA4-9D9C-F39731B5C77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A1D6097-3821-4FA4-9D9C-F39731B5C77F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5794850-5DB5-4A33-A9E5-FD4EEA2780FB}
+	EndGlobalSection
+EndGlobal
