@@ -1,0 +1,17 @@
+query things {
+  things {
+    nodes {
+        ... Thing
+    }
+  }
+}
+
+fragment Thing on Thing
+{
+    id
+    title
+    type {
+    name
+    }
+    state
+}

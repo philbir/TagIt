@@ -40,9 +40,13 @@
     <PackageVersion Include="StrawberryShake.Blazor" Version="13.0.0-preview.79" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
     <PackageVersion Include="Microsoft.Identity.Web" Version="1.25.5" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.7" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
-    <PackageVersion Include="MudBlazor" Version="6.0.13" />
+  </ItemGroup>
+  <!-- Blazor Packages -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
+    <PackageVersion Include="MudBlazor" Version="6.0.18" />
+    <PackageVersion Include="StrawberryShake.Blazor" Version="13.0.0-preview.79" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="FluentAssertions" Version="6.7.0" />

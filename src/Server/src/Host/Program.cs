@@ -6,14 +6,15 @@ using TagIt.Security;
 using TagIt.Store.Mongo;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
 
+Logging.CreateLogger();
 
 builder.Services.AddTagItServer(builder.Configuration)
     .AddGraphQL()
     .AddMicrosoftGraphConnectors()
     .AddMessaging()
     .AddMongoStore();
-
 
 builder.Services.AddCors(options =>
 {
@@ -42,6 +43,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapAuthorizeClient();
     endpoints.MapWebHooks();
+    endpoints.MapControllers();
     endpoints.MapGraphQL();
 });
 

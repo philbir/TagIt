@@ -1,0 +1,21 @@
+@page "/things"
+
+<UseThings Context="result" Strategy="ExecutionStrategy.CacheFirst">
+    <ChildContent>
+        @if (result.Things?.Nodes is not null)
+        {
+            @foreach (var thing in result.Things.Nodes)
+            {
+                <p>@thing.Title (@thing.Id)</p>
+            }
+        }
+    </ChildContent>
+    <LoadingContent>
+
+    </LoadingContent>
+</UseThings>
+
+
+@code {
+
+}
