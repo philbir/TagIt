@@ -1,5 +1,8 @@
 using TagIt.Connectors;
+using TagIt.Messaging;
 using TagIt.Store;
+using static HotChocolate.ErrorCodes;
+
 namespace TagIt;
 
 public class ThingService : IThingService
@@ -9,19 +12,22 @@ public class ThingService : IThingService
     private readonly IThingStore _thingStore;
     private readonly IConnectorFactory _connectorFactory;
     private readonly ILabelGeneratorService _labelGeneratorService;
+    private readonly IMessagePublisher _messagePublisher;
 
     public ThingService(
         IEntityManager<Thing> entityManager,
         IThingTypeStore typeStore,
         IThingStore thingStore,
         IConnectorFactory connectorFactory,
-        ILabelGeneratorService labelGeneratorService)
+        ILabelGeneratorService labelGeneratorService,
+        IMessagePublisher messagePublisher)
     {
         _entityManager = entityManager;
         _typeStore = typeStore;
         _thingStore = thingStore;
         _connectorFactory = connectorFactory;
         _labelGeneratorService = labelGeneratorService;
+        _messagePublisher = messagePublisher;
     }
 
     public async Task AddThingAsync(
@@ -35,14 +41,37 @@ public class ThingService : IThingService
         thing.Label = request.Label;
         thing.TypeId = request.TypeId;
         thing.ClassId = request.ClassId;
+        thing.Source = request.Source;
 
         await ResolveLabelAsync(thing, cancellationToken);
         await ResolveTypeAsync(request, thing, cancellationToken);
 
-        thing.Data = (await ProcessDataAsync(request, cancellationToken)).ToList();
+        ThingDataReference data = await SaveOriginalAsync(request, cancellationToken);
+
+        thing.Data = new List<ThingDataReference>() { data };
+
+        //thing.Data = (await ProcessDataAsync(request, cancellationToken)).ToList();
 
         SaveEntityResult<Thing> saveResult = await _entityManager
             .SaveAsync(thing, cancellationToken);
+
+        await _messagePublisher
+            .PublishAsync(new ThingAddedMessage(saveResult.Entity.Id), cancellationToken);
+    }
+
+    private async Task<ThingDataReference> SaveOriginalAsync(
+        AddThingRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (request.Action.Mode == JobActionMode.Import)
+        {
+            ThingDataReference dataRef = await HandleImportItem(
+                request,
+                cancellationToken);
+
+            return dataRef;
+        }
+        throw new NotImplementedException();
     }
 
     public Task<IQueryable<Thing>> Query(CancellationToken cancellationToken)
@@ -84,13 +113,12 @@ public class ThingService : IThingService
     {
         var refs = new List<ThingDataReference>();
 
-        foreach (ThingData data in request.Data)
+        foreach (ThingData data in request.AdditionalData)
         {
             if (request.Action.Mode == JobActionMode.Import)
             {
                 ThingDataReference dataRef = await HandleImportItem(
                     request,
-                    data,
                     cancellationToken);
 
                 refs.Add(dataRef);
@@ -102,53 +130,41 @@ public class ThingService : IThingService
 
     private async Task<ThingDataReference> HandleImportItem(
         AddThingRequest request,
-        ThingData data,
         CancellationToken cancellationToken)
     {
         var dataRef = new ThingDataReference
         {
-            Type = data.Type,
             ConnectorId = request.Action.DestinationConnectorId!.Value
         };
 
-        Stream? sourceStream = null;
-        IConnector? connector = null;
-
-        if (data.Data.Length > 0)
-        {
-            sourceStream = new MemoryStream(data.Data);
-        }
-        else
-        {
-            connector = await _connectorFactory.CreateAsync(
-                data.ConnectorId, cancellationToken);
-
-            sourceStream = await connector.DownloadAsync(
-                data.Id,
+        IConnector connector = await _connectorFactory.CreateAsync(
+                request.Source.ConnectorId,
                 cancellationToken);
-        }
+
+        Stream sourceStream = await connector.DownloadAsync(
+            request.Source.Id,
+            cancellationToken);
 
         IConnector destinationConnecor = await _connectorFactory.CreateAsync(
             dataRef.ConnectorId,
             cancellationToken);
 
-
-        dataRef.Location = await destinationConnecor.UploadAsync(
-            $"{request.Title}.{request.Type}" ,
+        dataRef.Id = await destinationConnecor.UploadAsync(
+            $"{request.Title}.{request.Type}",
             sourceStream,
             cancellationToken);
 
-        if (request.Action.Source.Mode == SourceActionMode.Delete && connector is { })
+        if (request.Action.Source.Mode == SourceActionMode.Delete)
         {
             sourceStream.Close();
 
-            await connector.DeleteAsync(data.Id, cancellationToken);
+            await connector.DeleteAsync(request.Source.Id, cancellationToken);
         }
 
         if (request.Action.Source.Mode == SourceActionMode.Move)
         {
             if (request.Action.Source.NewConnectorId.HasValue &&
-                data.ConnectorId != request.Action.Source.NewConnectorId)
+                request.Source.ConnectorId != request.Action.Source.NewConnectorId)
             {
                 //Create and delete
                 sourceStream.Seek(0, SeekOrigin.Begin);
@@ -157,19 +173,19 @@ public class ThingService : IThingService
                     request.Action.Source.NewConnectorId!.Value,
                     cancellationToken);
 
-                var newPath = GetNewPath(request, data);
+                var newPath = GetNewPath(request, request.Source.Id);
 
                 await moveConnector.UploadAsync(newPath, sourceStream, cancellationToken);
                 sourceStream.Close();
 
-                await connector.DeleteAsync(data.Id, cancellationToken);
+                await connector.DeleteAsync(request.Source.Id, cancellationToken);
             }
             else
             {
                 sourceStream.Close();
 
                 await connector.MoveAsync(
-                    data.Id,
+                    request.Source.Id,
                     request.Action.Source.NewLocation,
                     cancellationToken);
             }
@@ -180,9 +196,10 @@ public class ThingService : IThingService
         return dataRef;
     }
 
-    private static string GetNewPath(AddThingRequest request, ThingData data)
+    private static string GetNewPath(AddThingRequest request, string id)
     {
-        var newPath = data.Location;
+        var newPath = id;
+
         if (request.Action.Source.NewLocation is { })
         {
             newPath = string.Join(

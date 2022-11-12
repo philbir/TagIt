@@ -4,6 +4,7 @@ namespace TagIt.Pdf;
 
 public class MagickPdfImageExtractor : IPdfImageExtractor
 {
+   
     private readonly PdfOptions _options;
 
     public MagickPdfImageExtractor(PdfOptions options)

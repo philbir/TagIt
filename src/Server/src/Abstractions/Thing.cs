@@ -8,7 +8,12 @@ public class Thing : EntityWithVersion, IEntityWithVersion
     public string Title { get; set; }
 
     public Guid? TypeId { get; set; }
+
     public Guid? ClassId { get; set; }
+
+    public ThingSource Source { get; set; }
+
+    public string ContentType { get; set; }
 
     public ThingState State { get; set; }
 
@@ -31,11 +36,13 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
 public class ThingDataReference
 {
-    public string Type { get; set; }
-
     public Guid ConnectorId { get; set; }
 
-    public string Location { get; set; }
+    public string Id { get; set; }
+
+    public string Type { get; set; }
+
+    public string ContentType { get; set; }
 }
 
 public class ThumbailReference : Thumbnail
@@ -43,14 +50,14 @@ public class ThumbailReference : Thumbnail
     public string FileId { get; set; }
 }
 
-public class ThumbnailInfo
+public class ImageInfo
 {
     public ImageFormat Format { get; set; }
 
     public ImageSize Size { get; set; }
 }
 
-public class Thumbnail : ThumbnailInfo
+public class Thumbnail : ImageInfo
 {
     public byte[] Data { get; set; }
 }
@@ -67,7 +74,6 @@ public class ImageSize
 
     public int Width { get; set; }
 }
-
 
 public class AddThingRequest
 {
@@ -89,7 +95,9 @@ public class AddThingRequest
 
     public DateTime? Date { get; set; }
 
-    public IReadOnlyList<ThingData> Data { get; set; }
+    public ThingSource Source { get; set; }
+
+    public IReadOnlyList<ThingData> AdditionalData { get; set; }
 
     public JobAction Action { get; set; }
 }

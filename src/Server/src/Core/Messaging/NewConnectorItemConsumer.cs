@@ -1,6 +1,7 @@
 using MassTransit;
 using Serilog;
 using TagIt.Connectors;
+using TagIt.Store;
 
 namespace TagIt.Messaging;
 
@@ -40,15 +41,10 @@ public class NewConnectorItemConsumer : IConsumer<NewConnectorItemMessage>
         {
             Title = item.Name,
             Type = item.Type,
-            Data = new List<ThingData>
+            Source = new ThingSource
             {
-                new()
-                {
-                    Id = item.Id,
-                    ConnectorId = item.ConnectorId,
-                    Location = item.Location,
-                    Type = item.Type,
-                }
+                ConnectorId = item.ConnectorId,
+                Id = item.Id
             },
             Action = context.Message.Action
         };
