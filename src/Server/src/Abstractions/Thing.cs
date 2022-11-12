@@ -38,7 +38,36 @@ public class ThingDataReference
     public string Location { get; set; }
 }
 
-public record Thumbnail(int PageNumber, string FileId);
+public class ThumbailReference : Thumbnail
+{
+    public string FileId { get; set; }
+}
+
+public class ThumbnailInfo
+{
+    public ImageFormat Format { get; set; }
+
+    public ImageSize Size { get; set; }
+}
+
+public class Thumbnail : ThumbnailInfo
+{
+    public byte[] Data { get; set; }
+}
+
+public enum ImageFormat
+{
+    WebP,
+    Png
+}
+
+public class ImageSize
+{
+    public int Height { get; set; }
+
+    public int Width { get; set; }
+}
+
 
 public class AddThingRequest
 {
