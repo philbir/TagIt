@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <RootNamespace>TagIt.Tests</RootNamespace>
+      <AssemblyName>TagIt.Tests.Core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="Verify.ImageMagick" />
+      <PackageReference Include="Verify.Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="__test_sources__\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
