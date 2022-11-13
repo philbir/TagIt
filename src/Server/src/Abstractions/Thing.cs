@@ -25,7 +25,7 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public DateTime? Date { get; set; }
 
-    public IReadOnlyList<Thumbnail> Thumbnails { get; set; } = new List<Thumbnail>();
+    public IReadOnlyList<ThingThumbnail> Thumbnails { get; set; } = new List<ThingThumbnail>();
 
     public IReadOnlyList<ThingRelation> Relations { get; set; } = new List<ThingRelation>();
 
@@ -43,9 +43,11 @@ public class ThingDataReference
     public string ContentType { get; set; }
 }
 
-public class ThumbailReference : Thumbnail
+public class ThingThumbnail : ImageData
 {
     public string FileId { get; set; }
+
+    public int PageNumber { get; set; }
 }
 
 public class ImageInfo
@@ -55,7 +57,7 @@ public class ImageInfo
     public ImageSize Size { get; set; }
 }
 
-public class Thumbnail : ImageInfo
+public class ImageData : ImageInfo
 {
     public byte[] Data { get; set; }
 }

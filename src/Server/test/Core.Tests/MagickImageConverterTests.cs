@@ -21,7 +21,7 @@ public class MagickImageConverterTests
     {
         // Arrange
         Stream image = TestSources.Image.SmallPng;
-        var options = new GenerateImageOptions
+        var options = new ConvertImageOptions
         {
             Format = ImageFormat.WebP,
             Size = new ImageSize { Height = 120, Width = 50 }
@@ -30,13 +30,11 @@ public class MagickImageConverterTests
         // Act
         var service = new MagickImageConverter();
 
-        Stream converted = await service.ConvertAsync(
+        ImageData converted = await service.ConvertAsync(
             image, options, CancellationToken.None);
 
         // Assert
-        var data = converted.ToByteArray();
-
-        await Verify(data, "webp");
+        await Verify(converted.Data, "webp");
     }
 }
 

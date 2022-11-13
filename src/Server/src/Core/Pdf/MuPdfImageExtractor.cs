@@ -1,7 +1,7 @@
 using MuPDFCore;
 
 namespace TagIt.Pdf;
-public class MuPdfImageExtractor : IPdfImageExtractor
+public class MuPdfImageExtractor 
 {
     public Task<Stream> ExtractAsync(
         Stream pdfStream,

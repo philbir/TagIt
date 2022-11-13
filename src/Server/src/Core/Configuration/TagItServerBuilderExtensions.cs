@@ -9,6 +9,8 @@ using TagIt.Security;
 using TagIt.Store;
 using TagIt.Messaging;
 using TagIt.Configuration;
+using TagIt.Pdf;
+using TagIt.Image;
 
 namespace TagIt;
 
@@ -50,6 +52,11 @@ public static class TagItServerBuilderExtensions
         services.AddSingleton<IOpenIdConnectDiscoveryService, OpenIdConnectDiscoveryService>();
         services.AddSingleton<ICredentialStoreTokenManager, CredentialStoreTokenManager>();
         services.AddHttpClient();
+
+        services.AddSingleton<IImageConverter, MagickImageConverter>();
+        services.AddSingleton<IThumbnailGeneratorService, ThumbnailGeneratorService>();
+
+        services.AddPdfImageConversion();
 
         services.AddSingleton<IConnectionManager>((sp) =>
         {

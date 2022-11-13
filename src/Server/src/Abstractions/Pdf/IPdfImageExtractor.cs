@@ -1,9 +1,16 @@
-namespace TagIt.Pdf;
+namespace TagIt;
 
-public interface IPdfImageExtractor
+public interface IImageExtractor
 {
     Task<Stream> ExtractAsync(
-            Stream pdfStream,
-            int pageNr,
-            CancellationToken cancellationToken);
+        Stream stream,
+        ExtractImageOptions options,
+        CancellationToken cancellationToken);
+
+    string[] SupportedTypes { get; }
+}
+
+public class ExtractImageOptions
+{
+    public int PageNumber { get; set; } = 1;
 }

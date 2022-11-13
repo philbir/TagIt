@@ -9,4 +9,5 @@ public interface IThingStore
     Task<Thing> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
     public IQueryable <Thing> Query();
+    Task UpdateThumbnailsAsync(Guid id, List<ThingThumbnail> thumbails, CancellationToken cancellationToken);
 }

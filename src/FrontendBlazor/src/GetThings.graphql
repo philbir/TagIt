@@ -13,5 +13,8 @@ fragment Thing on Thing
     type {
     name
     }
-    state
+  state
+  thumbnail {
+    url
+  }
 }

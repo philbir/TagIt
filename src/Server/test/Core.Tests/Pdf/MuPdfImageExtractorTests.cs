@@ -1,4 +1,3 @@
-using System.IO;
 using TagIt.Pdf;
 
 namespace TagIt.Tests;

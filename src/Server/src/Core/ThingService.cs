@@ -16,8 +16,14 @@ public class ThingService : IThingService
     {
         return Task.FromResult(_thingStore.Query());
     }
-    public Task<Thing?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public Task<Thing> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return _thingStore.GetByIdAsync(id, cancellationToken)!;
     }
+
+    public Task UpdateThumbnailsAsync(
+        Guid id,
+        List<ThingThumbnail> thumbails,
+        CancellationToken cancellationToken)
+            => _thingStore.UpdateThumbnailsAsync(id, thumbails, cancellationToken);
 }

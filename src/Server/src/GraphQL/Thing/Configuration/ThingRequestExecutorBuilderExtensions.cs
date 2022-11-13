@@ -15,6 +15,8 @@ public static class ThingRequestExecutorBuilderExtensions
 
         // types
         builder
+            .AddType<ThingGraphQLType>()
+            .AddType<ThingThumbnailType>()
             .AddTypeExtension<ThingQueries>();
 
         // extensions

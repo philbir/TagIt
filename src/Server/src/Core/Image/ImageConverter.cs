@@ -2,11 +2,11 @@ using ImageMagick;
 
 namespace TagIt.Image;
 
-public class MagickImageConverter
+public class MagickImageConverter : IImageConverter
 {
-    public async Task<Stream> ConvertAsync(
+    public async Task<ImageData> ConvertAsync(
         Stream stream,
-        GenerateImageOptions options,
+        ConvertImageOptions options,
         CancellationToken cancellationToken)
     {
         using (MagickImage image = new MagickImage(stream))
@@ -19,10 +19,15 @@ public class MagickImageConverter
                 image.Resize(size.Width, size.Height);
             }
 
-            using var ms = new MemoryStream();
+            var ms = new MemoryStream();
             await image.WriteAsync(ms, cancellationToken);
 
-            return ms;
+            return new ImageData
+            {
+                Data = ms.ToArray(),
+                Format = options.Format,
+                Size = new ImageSize { Height = image.Height, Width = image.Width },
+            };
         }
     }
 

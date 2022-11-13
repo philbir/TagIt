@@ -1,4 +1,4 @@
-using System.IO;
+using Microsoft.Extensions.Options;
 using TagIt.Pdf;
 
 namespace TagIt.Tests;
@@ -17,7 +17,7 @@ public class MagickPdfImageExtractorTests : VerifyImageTest
         };
 
         // Act
-        var service = new MagickPdfImageExtractor(pdfOptions);
+        var service = new MagickPdfImageExtractor(Options.Create(pdfOptions));
 
         Stream image = await service
             .ExtractAsync(pdf, 1, TestCanceled);

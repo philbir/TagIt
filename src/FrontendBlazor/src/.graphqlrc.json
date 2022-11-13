@@ -4,7 +4,7 @@
   "extensions": {
     "strawberryShake": {
         "name": "TagItClient",
-        "url": "https://tagit.birbaum.me/graphql",
+        "url": "https://localhost:5001/graphql",
         "dependencyInjection": true,
         "strictSchemaValidation": true,
         "hashAlgorithm": "md5",
