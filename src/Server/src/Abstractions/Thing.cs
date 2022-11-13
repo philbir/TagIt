@@ -13,8 +13,6 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public ThingSource Source { get; set; }
 
-    public string ContentType { get; set; }
-
     public ThingState State { get; set; }
 
     public string Label { get; set; } = string.Empty;
@@ -83,7 +81,7 @@ public class AddThingRequest
 
     public Guid? ClassId { get; set; }
 
-    public string Type { get; set; }
+    public string ContentType { get; set; }
 
     public string? Label { get; set; }
 
@@ -112,8 +110,7 @@ public enum ThingState
 
 public class ThingData : ThingDataReference
 {
-    public byte[] Data { get; set; } = new byte[0];
-    public string Id { get; set; }
+    public Stream Stream { get; set; }
 }
 
 public class EmailMessage

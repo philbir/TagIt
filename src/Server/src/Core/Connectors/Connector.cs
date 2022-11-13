@@ -13,6 +13,8 @@ public class Connector
 
     public string Root { get; set; } = default!;
 
+    public virtual ConnectorDescription Description => new ();
+
     public virtual ValueTask InitializeAsync(
         ConnectorDefintion defintion,
         CancellationToken cancellationToken)

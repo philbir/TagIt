@@ -1,7 +1,7 @@
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 using TagIt.Messaging;
-using static AnyDiff.DifferenceLines;
 
 namespace TagIt.Connectors;
 
@@ -52,13 +52,31 @@ public class FileSystemConnector : Connector, IConnector
     {
         return new ConnectorItem
         {
-            Id = file.FullName.Replace(Root, "").TrimStart(new[] { Path.DirectorySeparatorChar }),
+            Id = GetRelativePath(file),
+            UniqueId = _itemIdSerializer.Serialize(file.FullName, Id),
+            ContentType = GetContentType(file),
             ConnectorId = Id,
             Location = file.Name,
             Name = Path.GetFileNameWithoutExtension(file.Name),
-            Type = Path.GetExtension(file.Name).Split('.').Last().ToLower(),
             CreatedAt = file.CreationTime
         };
+    }
+
+    private string? GetContentType(FileInfo file)
+    {
+        var extension = Path.GetExtension(file.Name).ToLower();
+        if ( extension is { })
+        {
+            return extension.Replace(".", "");
+        }
+
+        return null;
+    }
+
+    private string GetRelativePath(FileInfo file)
+    {
+        return file.FullName.Replace(Root, "")
+            .TrimStart(new[] { Path.DirectorySeparatorChar });
     }
 
     private string SanitizeFilename(string fileName)

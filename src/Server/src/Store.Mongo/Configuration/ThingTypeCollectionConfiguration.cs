@@ -21,7 +21,7 @@ internal class ThingTypeCollectionConfiguration :
 
                 var typeMapIndex = new CreateIndexModel<ThingType>(
                      Builders<ThingType>.IndexKeys
-                         .Ascending(c => c.TypeMap),
+                         .Ascending(c => c.ContentTypeMap),
                      new CreateIndexOptions { Unique = false });
 
                 collection.Indexes.CreateManyAsync(

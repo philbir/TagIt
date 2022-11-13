@@ -78,11 +78,12 @@ public class OneDriveConnector : GraphConnector, IConnector
                 result.Add(
                     new ConnectorItem
                     {
-                        Id = GetItemId(item.Id),
+                        Id = item.Id,
+                        UniqueId = GetItemId(item.Id),
+                        ContentType = GetContentType(item.Name),
                         ConnectorId = Id,
                         Location = item.ParentReference?.Path,
                         Name = Path.GetFileNameWithoutExtension(item.Name),
-                        Type = Path.GetExtension(item.Name).Split('.').Last().ToLower(),
                         CreatedAt = item.CreatedDateTime!.Value.DateTime
                     });
             }
@@ -100,6 +101,17 @@ public class OneDriveConnector : GraphConnector, IConnector
             throw new ApplicationException("Could no get items", ex);
         }
 
+    }
+
+    private string? GetContentType(string filename)
+    {
+        var extension = Path.GetExtension(filename).ToLower();
+        if (extension is { })
+        {
+            return extension.Replace(".", "");
+        }
+
+        return null;
     }
 
     public Task MoveAsync(
@@ -164,7 +176,7 @@ public class OneDriveConnector : GraphConnector, IConnector
         return ProcessHookResult.Empty;
     }
 
-    protected override string GetItemType(ChangeNotification change)
+    protected override string GetItemContentType(ChangeNotification change)
     {
         throw new NotSupportedException();
     }

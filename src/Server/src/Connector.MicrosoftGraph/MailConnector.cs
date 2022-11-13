@@ -28,7 +28,7 @@ public class MailConnector : GraphConnector, IConnector
             .DeleteAsync(cancellationToken);
     }
 
-    protected override string GetItemType(ChangeNotification change)
+    protected override string GetItemContentType(ChangeNotification change)
     {
         return "eml";
     }

@@ -17,6 +17,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             .AddMessaging(b =>
             {
                 b.AddConsumer<NewConnectorItemConsumer>();
+                b.AddConsumer<ThingAddedConsumer>();
             });
         builder.Services.AddHttpClient();
         builder.Services.AddSingleton<IUserContextFactory, UserContextFactory>();

@@ -18,7 +18,7 @@ public class ThingTypeStore : Store<ThingType>, IThingTypeStore
         CancellationToken cancellationToken)
     {
         return Query
-            .Where(x => x.TypeMap.Contains(type))
+            .Where(x => x.ContentTypeMap.Contains(type))
             .FirstOrDefaultAsync(cancellationToken)!;
     }
 }

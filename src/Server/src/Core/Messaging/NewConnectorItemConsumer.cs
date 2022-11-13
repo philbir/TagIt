@@ -1,20 +1,18 @@
 using MassTransit;
 using Serilog;
 using TagIt.Connectors;
-using TagIt.Store;
-
 namespace TagIt.Messaging;
 
 public class NewConnectorItemConsumer : IConsumer<NewConnectorItemMessage>
 {
-    private readonly IThingService _thingService;
+    private readonly IThingIngestService _ingestService;
     private readonly IConnectorFactory _connectorFactory;
 
     public NewConnectorItemConsumer(
-        IThingService thingService,
+        IThingIngestService ingestService,
         IConnectorFactory connectorFactory)
     {
-        _thingService = thingService;
+        _ingestService = ingestService;
         _connectorFactory = connectorFactory;
     }
 
@@ -40,15 +38,16 @@ public class NewConnectorItemConsumer : IConsumer<NewConnectorItemMessage>
         var addRequest = new AddThingRequest
         {
             Title = item.Name,
-            Type = item.Type,
+            ContentType = item.ContentType,
             Source = new ThingSource
             {
                 ConnectorId = item.ConnectorId,
-                Id = item.Id
+                Id = item.Id,
+                UniqueId = item.UniqueId
             },
             Action = context.Message.Action
         };
 
-        await _thingService.AddThingAsync(addRequest, context.CancellationToken);
+        await _ingestService.AddAsync(addRequest, context.CancellationToken);
     }
 }
