@@ -1,7 +1,9 @@
 <MudCard Style="height: 150px;" @onmouseout="MouseOut" @onmouseover="MouseOut">
+    <MudCardMedia Image="@Thing.Thumbnail?.Url"  />
     <MudCardContent>
         <MudText Typo="Typo.h5">@Thing.Title</MudText>
         <MudText Typo="Typo.body2">@Thing.Type.Name</MudText>
+
     </MudCardContent>
     @if (_visible)
     {

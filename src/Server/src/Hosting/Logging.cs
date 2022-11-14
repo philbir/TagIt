@@ -1,5 +1,4 @@
 using Serilog;
-using Serilog.Events;
 
 namespace TagIt;
 

@@ -15,7 +15,8 @@ public static class MessagingServiceCollectionExtensions
         builder.Services.AddOptions<MessagingOptions>(nameof(Config.Messaging))
             .BindConfiguration(Config.Messaging);
 
-        MessagingOptions options = builder.Configuration.GetSection(nameof(Config.Messaging))
+        MessagingOptions options = builder.Configuration
+            .GetSection(nameof(Config.Messaging))
             .Get<MessagingOptions>();
 
         builder.Services.AddMassTransit(s =>

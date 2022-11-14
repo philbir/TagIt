@@ -9,8 +9,13 @@ internal class ThingCollectionConfiguration :
         IMongoCollectionBuilder<Thing> builder)
     {
         builder.WithDefaults(CollectionNames.Thing)
+            .AddBsonClassMap<ImageData>(cm =>
+            {
+                cm.UnmapField(x => x.Data);
+            })
             .WithCollectionConfiguration(collection =>
             {
+
             });
     }
 }

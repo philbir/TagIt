@@ -97,7 +97,9 @@ public class DataSeeder
             {
                 Id = Guid.NewGuid(),
                 Name = "Document",
-                TypeMap = new List<string>{ "pdf", "docx" },
+                ContentTypeMap = new List<string>{
+                    "pdf",
+                    "docx" },
                 ValidClasses = ThingClasses.Select(x => x.Id).ToArray(),
                 Version = NewVersion,
             },
@@ -105,7 +107,7 @@ public class DataSeeder
             {
                 Id = Guid.NewGuid(),
                 Name = "Email",
-                TypeMap = new List<string>{ "eml", "email" },
+                ContentTypeMap = new List<string>{ "eml", "email" },
                 Version = NewVersion
             },
             new ThingType

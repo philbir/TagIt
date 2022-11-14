@@ -3,6 +3,31 @@
   mutation: Mutation
 }
 
+type Thing implements Node {
+  thumbnail(pageNumber: Int! = 1 loadData: Boolean! = false): ThingThumbnail
+  title: String
+  typeId: UUID
+  classId: UUID
+  source: ThingSource
+  state: ThingState!
+  label: String
+  corespondentId: UUID
+  receiverId: UUID
+  tags: [Tag]
+  date: DateTime
+  relations: [ThingRelation]
+  id: ID!
+  version: EntityVersion!
+  type: ThingType
+}
+
+type ThingThumbnail {
+  url: String!
+  pageNumber: Int!
+  format: ImageFormat!
+  size: ImageSize
+}
+
 type Query {
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
@@ -33,19 +58,67 @@ enum ApplyPolicy {
   AFTER_RESOLVER
 }
 
+scalar UUID
+
+type ThingSource {
+  id: String
+  connectorId: UUID!
+  uniqueId: String
+}
+
+enum ThingState {
+  DRAFT
+  PROCESSING
+  ACTIVE
+  DELETED
+}
+
+type Tag {
+  typeId: UUID!
+  value: String
+  text: String
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+type ThingRelation {
+  id: UUID!
+  type: RelationType!
+  from: UUID!
+  to: UUID!
+}
+
+type EntityVersion {
+  version: Int!
+  createdAt: DateTime!
+  createdBy: UUID!
+}
+
+enum ImageFormat {
+  WEB_P
+  PNG
+}
+
+type ImageSize {
+  height: Int!
+  width: Int!
+}
+
 input ThingFilterInput {
   and: [ThingFilterInput!]
   or: [ThingFilterInput!]
   title: StringOperationFilterInput
   typeId: ComparableNullableOfGuidOperationFilterInput
   classId: ComparableNullableOfGuidOperationFilterInput
+  source: ThingSourceFilterInput
   state: ThingStateOperationFilterInput
   label: StringOperationFilterInput
   corespondentId: ComparableNullableOfGuidOperationFilterInput
   receiverId: ComparableNullableOfGuidOperationFilterInput
   tags: ListFilterInputTypeOfTagFilterInput
   date: ComparableNullableOfDateTimeOperationFilterInput
-  thumbnails: ListFilterInputTypeOfThumbnailFilterInput
+  thumbnails: ListFilterInputTypeOfThingThumbnailFilterInput
   relations: ListFilterInputTypeOfThingRelationFilterInput
   data: ListFilterInputTypeOfThingDataReferenceFilterInput
   id: ComparableGuidOperationFilterInput
@@ -92,6 +165,14 @@ input ComparableNullableOfGuidOperationFilterInput {
   nlte: UUID
 }
 
+input ThingSourceFilterInput {
+  and: [ThingSourceFilterInput!]
+  or: [ThingSourceFilterInput!]
+  id: StringOperationFilterInput
+  connectorId: ComparableGuidOperationFilterInput
+  uniqueId: StringOperationFilterInput
+}
+
 input ThingStateOperationFilterInput {
   eq: ThingState
   neq: ThingState
@@ -121,10 +202,10 @@ input ComparableNullableOfDateTimeOperationFilterInput {
   nlte: DateTime
 }
 
-input ListFilterInputTypeOfThumbnailFilterInput {
-  all: ThumbnailFilterInput
-  none: ThumbnailFilterInput
-  some: ThumbnailFilterInput
+input ListFilterInputTypeOfThingThumbnailFilterInput {
+  all: ThingThumbnailFilterInput
+  none: ThingThumbnailFilterInput
+  some: ThingThumbnailFilterInput
   any: Boolean
 }
 
@@ -177,24 +258,6 @@ type PageInfo {
   endCursor: String
 }
 
-type Thing implements Node {
-  title: String
-  typeId: UUID
-  classId: UUID
-  state: ThingState!
-  label: String
-  corespondentId: UUID
-  receiverId: UUID
-  tags: [Tag]
-  date: DateTime
-  thumbnails: [Thumbnail]
-  relations: [ThingRelation]
-  data: [ThingDataReference]
-  id: ID!
-  version: EntityVersion!
-  type: ThingType
-}
-
 "An edge in a connection."
 type ThingsEdge {
   "A cursor for use in pagination."
@@ -211,11 +274,14 @@ input TagFilterInput {
   text: StringOperationFilterInput
 }
 
-input ThumbnailFilterInput {
-  and: [ThumbnailFilterInput!]
-  or: [ThumbnailFilterInput!]
-  pageNumber: ComparableInt32OperationFilterInput
+input ThingThumbnailFilterInput {
+  and: [ThingThumbnailFilterInput!]
+  or: [ThingThumbnailFilterInput!]
+  data: ListComparableByteOperationFilterInput
   fileId: StringOperationFilterInput
+  pageNumber: ComparableInt32OperationFilterInput
+  format: ImageFormatOperationFilterInput
+  size: ImageSizeFilterInput
 }
 
 input ThingRelationFilterInput {
@@ -230,9 +296,10 @@ input ThingRelationFilterInput {
 input ThingDataReferenceFilterInput {
   and: [ThingDataReferenceFilterInput!]
   or: [ThingDataReferenceFilterInput!]
-  type: StringOperationFilterInput
   connectorId: ComparableGuidOperationFilterInput
-  location: StringOperationFilterInput
+  id: StringOperationFilterInput
+  type: StringOperationFilterInput
+  contentType: StringOperationFilterInput
 }
 
 input ComparableInt32OperationFilterInput {
@@ -265,6 +332,27 @@ input ComparableDateTimeOperationFilterInput {
   nlte: DateTime
 }
 
+input ListComparableByteOperationFilterInput {
+  all: ComparableByteOperationFilterInput
+  none: ComparableByteOperationFilterInput
+  some: ComparableByteOperationFilterInput
+  any: Boolean
+}
+
+input ImageFormatOperationFilterInput {
+  eq: ImageFormat
+  neq: ImageFormat
+  in: [ImageFormat!]
+  nin: [ImageFormat!]
+}
+
+input ImageSizeFilterInput {
+  and: [ImageSizeFilterInput!]
+  or: [ImageSizeFilterInput!]
+  height: ComparableInt32OperationFilterInput
+  width: ComparableInt32OperationFilterInput
+}
+
 input RelationTypeOperationFilterInput {
   eq: RelationType
   neq: RelationType
@@ -272,14 +360,28 @@ input RelationTypeOperationFilterInput {
   nin: [RelationType!]
 }
 
-enum ThingState {
-  DRAFT
-  PROCESSING
-  ACTIVE
-  DELETED
+input ComparableByteOperationFilterInput {
+  eq: Byte
+  neq: Byte
+  in: [Byte!]
+  nin: [Byte!]
+  gt: Byte
+  ngt: Byte
+  gte: Byte
+  ngte: Byte
+  lt: Byte
+  nlt: Byte
+  lte: Byte
+  nlte: Byte
 }
 
-scalar UUID
+"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
+scalar Byte
+
+enum RelationType {
+  CHILD
+  RELATATED
+}
 
 type WebHook {
   id: UUID!
@@ -312,47 +414,9 @@ type Credential {
 type ThingType {
   name: String
   validClasses: [UUID!]
-  typeMap: [String]
+  contentTypeMap: [String]
   id: UUID!
   version: EntityVersion!
-}
-
-"The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime
-
-type Tag {
-  typeId: UUID!
-  value: String
-  text: String
-}
-
-type Thumbnail {
-  pageNumber: Int!
-  fileId: String
-}
-
-type ThingRelation {
-  id: UUID!
-  type: RelationType!
-  from: UUID!
-  to: UUID!
-}
-
-type ThingDataReference {
-  type: String
-  connectorId: UUID!
-  location: String
-}
-
-type EntityVersion {
-  version: Int!
-  createdAt: DateTime!
-  createdBy: UUID!
-}
-
-enum RelationType {
-  CHILD
-  RELATATED
 }
 
 type CredentialToken {
@@ -382,9 +446,6 @@ input ProtectedValueInput {
   cipher: [Byte!]
   value: String
 }
-
-"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
-scalar Byte
 
 type ProtectedValue {
   cipher: [Byte!]

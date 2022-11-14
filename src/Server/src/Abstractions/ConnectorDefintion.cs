@@ -4,7 +4,6 @@ using TagIt.Store;
 
 namespace TagIt;
 
-
 public class ConnectorDefintion : IEntity
 {
     public Guid Id { get; set; }
@@ -23,20 +22,29 @@ public class ConnectorDefintion : IEntity
 public interface IConnector
 {
     public Guid Id { get; set; }
-    Task DeleteAsync(string id, CancellationToken cancellationToken);
-    Task<Stream> DownloadAsync(string id, CancellationToken cancellationToken);
-    Task<ConnectorItemInfo> GetInfoAsync(string id, CancellationToken cancellationToken);
-    Task<GetItemsResult> GetItemsAsync(GetItemsFilter filter, CancellationToken cancellationToken);
-    ValueTask InitializeAsync(ConnectorDefintion defintion, CancellationToken cancellationToken);
-    Task MoveAsync(string id, string path, CancellationToken cancellationToken);
-    Task<ProcessHookResult> ProcessWebHookRequestAsync(HttpContext httpContext, WebHook webHook);
-    Task StartWatchingAsync(
+    public ConnectorDescription Description { get; }
+    public Task DeleteAsync(string id, CancellationToken cancellationToken);
+    public Task<Stream> DownloadAsync(string id, CancellationToken cancellationToken);
+    public Task<ConnectorItemInfo> GetInfoAsync(string id, CancellationToken cancellationToken);
+    public Task<GetItemsResult> GetItemsAsync(GetItemsFilter filter, CancellationToken cancellationToken);
+    public ValueTask InitializeAsync(ConnectorDefintion defintion, CancellationToken cancellationToken);
+    public Task MoveAsync(string id, string path, CancellationToken cancellationToken);
+    public Task<ProcessHookResult> ProcessWebHookRequestAsync(HttpContext httpContext, WebHook webHook);
+    public Task StartWatchingAsync(
         JobDefintion job,
         WatchOptions options,
         CancellationToken cancellationToken);
 
-    Task<string> UploadAsync(string name, Stream stream, CancellationToken cancellationToken);
+    public Task<string> UploadAsync(string name, Stream stream, CancellationToken cancellationToken);
 }
+
+public class ConnectorDescription
+{
+    public string? Description { get; set; }
+
+    public bool HasThumbnailGenerator { get; set; }
+}
+
 
 public class ConnectorItem
 {
@@ -49,7 +57,8 @@ public class ConnectorItem
     public string Location { get; set; }
 
     public DateTime CreatedAt { get; set; }
-    public string Type { get; set; }
+    public string UniqueId { get; set; }
+    public string ContentType { get; set; }
 }
 
 public class ConnectorItemInfo

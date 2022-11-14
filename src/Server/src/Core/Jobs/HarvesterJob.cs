@@ -2,7 +2,6 @@ using Quartz;
 using Serilog;
 using TagIt.Connectors;
 using TagIt.Messaging;
-using static Quartz.Logging.OperationName;
 
 namespace TagIt.Jobs;
 

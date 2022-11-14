@@ -1,4 +1,6 @@
 using TagIt.Store;
+using TagIt.Store.Mongo;
+
 namespace TagIt;
 
 public class ThingTypeService : IThingTypeService

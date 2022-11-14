@@ -20,7 +20,7 @@ public class GraphConnector : Connector
         _webHookService = webHookService;
     }
 
-    protected virtual string GetItemType(ChangeNotification change)
+    protected virtual string GetItemContentType(ChangeNotification change)
     {
         return string.Empty;
     }
@@ -74,9 +74,10 @@ public class GraphConnector : Connector
                 {
                     ConnectorId = Id,
                     CreatedAt = DateTime.UtcNow,
-                    Type = GetItemType(item),
-                    Id = _itemIdSerializer.Serialize(
+                    ContentType = GetItemContentType(item),
+                    UniqueId = _itemIdSerializer.Serialize(
                         item.ResourceData.GetId(), Id),
+                    Id = item.ResourceData.GetId(),
                     Location = item.Resource
                 });
             }

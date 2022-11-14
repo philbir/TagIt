@@ -10,5 +10,7 @@ public class Config
             $"{Section}:{nameof(Storage)}:{nameof(Database)}";
     }
 
+    public static string Pdf = $"{Section}:{nameof(Pdf)}";
+
     public static string Messaging = $"{Section}:{nameof(Messaging)}";
 }
