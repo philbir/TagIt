@@ -3,17 +3,25 @@
     <PropertyGroup>
         <AssemblyName>TagIt.UI</AssemblyName>
         <RootNamespace>TagIt.UI</RootNamespace>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
+        <GraphQL Remove="Correspendent\Mutations.graphql" />
+        <GraphQL Remove="correspendent\Queries.graphql" />
         <GraphQL Remove="GetThings.graphql" />
+        <GraphQL Remove="things\GetThingById.graphql" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly"  />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
-        <PackageReference Include="MudBlazor"  />
-        <PackageReference Include="StrawberryShake.Blazor"  />
+        <PackageReference Include="MudBlazor" />
+        <PackageReference Include="StrawberryShake.Blazor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Dashboard\" />
     </ItemGroup>
 
 

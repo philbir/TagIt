@@ -13,3 +13,4 @@ public sealed class ThingNode
         return service.GetByIdAsync(id, cancellationToken);
     }
 }
+

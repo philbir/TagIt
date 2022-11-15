@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace TagIt.GraphQL;
 
-
-
 public static class ThingRequestExecutorBuilderExtensions
 {
     public static IRequestExecutorBuilder AddThings(
@@ -17,7 +15,9 @@ public static class ThingRequestExecutorBuilderExtensions
         builder
             .AddType<ThingGraphQLType>()
             .AddType<ThingThumbnailType>()
-            .AddTypeExtension<ThingQueries>();
+            .AddTypeExtension<ThingQueries>()
+            .AddTypeExtension<CorrespondentQueries>()
+            .AddTypeExtension<CorrespondentMutations>();
 
         // extensions
         builder
@@ -25,6 +25,7 @@ public static class ThingRequestExecutorBuilderExtensions
 
         // nodes
         builder
+            .AddTypeExtension<CorrespondentNode>()
             .AddTypeExtension<ThingNode>();
 
         return builder;

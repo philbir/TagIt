@@ -48,6 +48,7 @@ public static class TagItServerBuilderExtensions
         services.AddEntityService<IThingService, ThingService, Thing>();
         services.AddEntityService<IThingTypeService, ThingTypeService, ThingType>();
         services.AddSingleton<ICredentialStoreService, CredentialStoreService>();
+        services.AddSingleton<ICorrespondentService, CorrespondentService>();
         services.AddSingleton<IUserContextAccessor, UserContextAccessor>();
         services.AddSingleton<IOpenIdConnectDiscoveryService, OpenIdConnectDiscoveryService>();
         services.AddSingleton<ICredentialStoreTokenManager, CredentialStoreTokenManager>();

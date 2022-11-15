@@ -34,12 +34,16 @@ type Query {
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]!
   things("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ThingFilterInput): ThingsConnection
+  thingById(id: ID!): Thing!
   thingTypes: [ThingType!]!
+  correspondents("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CorrespondentFilterInput): CorrespondentsConnection
+  correspondentById(id: ID!): Correspondent!
   credentials: [Credential!]!
   webHooks: [WebHook!]!
 }
 
 type Mutation {
+  insertCorrespondent(input: InsertCorrespondentInput!): InsertCorrespondentPayload!
   addOAuthCredentialClient(input: AddOAuthCredentialClientInput!): AddOAuthCredentialClientPayload!
 }
 
@@ -133,6 +137,23 @@ type ThingsConnection {
   edges: [ThingsEdge!]
   "A flattened list of the nodes."
   nodes: [Thing!]
+}
+
+input CorrespondentFilterInput {
+  and: [CorrespondentFilterInput!]
+  or: [CorrespondentFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  name: StringOperationFilterInput
+}
+
+"A connection to a list of items."
+type CorrespondentsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [CorrespondentsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Correspondent!]
 }
 
 input StringOperationFilterInput {
@@ -264,6 +285,19 @@ type ThingsEdge {
   cursor: String!
   "The item at the end of the edge."
   node: Thing!
+}
+
+type Correspondent implements Node {
+  id: ID!
+  name: String
+}
+
+"An edge in a connection."
+type CorrespondentsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Correspondent!
 }
 
 input TagFilterInput {
@@ -456,6 +490,14 @@ enum TokenType {
   ID
   ACCESS
   REFRESH
+}
+
+input InsertCorrespondentInput {
+  name: String!
+}
+
+type InsertCorrespondentPayload {
+  correspondent: Correspondent
 }
 
 input AddOAuthCredentialClientInput {

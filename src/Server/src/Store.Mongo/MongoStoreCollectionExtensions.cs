@@ -29,6 +29,7 @@ public static class MongoStoreCollectionExtensions
         services.AddStore<IThingClassStore, ThingClass, ThingClassStore>();
         services.AddStore<ICredentialsStore, Credential, CredentialsStore>();
         services.AddSingleton<IAuditStore, AuditStore>();
+        services.AddSingleton<ICorrespendentStore, CorrespondentStore>();
         services.AddSingleton<IFileStore, FileStore>();
         services.AddSingleton<IConnectorStore, ConnectorStore>();
         services.AddSingleton<IJobDefintionStore, JobDefintionStore>();

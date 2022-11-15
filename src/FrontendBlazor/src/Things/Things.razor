@@ -1,24 +1,22 @@
-@page "/things"
+@attribute [Route(Routing.Things.Page)]
+
 
 <UseThings Context="result" Strategy="ExecutionStrategy.CacheAndNetwork">
     <ChildContent>
-        <MudGrid>
+        <MudContainer Class="d-flex flex-wrap" MaxWidth="MaxWidth.False">
             @if (result.Things?.Nodes is not null)
             {
                 @foreach (IThings_Things_Nodes thing in result.Things.Nodes)
                 {
-                    <MudItem xs="4" lg="3">
-                        <ThingCard Thing="@thing"></ThingCard>
-                    </MudItem>
+                    <ThingCard  Thing="@thing"></ThingCard>
                 }
             }
-        </MudGrid>
+        </MudContainer>
     </ChildContent>
     <LoadingContent>
         <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
     </LoadingContent>
 </UseThings>
-
 
 @code {
 

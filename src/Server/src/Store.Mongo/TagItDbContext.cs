@@ -34,11 +34,11 @@ internal class TagIdDbContext : MongoDbContext, ITagIdDbContext
             .ConfigureCollection(new ConnectorDefintionCollectionConfiguration())
             .ConfigureCollection(new CredentialCollectionConfiguration())
             .ConfigureCollection(new ReceiverCollectionConfiguration())
+            .ConfigureCollection(new CorrespondentCollectionConfiguration())
             .ConfigureCollection(new JobDefintionCollectionConfiguration())
             .ConfigureCollection(new AuthStateCollectionConfiguration())
             .ConfigureCollection(new JobRunCollectionConfiguration())
             .ConfigureCollection(new WebHookCollectionConfiguration())
-            .ConfigureCollection(new CorrespondentCollectionConfiguration())
             .ConfigureCollection(new EntityAuditEventConfiguration());
     }
 
