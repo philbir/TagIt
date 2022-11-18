@@ -16,4 +16,11 @@ public static class Routing
 
         public const string Add = Page + "/add";
     }
+
+    public static class Connectors
+    {
+        public const string Page = "/connectors";
+
+        public const string Add = Page + "/add";
+    }
 }

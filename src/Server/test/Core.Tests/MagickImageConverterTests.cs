@@ -16,6 +16,7 @@ public class MagickImageConverterTests
                 typeName: type.Name,
                 methodName: method.Name));
     }
+
     [Fact]
     public async Task ConvertPngToWegPWithResize_ImageEqual()
     {

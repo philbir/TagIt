@@ -9,5 +9,6 @@ public interface ICorrespendentStore
     Task<Correspondent> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
     public IQueryable<Correspondent> Query();
+
 }
 

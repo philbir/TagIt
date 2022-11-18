@@ -1,4 +1,4 @@
-﻿namespace TagIt.GraphQL;
+namespace TagIt.GraphQL;
 
 [ExtendObjectType(OperationTypeNames.Query)]
 public class CredentialQueries
@@ -8,3 +8,5 @@ public class CredentialQueries
         CancellationToken cancellationToken)
             => service.Query(cancellationToken);
 }
+
+

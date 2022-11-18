@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Credential\Extensions\" />
+    <Folder Include="Job\" />
+  </ItemGroup>
+
 </Project>

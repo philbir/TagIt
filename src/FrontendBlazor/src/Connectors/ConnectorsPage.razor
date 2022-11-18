@@ -1,0 +1,46 @@
+@attribute [Route(Routing.Connectors.Page)]
+
+@if (connectors is not null)
+{
+    <MudContainer MaxWidth="MaxWidth.Medium">
+        <MudDataGrid Items="@connectors" Striped>
+            <Columns>
+                <Column T="ConnectorItem" Field="Name" Title="Name" />
+                <Column T="ConnectorItem" Field="Type" />
+                <Column T="ConnectorItem" Field="Root" Title="Root" />
+                <Column T="ConnectorItem" Field="CredentialName" Title="Credentials" />
+            </Columns>
+        </MudDataGrid>
+        <MudFab Class="mt-10" Href="@Routing.Connectors.Add" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+    </MudContainer>
+}
+else
+{
+    <div>Loading</div>
+}
+
+@code {
+
+    [Inject]
+    public ConnectorSearchQuery SearchQuery { get; set; }
+
+    public IEnumerable<ConnectorItem>? connectors = null;
+
+    private IDisposable storeConnectors;
+
+    override protected async Task OnInitializedAsync()
+    {
+        storeConnectors = SearchQuery
+         .Watch(ExecutionStrategy.CacheAndNetwork)
+         .Where(x => !x.Errors.Any())
+         .Select(x => x.Data.Connectors.Nodes.Select(
+             t => new ConnectorItem(t.Id, t.Name, t.Type, t.Root, t.Credential?.Name)))
+         .Subscribe(result =>
+         {
+             connectors = result;
+             StateHasChanged();
+         });
+    }
+
+    public record ConnectorItem(string Id, string Name, string Type, string Root, string? CredentialName);
+}

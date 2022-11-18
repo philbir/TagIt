@@ -1,0 +1,18 @@
+query connectorSearch {
+  connectors {
+    nodes {
+      ...ConnectorInfo
+    }
+  }
+}
+
+fragment ConnectorInfo on ConnectorDefintion {
+  id
+  type
+  name
+  root
+  credential {
+    id
+    name
+  }
+}   

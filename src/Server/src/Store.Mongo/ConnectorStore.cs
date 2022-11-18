@@ -6,4 +6,9 @@ public class ConnectorStore : Store<ConnectorDefintion>, IConnectorStore
         : base(dbContext)
     {
     }
+
+    IQueryable<ConnectorDefintion> IConnectorStore.Query()
+    {
+        return Query;
+    }
 }
