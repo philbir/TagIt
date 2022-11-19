@@ -8,7 +8,6 @@ public static class CredentialRequestExecutorBuilderExtensions
     public static IRequestExecutorBuilder AddCredentials(
         this IRequestExecutorBuilder builder)
     {
-
         builder
             .AddDataLoader<CredentialByIdDataLoader>();
 

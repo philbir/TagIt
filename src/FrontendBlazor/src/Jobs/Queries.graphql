@@ -1,0 +1,31 @@
+query jobDefintionSearch {
+  jobDefinitions {
+    nodes {
+        ...JobDefinitionInfo
+    }
+  }
+}
+
+fragment JobDefinitionInfo on JobDefintion {
+  id
+  name
+  runMode
+  enabled
+  filter
+  sourceConnector {
+    id
+    name
+  }
+  action {
+    mode
+    destinationConnector {
+      id
+      name
+    }
+    source {
+      mode
+      newLocation
+      newConnectorId
+    }
+  }
+}

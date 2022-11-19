@@ -23,4 +23,16 @@ public static class Routing
 
         public const string Add = Page + "/add";
     }
+
+    public static class JobDefintions
+    {
+        public const string Page = "/jobdefinitions";
+
+        public const string Add = Page + "/add";
+
+        public const string Edit = Page + "/{id}/edit";
+
+        public static string GetEdit(string id)
+            => string.Format(Edit.Replace("{id}", "{0}"), id);
+    }
 }

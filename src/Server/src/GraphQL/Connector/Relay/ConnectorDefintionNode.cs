@@ -1,4 +1,5 @@
 using TagIt.Connectors;
+using TagIt.Store;
 
 namespace TagIt.GraphQL;
 

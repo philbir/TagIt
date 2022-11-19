@@ -7,7 +7,7 @@ public class JobQueries
 {
     [UsePaging]
     [UseFiltering]
-    public Task<IQueryable<JobDefintion>> GetConnectorsAsync(
+    public Task<IQueryable<JobDefintion>> GetJobDefinitionsAsync(
         [Service] IJobDefintionService service,
         CancellationToken cancellationToken)
     {
