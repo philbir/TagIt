@@ -20,4 +20,11 @@ public class JobDefintionService : IJobDefintionService
     {
         return _store.GetByIdAsync(id, cancellationToken)!;
     }
+
+    public Task<JobDefintion> UpdateAsync(
+        JobDefintion jobDefintion,
+        CancellationToken cancellationToken)
+    {
+        return _store.UpdateAsync(jobDefintion, cancellationToken);
+    }
 }

@@ -14,6 +14,8 @@ UIOptions? options = builder.Configuration
     .GetSection("TagIt")
     .Get<UIOptions>();
 
+builder.Services.AddViewModels();
+
 builder.Services.AddTagItClient()
     .ConfigureHttpClient( c => c.BaseAddress = new Uri("https://localhost:5001/graphql")  )
     .ConfigureWebSocketClient(c => c.Uri = new Uri("wss://localhost:5001/graphql"));

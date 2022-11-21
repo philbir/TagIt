@@ -5,8 +5,10 @@ namespace TagIt;
 
 public class Thing : EntityWithVersion, IEntityWithVersion
 {
+    [ID]
     public string Title { get; set; }
 
+    [ID(nameof(ThingType))]
     public Guid? TypeId { get; set; }
 
     public Guid? ClassId { get; set; }

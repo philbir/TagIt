@@ -141,7 +141,11 @@ public class DataSeeder
                 Enabled= false,
                 RunMode = JobRunMode.Harvest,
                 SourceConnectorId= Connectors.Skip(1).First().Id,
-                CronSchedule = "*",
+                Schedule = new JobSchedule
+                {
+                    Type = JobSchudeleType.Interval,
+                    Intervall = 60
+                },
                 Action = new JobAction
                 {
                     Mode = JobActionMode.Import,
@@ -161,7 +165,11 @@ public class DataSeeder
                 Enabled= true,
                 RunMode = JobRunMode.Harvest,
                 SourceConnectorId = Connectors.Skip(3).First().Id,
-                CronSchedule = "*",
+                Schedule = new JobSchedule
+                {
+                    Type = JobSchudeleType.Interval,
+                    Intervall = 60
+                },
                 Action = new JobAction
                 {
                     Mode = JobActionMode.Import,

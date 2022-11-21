@@ -6,6 +6,7 @@ namespace TagIt;
 
 public class ConnectorDefintion : IEntity
 {
+    [ID]
     public Guid Id { get; set; }
 
     public string Type { get; set; }
@@ -16,6 +17,7 @@ public class ConnectorDefintion : IEntity
 
     public IDictionary<string, string> Properties { get; set; }
 
+    [ID(nameof(Credential))]
     public Guid? CredentialId { get; set; }
 }
 

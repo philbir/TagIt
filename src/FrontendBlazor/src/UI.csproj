@@ -10,6 +10,7 @@
         <GraphQL Remove="Correspendent\Mutations.graphql" />
         <GraphQL Remove="correspendent\Queries.graphql" />
         <GraphQL Remove="GetThings.graphql" />
+        <GraphQL Remove="jobs\Mutations.graphql" />
         <GraphQL Remove="things\GetThingById.graphql" />
     </ItemGroup>
 
@@ -22,7 +23,12 @@
 
     <ItemGroup>
       <Folder Include="Dashboard\" />
+      <Folder Include="Model\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Using Include="MudBlazor" />
+        <Using Include="StrawberryShake" />
+    </ItemGroup>
 
 </Project>

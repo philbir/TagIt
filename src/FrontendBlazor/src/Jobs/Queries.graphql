@@ -1,27 +1,40 @@
 query jobDefintionSearch {
-  jobDefinitions {
+  jobDefintions {
     nodes {
-        ...JobDefinitionInfo
+      ...JobDeinitionInfo
     }
   }
 }
 
-fragment JobDefinitionInfo on JobDefintion {
+query getobDefinitionById($id: ID!) {
+  jobDefinitionById(id: $id) {
+    ...JobDeinitionInfo
+  }
+}
+
+fragment JobDeinitionInfo on JobDefintion {
   id
   name
   runMode
-  enabled
-  filter
+  sourceConnectorId
   sourceConnector {
     id
     name
   }
+  enabled
+  filter
+  schedule {
+    type
+    cronExpression
+    intervall
+  }
   action {
-    mode
     destinationConnector {
       id
       name
     }
+    mode
+    destinationConnectorId
     source {
       mode
       newLocation

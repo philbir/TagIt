@@ -5,6 +5,7 @@ namespace TagIt;
 
 public class JobDefintion : IEntity
 {
+    [ID]
     public Guid Id { get; set; }
 
     public string Name { get; set; }
@@ -13,13 +14,35 @@ public class JobDefintion : IEntity
 
     public string? CronSchedule { get; set; }
 
+    public JobSchedule? Schedule { get; set; }
+
     public string? Filter { get; set; }
 
+    [ID(nameof(ConnectorDefintion))]
     public Guid SourceConnectorId { get; set; }
 
     public JobAction Action { get; set; }
 
     public bool Enabled { get; set; }
+}
+
+
+public class JobSchedule
+{
+    public JobSchudeleType Type { get; set; }
+
+    public string? CronExpression { get; set; }
+
+    /// <summary>
+    /// Intervall in seconds
+    /// </summary>
+    public int? Intervall { get; set; }
+}
+
+public enum JobSchudeleType
+{
+    Interval,
+    Cron
 }
 
 public class JobAction
@@ -28,6 +51,7 @@ public class JobAction
 
     public SourceAction Source { get; set; }
 
+    [ID(nameof(ConnectorDefintion))]
     public Guid? DestinationConnectorId { get; set; }
 
 }
@@ -38,6 +62,7 @@ public class SourceAction
 
     public string? NewLocation { get; set; }
 
+    [ID(nameof(ConnectorDefintion))]
     public Guid? NewConnectorId { get; set; }
 }
 

@@ -1,64 +1,47 @@
+@using System.Text.Json;
 @attribute [Route(Routing.JobDefintions.Page)]
 
-@if (jobDefinitions is not null)
-{
-    <MudContainer MaxWidth="MaxWidth.Medium">
-        <MudDataGrid Items="@jobDefinitions" Striped>
-            <Columns>
-                <Column T="JobDefinitionItem" Field="Name" />
-                <Column T="JobDefinitionItem" Field="RunMode" />
-                <Column T="JobDefinitionItem" Field="Filter" />
-                <Column T="JobDefinitionItem" Field="SourceConnectorName" Title="Connector" />
-                <Column T="JobDefinitionItem" Field="Enabled"  />
-                <Column T="JobDefinitionItem" CellClass="d-flex justify-end">
-                    <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" OnClick="@context.Actions.StartEditingItem" />
-                    </CellTemplate>
-                </Column>
-            </Columns>
-        </MudDataGrid>
-        <MudFab Class="mt-10" Href="@Routing.JobDefintions.Add" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
-    </MudContainer>
-}
-else
-{
-    <div>Loading</div>
-}
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudDataGrid Items="@Service.JobDefintions" T="JobDefinitionItem" Striped RowClick="@RowClicked">
+        <Columns>
+            <Column T="JobDefinitionItem" Field="Name" />
+            <Column T="JobDefinitionItem" Field="RunMode" />
+            <Column T="JobDefinitionItem" Field="Filter" />
+            <Column T="JobDefinitionItem" Field="SourceConnectorName" Title="Connector" />
+            <Column T="JobDefinitionItem" Field="Enabled" Context="context">
+                <CellTemplate>
+                    <MudCheckBox Checked="@context.Item.Enabled"></MudCheckBox>
+                </CellTemplate>
+            </Column>
+
+        </Columns>
+    </MudDataGrid>
+    <MudFab Class="mt-10" Href="@Routing.JobDefintions.Add" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+</MudContainer>
+
 
 @code {
 
     [Inject]
-    public JobDefintionSearchQuery SearchQuery { get; set; }
+    public SettingsService Service { get; set; }
 
-    public IEnumerable<JobDefinitionItem>? jobDefinitions = null;
+    [Inject]
+    public NavigationManager Navigation { get; set; }
 
-    private IDisposable storeJobDefintions;
 
     override protected async Task OnInitializedAsync()
     {
-        storeJobDefintions = SearchQuery
-         .Watch(ExecutionStrategy.CacheAndNetwork)
-         .Where(x => !x.Errors.Any())
-         .Select(x => x.Data.JobDefinitions.Nodes.Select(
-             t => new JobDefinitionItem(
-                 t.Id,
-                 t.Name,
-                 t.RunMode.ToString(),
-                 t.Filter,
-                 t.SourceConnector.Name,
-                 t.Enabled)))
-
-         .Subscribe(result =>
-         {
-             jobDefinitions = result;
-             StateHasChanged();
-         });
+        Service.LoadJobDefintionsAsync((j) =>
+        {
+            StateHasChanged();
+        });
     }
 
-    public record JobDefinitionItem(
-        string Id,
-        string Name,
-        string RunMode,
-        string Filter,
-        string SourceConnectorName, bool Enabled);
+    private void RowClicked(DataGridRowClickEventArgs<JobDefinitionItem> e)
+    {
+        Navigation.NavigateTo(Routing.JobDefintions.GetEdit(e.Item.Id));
+    }
+
+
 }

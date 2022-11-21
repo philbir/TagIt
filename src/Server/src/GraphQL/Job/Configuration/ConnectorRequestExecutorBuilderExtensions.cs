@@ -11,6 +11,7 @@ public static class JobRequestExecutorBuilderExtensions
     {
         // types
         builder
+            .AddTypeExtension<JobMutations>()
             .AddTypeExtension<JobQueries>();
 
         // extensions

@@ -1,0 +1,123 @@
+@attribute [Route(Routing.JobDefintions.Edit)]
+
+@if ( model is { } && model.Action is { })
+{
+<MudForm @ref="form">
+    <MudStack>
+        <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6">Source</MudText>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="model.Name" For="@(() => model.Name)" Label="Name" Required="true" RequiredError="Name is required" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudField Label="Run Mode">
+                        <MudRadioGroup T="JobRunMode" @bind-SelectedOption="model.RunMode">
+                            @foreach (var item in model.RunModeOptions)
+                            {
+                                <MudRadio Option="@item">@item</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </MudField>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudSelect Label="Source Connector" @bind-Value="model.SourceConnector">
+                        @foreach (var option in model.AllConnectors)
+                        {
+                            <MudSelectItem Value="option">@option.Name</MudSelectItem>
+                        }
+
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="model.Filter" For="@(() => model.Filter)" Label="Filter" Required="false" />
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+
+        <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6">Destination</MudText>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudField Label="Mode">
+                        <MudRadioGroup T="JobActionMode" @bind-SelectedOption="model.Action.Mode">
+                            @foreach (var item in model.JobActionModeOptions)
+                            {
+                                <MudRadio Option="@item">@item</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </MudField>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudSelect Label="Source Connector" @bind-Value="model.Action.DestinationConnector">
+                        @foreach (var option in model.AllConnectors)
+                        {
+                            <MudSelectItem Value="option">@option.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudField Label="Source Action">
+                        <MudRadioGroup T="SourceActionMode" @bind-SelectedOption="model.Action.SourceActionMode">
+                            @foreach (var item in model.SourceActionModeOptions)
+                            {
+                                <MudRadio Option="@item">@item</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </MudField>
+
+                </MudItem>
+                <MudItem xs="6">
+                    @if (model.Action.SourceActionMode == SourceActionMode.Move)
+                    {
+                        <MudTextField Hidden="hidden" @bind-Value="model.Action.NewLocation" For="@(() => model.Action.NewLocation)" Label="New Location" />
+                    }
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+        <MudPaper Class="pa-4">
+            @if (model.RunMode == JobRunMode.Harvest)
+            {
+                <MudText Typo="Typo.h6">Schedule</MudText>
+                <MudGrid>
+                    <MudItem xs=" 6">
+                        <MudField Label="Mode">
+                            <MudRadioGroup T="    JobSchudeleType" @bind-SelectedOption="model.ScheduleType">
+                                @foreach (var item in model.JobSchudeleTypeOptions)
+                                {
+                                    <MudRadio Option="@item">@item</MudRadio>
+                                }
+                            </MudRadioGroup>
+                        </MudField>
+                    </MudItem>
+                    <MudItem xs="6">
+                        @if (model.ScheduleType == JobSchudeleType.Cron)
+                        {
+                            <MudTextField @bind-Value="model.CronExpression" For="@(() => model.CronExpression)" Label="Cron Expression" />
+                            <MudText Typo="Typo.caption" Class="mt-2">
+                                <a href="https://crontab.cronhub.io/" target="_blank">Genrate Cron</a>
+                            </MudText>
+                        }
+                        @if (model.ScheduleType == JobSchudeleType.Interval)
+                        {
+                            <MudNumericField @bind-Value="model.Intervall" For="@(() => model.Intervall)" Label="Intervall in seconds" />
+                        }
+                    </MudItem>
+                </MudGrid>
+            }
+        </MudPaper>
+    </MudStack>
+    </MudForm>
+}
+else
+{
+    <MudProgressLinear Indeterminate></MudProgressLinear>
+}
+<pre>@raw</pre>
+
+<MudPaper Class="pa-4 mt-4">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=> Save())">Save</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" Href="@Routing.JobDefintions.Page" Class="mx-2">Cancel</MudButton>
+</MudPaper>
+
+
