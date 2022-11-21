@@ -45,6 +45,7 @@ public class SettingsService
         var input = new UpdateJobDefinitionInput
         {
             Id = model.Id,
+            Enabled = true,
             Name = model.Name,
             Filter = model.Filter,
             SourceConnectorId = model.SourceConnector.Id,
@@ -76,6 +77,7 @@ public class SettingsService
     {
         if (JobDefintions.Count() > 0)
         {
+            onLoaded(JobDefintions);
             return;
         }
 

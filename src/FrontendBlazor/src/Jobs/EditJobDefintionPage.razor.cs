@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Reflection;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 
@@ -36,6 +34,7 @@ public partial class EditJobDefintionPage
             StateHasChanged();
         });
 
+        model.Id = Id;
         model.Name = definition.Name;
         model.RunMode = definition.RunMode;
         model.SourceConnector = new ConnectorItem(
@@ -63,16 +62,15 @@ public partial class EditJobDefintionPage
 
     async Task Save()
     {
-        Snackbar.Add($"Job save", Severity.Success);
+        Snackbar.Add($"Job {model.Name} saved.", Severity.Success);
 
         raw = JsonSerializer.Serialize(model,
             typeof(EditJobDefinitionViewModel),
             new JsonSerializerOptions { WriteIndented = true });
 
-        raw = model.RunMode.ToString();
         await Service.SaveJobDefinitionAsync(model);
 
-        //NavigationManager.NavigateTo(Routing.JobDefintions.Page);
+        NavigationManager.NavigateTo(Routing.JobDefintions.Page);
     }
 }
 

@@ -25,6 +25,28 @@ public class JobDefintionService : IJobDefintionService
         JobDefintion jobDefintion,
         CancellationToken cancellationToken)
     {
+        if (jobDefintion.RunMode == JobRunMode.Watch)
+        {
+            jobDefintion.Schedule = null;
+        }
+        else if (jobDefintion.Schedule is { } schedule)
+        {
+            if (schedule.Type == JobSchudeleType.Interval)
+            {
+                schedule.CronExpression = null;
+            }
+            else
+            {
+                schedule.Intervall = null;
+            }
+        }
+
+        if (jobDefintion.Action?.Source?.Mode == SourceActionMode.Delete)
+        {
+            jobDefintion.Action.Source.NewLocation = null;
+            jobDefintion.Action.Source.NewConnectorId = null;
+        }
+
         return _store.UpdateAsync(jobDefintion, cancellationToken);
     }
 }
