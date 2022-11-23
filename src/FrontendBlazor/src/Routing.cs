@@ -35,4 +35,16 @@ public static class Routing
         public static string GetEdit(string id)
             => string.Format(Edit.Replace("{id}", "{0}"), id);
     }
+
+    public static class Credentials
+    {
+        public const string Page = "/credentials";
+
+        public const string Add = Page + "/add";
+
+        public const string Edit = Page + "/{id}/edit";
+
+        public static string GetEdit(string id)
+            => string.Format(Edit.Replace("{id}", "{0}"), id);
+    }
 }

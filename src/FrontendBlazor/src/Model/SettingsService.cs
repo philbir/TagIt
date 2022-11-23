@@ -10,10 +10,13 @@ public class SettingsService
     private readonly ITagItClient _tagItClient;
     private IDisposable connectorStore;
     private IDisposable JobDefintionStore;
+    private IDisposable credentialStore;
 
     public IEnumerable<ConnectorItem> Connectors { get; set; } = new List<ConnectorItem>();
 
     public IEnumerable<JobDefinitionItem> JobDefintions { get; set; } = new List<JobDefinitionItem>();
+
+    public IEnumerable<CredentialItem> Credentials { get; set; } = new List<CredentialItem>();
 
     public SettingsService(ITagItClient tagItClient)
     {
@@ -99,8 +102,36 @@ public class SettingsService
              onLoaded(result);
          });
     }
-}
 
+    public void LoadCredentialsAsync(Action<IEnumerable<CredentialItem>> onLoaded)
+    {
+        if (JobDefintions.Count() > 0)
+        {
+            onLoaded(Credentials);
+            return;
+        }
+
+        JobDefintionStore = _tagItClient.CredentialSearch
+         .Watch(ExecutionStrategy.CacheAndNetwork)
+         .Where(x => !x.Errors.Any())
+         .Select(x => x.Data.Credentials.Nodes.Select(
+             t => new CredentialItem (
+                 t.Id,
+                 t.Name)
+             {
+                 Product = t.Client?.Product,
+                 Authority = t.Client?.Authority,
+                 ClientId = t.Client?.Id,
+
+             }))
+
+         .Subscribe(result =>
+         {
+             Credentials = result;
+             onLoaded(result);
+         });
+    }
+}
 
 public class ConnectorItem
 {
@@ -142,6 +173,17 @@ public record JobDefinitionItem(
     string RunMode,
     string Filter,
     string SourceConnectorName, bool Enabled);
+
+
+
+public record CredentialItem(
+    string Id,
+    string Name)
+{
+    public string Product { get; set; }
+    public string Authority { get; set; }
+    public string ClientId { get; set; }
+}
 
 public static class ViewModelServiceCollectionExtensions
 {

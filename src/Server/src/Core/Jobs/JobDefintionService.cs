@@ -1,7 +1,7 @@
 using TagIt.Store;
 
 namespace TagIt.Jobs;
-
+    
 public class JobDefintionService : IJobDefintionService
 {
     private readonly IJobDefintionStore _store;

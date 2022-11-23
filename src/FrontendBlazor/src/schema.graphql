@@ -28,6 +28,27 @@ type ThingThumbnail {
   size: ImageSize
 }
 
+type ProtectedValue {
+  cipher: [Byte!]
+}
+
+type CredentialToken {
+  value: String
+  id: UUID!
+  type: TokenType!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+type OAuthClient {
+  secret: String
+  id: String
+  product: String
+  authority: String
+  scopes: [String]
+  flow: OAuthFlow!
+}
+
 type Query {
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
@@ -38,7 +59,8 @@ type Query {
   thingTypes: [ThingType!]!
   correspondents("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CorrespondentFilterInput): CorrespondentsConnection
   correspondentById(id: ID!): Correspondent!
-  credentials: [Credential!]!
+  credentials("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CredentialFilterInput): CredentialsConnection
+  credentialsById(id: ID!): Credential!
   webHooks: [WebHook!]!
   connectors("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ConnectorDefintionFilterInput): ConnectorsConnection
   jobDefintions("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: JobDefintionFilterInput): JobDefintionsConnection
@@ -113,6 +135,21 @@ type ImageSize {
   width: Int!
 }
 
+"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
+scalar Byte
+
+enum TokenType {
+  ID
+  ACCESS
+  REFRESH
+}
+
+enum OAuthFlow {
+  CODE
+  CLIENT_CREDENTIALS
+  DEVICE
+}
+
 input ThingFilterInput {
   and: [ThingFilterInput!]
   or: [ThingFilterInput!]
@@ -158,6 +195,25 @@ type CorrespondentsConnection {
   edges: [CorrespondentsEdge!]
   "A flattened list of the nodes."
   nodes: [Correspondent!]
+}
+
+input CredentialFilterInput {
+  and: [CredentialFilterInput!]
+  or: [CredentialFilterInput!]
+  id: IdOperationFilterInput
+  name: StringOperationFilterInput
+  client: OAuthClientFilterInput
+  tokens: ListFilterInputTypeOfCredentialTokenFilterInput
+}
+
+"A connection to a list of items."
+type CredentialsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [CredentialsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Credential!]
 }
 
 input ConnectorDefintionFilterInput {
@@ -356,6 +412,39 @@ type CorrespondentsEdge {
   node: Correspondent!
 }
 
+input OAuthClientFilterInput {
+  and: [OAuthClientFilterInput!]
+  or: [OAuthClientFilterInput!]
+  id: StringOperationFilterInput
+  product: StringOperationFilterInput
+  secret: ProtectedValueFilterInput
+  authority: StringOperationFilterInput
+  scopes: ListStringOperationFilterInput
+  flow: OAuthFlowOperationFilterInput
+}
+
+input ListFilterInputTypeOfCredentialTokenFilterInput {
+  all: CredentialTokenFilterInput
+  none: CredentialTokenFilterInput
+  some: CredentialTokenFilterInput
+  any: Boolean
+}
+
+type Credential {
+  id: ID!
+  name: String
+  client: OAuthClient
+  tokens: [CredentialToken]
+}
+
+"An edge in a connection."
+type CredentialsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Credential!
+}
+
 input IDictionaryOfStringAndStringFilterInput {
   and: [IDictionaryOfStringAndStringFilterInput!]
   or: [IDictionaryOfStringAndStringFilterInput!]
@@ -496,11 +585,35 @@ input ComparableDateTimeOperationFilterInput {
   nlte: DateTime
 }
 
+input ProtectedValueFilterInput {
+  and: [ProtectedValueFilterInput!]
+  or: [ProtectedValueFilterInput!]
+  cipher: ListComparableByteOperationFilterInput
+  value: StringOperationFilterInput
+}
+
 input ListStringOperationFilterInput {
   all: StringOperationFilterInput
   none: StringOperationFilterInput
   some: StringOperationFilterInput
   any: Boolean
+}
+
+input OAuthFlowOperationFilterInput {
+  eq: OAuthFlow
+  neq: OAuthFlow
+  in: [OAuthFlow!]
+  nin: [OAuthFlow!]
+}
+
+input CredentialTokenFilterInput {
+  and: [CredentialTokenFilterInput!]
+  or: [CredentialTokenFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  type: TokenTypeOperationFilterInput
+  value: ProtectedValueFilterInput
+  createdAt: ComparableDateTimeOffsetOperationFilterInput
+  expiresAt: ComparableNullableOfDateTimeOffsetOperationFilterInput
 }
 
 input JobSchudeleTypeOperationFilterInput {
@@ -568,6 +681,43 @@ input RelationTypeOperationFilterInput {
   nin: [RelationType!]
 }
 
+input TokenTypeOperationFilterInput {
+  eq: TokenType
+  neq: TokenType
+  in: [TokenType!]
+  nin: [TokenType!]
+}
+
+input ComparableDateTimeOffsetOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime!]
+  nin: [DateTime!]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input ComparableNullableOfDateTimeOffsetOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
 input SourceActionModeOperationFilterInput {
   eq: SourceActionMode
   neq: SourceActionMode
@@ -589,9 +739,6 @@ input ComparableByteOperationFilterInput {
   lte: Byte
   nlte: Byte
 }
-
-"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
-scalar Byte
 
 enum SourceActionMode {
   DELETE
@@ -663,13 +810,6 @@ input OAuthClientInput {
   flow: OAuthFlow!
 }
 
-type Credential {
-  id: ID!
-  name: String
-  client: OAuthClient
-  tokens: [CredentialToken]
-}
-
 type KeyValuePairOfStringAndString {
   key: String!
   value: String!
@@ -681,29 +821,6 @@ type ThingType {
   contentTypeMap: [String]
   id: ID!
   version: EntityVersion!
-}
-
-type CredentialToken {
-  id: UUID!
-  type: TokenType!
-  value: ProtectedValue
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
-type OAuthClient {
-  id: String
-  product: String
-  secret: ProtectedValue
-  authority: String
-  scopes: [String]
-  flow: OAuthFlow!
-}
-
-enum OAuthFlow {
-  CODE
-  CLIENT_CREDENTIALS
-  DEVICE
 }
 
 input ProtectedValueInput {
@@ -733,17 +850,6 @@ input SourceActionInput {
   mode: SourceActionMode!
   newLocation: String
   newConnectorId: ID
-}
-
-type ProtectedValue {
-  cipher: [Byte!]
-  value: String
-}
-
-enum TokenType {
-  ID
-  ACCESS
-  REFRESH
 }
 
 input InsertCorrespondentInput {

@@ -13,6 +13,9 @@ public static class CredentialRequestExecutorBuilderExtensions
 
         // types
         builder
+            .AddType<ProtectedValueType>()
+            .AddType<CredentialTokenType>()
+            .AddType<OAuthClientType>()
             .AddTypeExtension<CredentialQueries>()
             .AddTypeExtension<CredentialMutations>();
 
