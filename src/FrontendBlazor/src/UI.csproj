@@ -9,6 +9,7 @@
     <ItemGroup>
         <GraphQL Remove="Correspendent\Mutations.graphql" />
         <GraphQL Remove="correspendent\Queries.graphql" />
+        <GraphQL Remove="credentials\Queries.graphql" />
         <GraphQL Remove="GetThings.graphql" />
         <GraphQL Remove="jobs\Mutations.graphql" />
         <GraphQL Remove="things\GetThingById.graphql" />

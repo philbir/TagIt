@@ -81,7 +81,7 @@
                     <MudGrid>
                         <MudItem xs=" 6">
                             <MudField Label="Mode">
-                                <MudRadioGroup T="    JobSchudeleType" @bind-SelectedOption="  model.ScheduleType">
+                                <MudRadioGroup T="JobSchudeleType" @bind-SelectedOption="model.ScheduleType">
                                     @foreach (var item in model.JobSchudeleTypeOptions)
                                     {
                                         <MudRadio Option="@item">@item</MudRadio>
@@ -89,7 +89,7 @@
                                 </MudRadioGroup>
                             </MudField>
                         </MudItem>
-                        <MudItem xs="    6">
+                        <MudItem xs="6">
                             @if (model.ScheduleType == JobSchudeleType.Cron)
                             {
                                 <MudTextField @bind-Value="    model.CronExpression" For="@(() => model.CronExpression)" Label="Cron Expression" />
