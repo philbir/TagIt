@@ -1,20 +1,20 @@
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using MongoDB.Extensions.Context;
 
 namespace TagIt.Store.Mongo;
 
-internal class ConnectorDefintionCollectionConfiguration :
-    IMongoCollectionConfiguration<ConnectorDefintion>
+internal class PropertyDefinitionCollectionConfiguration :
+    IMongoCollectionConfiguration<PropertyDefinition>
 {
     public void OnConfiguring(
-        IMongoCollectionBuilder<ConnectorDefintion> builder)
+        IMongoCollectionBuilder<PropertyDefinition> builder)
     {
         builder
             .WithDefaults(CollectionNames.ConnectorDefintion)
             .WithCollectionConfiguration(collection =>
             {
-                var nameIndex = new CreateIndexModel<ConnectorDefintion>(
-                     Builders<ConnectorDefintion>.IndexKeys
+                var nameIndex = new CreateIndexModel<PropertyDefinition>(
+                     Builders<PropertyDefinition>.IndexKeys
                          .Ascending(c => c.Name),
                      new CreateIndexOptions { Unique = true });
 

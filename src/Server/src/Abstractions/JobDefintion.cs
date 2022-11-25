@@ -3,6 +3,26 @@ using TagIt.Store;
 
 namespace TagIt;
 
+public class PropertyDefinition : IEntity
+{
+    [ID]
+    public Guid Id { get; set; }
+
+    public string Name { get; set; }
+
+    public PropertyDataType DataType { get; set; }
+
+    public IReadOnlyList<string> Options { get; set; }
+}
+
+public enum PropertyDataType
+{
+    String,
+    Number,
+    DateTime,
+    Boolean
+}
+
 public class JobDefintion : IEntity
 {
     [ID]
@@ -29,7 +49,7 @@ public class JobDefintion : IEntity
 
 public class JobSchedule
 {
-    public JobSchudeleType Type { get; set; }
+    public JobScheduleType Type { get; set; }
 
     public string? CronExpression { get; set; }
 
@@ -39,7 +59,7 @@ public class JobSchedule
     public int? Intervall { get; set; }
 }
 
-public enum JobSchudeleType
+public enum JobScheduleType
 {
     Interval,
     Cron

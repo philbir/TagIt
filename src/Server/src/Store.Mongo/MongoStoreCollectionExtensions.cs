@@ -37,6 +37,7 @@ public static class MongoStoreCollectionExtensions
         services.AddSingleton<IWebHookStore, WebHookStore>();
         services.AddSingleton<IClientAuthStateStore, ClientAuthStateStore>();
         services.AddSingleton<IThumbnailStore, ThumbnailStore>();
+        services.AddSingleton<IPropertyDefinitionStore, PropertyDefinitionStore>();
 
         return services;
     }

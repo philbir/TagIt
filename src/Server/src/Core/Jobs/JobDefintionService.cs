@@ -31,7 +31,7 @@ public class JobDefintionService : IJobDefintionService
         }
         else if (jobDefintion.Schedule is { } schedule)
         {
-            if (schedule.Type == JobSchudeleType.Interval)
+            if (schedule.Type == JobScheduleType.Interval)
             {
                 schedule.CronExpression = null;
             }

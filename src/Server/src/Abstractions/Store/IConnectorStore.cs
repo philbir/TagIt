@@ -23,3 +23,4 @@ public interface IConnectorStore
 
     public IQueryable<ConnectorDefintion> Query();
 }
+

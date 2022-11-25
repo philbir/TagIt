@@ -80,6 +80,11 @@ public class DataSeeder
                 {
                     Id = Guid.Parse("5cb97142-c291-429c-a070-5da01d7e3991"),
                     Name = "Bill",
+                    Properties = new List<ProperyDefintionLink>
+                    {
+                        new ProperyDefintionLink{ DefinitionId = Guid.Parse("efaf1a07-6f3f-4169-9bab-1190e20e805d")},
+                        new ProperyDefintionLink{ DefinitionId = Guid.Parse("e16c1632-9272-4288-9533-112c85515598")},
+                    },
                     Version = NewVersion
                 },
                 new ThingClass
@@ -89,6 +94,29 @@ public class DataSeeder
                     Version = NewVersion
                 }
         };
+
+    public IEnumerable<PropertyDefinition> PropertyDefinitions =>
+    new List<PropertyDefinition>()
+    {
+            new()
+            {
+                Id = Guid.Parse("efaf1a07-6f3f-4169-9bab-1190e20e805d"),
+                Name = "Amount",
+                DataType = PropertyDataType.Number
+            },
+            new()
+            {
+                Id = Guid.Parse("25b99fe4-21a0-4801-a010-1ff15f7d90aa"),
+                Name = "WarantyUntil",
+                DataType = PropertyDataType.DateTime
+            },
+            new()
+            {
+                Id = Guid.Parse("e16c1632-9272-4288-9533-112c85515598"),
+                Name = "DueDate",
+                DataType = PropertyDataType.DateTime
+            },
+    };
 
     public IEnumerable<ThingType> ThingTypes =>
         new List<ThingType>()
@@ -143,7 +171,7 @@ public class DataSeeder
                 SourceConnectorId= Connectors.Skip(1).First().Id,
                 Schedule = new JobSchedule
                 {
-                    Type = JobSchudeleType.Interval,
+                    Type = JobScheduleType.Interval,
                     Intervall = 60
                 },
                 Action = new JobAction
@@ -167,7 +195,7 @@ public class DataSeeder
                 SourceConnectorId = Connectors.Skip(3).First().Id,
                 Schedule = new JobSchedule
                 {
-                    Type = JobSchudeleType.Interval,
+                    Type = JobScheduleType.Interval,
                     Intervall = 60
                 },
                 Action = new JobAction

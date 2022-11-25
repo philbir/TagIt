@@ -19,6 +19,7 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public string Label { get; set; } = string.Empty;
 
+    [ID(nameof(Correspondent))]
     public Guid? CorespondentId { get; set; }
 
     public Guid? ReceiverId { get; set; }
@@ -32,7 +33,21 @@ public class Thing : EntityWithVersion, IEntityWithVersion
     public IReadOnlyList<ThingRelation> Relations { get; set; } = new List<ThingRelation>();
 
     public IReadOnlyList<ThingDataReference> Data { get; set; } = new List<ThingDataReference>();
+
+    public IReadOnlyList<ThingPropery> Properties { get; set; } = new List<ThingPropery>();
 }
+
+public class ThingPropery
+{
+    public Guid Id { get; set; }
+
+    [ID(nameof(PropertyDefinition))]
+    public Guid DefintionId { get; set; }
+
+    public string Value { get; set; }
+}
+
+
 
 public class ThingDataReference
 {
