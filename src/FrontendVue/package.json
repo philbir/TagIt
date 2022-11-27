@@ -11,6 +11,7 @@
     "codegen": "graphql-codegen"
   },
   "dependencies": {
+    "@urql/vue": "^1.0.2",
     "graphql": "^16.6.0",
     "urql": "^3.0.3",
     "vue": "^3.2.45"

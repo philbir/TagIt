@@ -5,10 +5,8 @@ namespace TagIt;
 
 public class Thing : EntityWithVersion, IEntityWithVersion
 {
-    [ID]
     public string Title { get; set; }
 
-    [ID(nameof(ThingType))]
     public Guid? TypeId { get; set; }
 
     public Guid? ClassId { get; set; }
@@ -19,7 +17,6 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public string Label { get; set; } = string.Empty;
 
-    [ID(nameof(Correspondent))]
     public Guid? CorespondentId { get; set; }
 
     public Guid? ReceiverId { get; set; }
