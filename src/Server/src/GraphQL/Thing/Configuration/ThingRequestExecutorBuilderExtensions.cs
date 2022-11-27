@@ -9,12 +9,15 @@ public static class ThingRequestExecutorBuilderExtensions
         this IRequestExecutorBuilder builder)
     {
         builder
+            .AddDataLoader<PropertyDefinitionByIdDataLoader>()
+            .AddDataLoader<ThingClassByIdDataLoader>()
             .AddDataLoader<ThingTypeByIdDataLoader>();
 
         // types
         builder
             .AddType<ThingGraphQLType>()
             .AddType<ThingThumbnailType>()
+            .AddType<ThingClassType>()
             .AddTypeExtension<ThingQueries>()
             .AddTypeExtension<CorrespondentQueries>()
             .AddTypeExtension<CorrespondentMutations>();

@@ -14,8 +14,9 @@ public class DataSeeder
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        //await SeedConnectorsAsync(cancellationToken);
+        await SeedConnectorsAsync(cancellationToken);
         //await SeedJobsAsync(cancellationToken);
+        await SeedPropertyDefinitionsAsync(cancellationToken);
         await SeedThingTypesAsync(cancellationToken);
         await SeedThingClassesAsync(cancellationToken);
     }
@@ -39,6 +40,18 @@ public class DataSeeder
         await collection.DeleteManyAsync(Builders<JobDefintion>.Filter.Empty);
         await collection.InsertManyAsync(
             JobDefintions,
+            new InsertManyOptions(),
+            cancellationToken);
+    }
+
+    public async Task SeedPropertyDefinitionsAsync(CancellationToken cancellationToken)
+    {
+        IMongoCollection<PropertyDefinition> collection = _tagIdDbContext
+            .GetCollection<PropertyDefinition>();
+
+        await collection.DeleteManyAsync(Builders<PropertyDefinition>.Filter.Empty);
+        await collection.InsertManyAsync(
+            PropertyDefinitions,
             new InsertManyOptions(),
             cancellationToken);
     }
@@ -80,10 +93,10 @@ public class DataSeeder
                 {
                     Id = Guid.Parse("5cb97142-c291-429c-a070-5da01d7e3991"),
                     Name = "Bill",
-                    Properties = new List<ProperyDefintionLink>
+                    Properties = new List<PropertyDefinitionLink>
                     {
-                        new ProperyDefintionLink{ DefinitionId = Guid.Parse("efaf1a07-6f3f-4169-9bab-1190e20e805d")},
-                        new ProperyDefintionLink{ DefinitionId = Guid.Parse("e16c1632-9272-4288-9533-112c85515598")},
+                        new PropertyDefinitionLink{ DefinitionId = Guid.Parse("efaf1a07-6f3f-4169-9bab-1190e20e805d")},
+                        new PropertyDefinitionLink{ DefinitionId = Guid.Parse("e16c1632-9272-4288-9533-112c85515598")},
                     },
                     Version = NewVersion
                 },

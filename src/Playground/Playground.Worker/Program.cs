@@ -33,5 +33,5 @@ IUserContextAccessor accessor = host.Services.GetRequiredService<IUserContextAcc
 accessor.Context = await host.Services.GetRequiredService<IUserContextFactory>()
     .CreateAsync(CancellationToken.None);
 
-//await host.Services.GetRequiredService<DataSeeder>().SeedAsync(CancellationToken.None);
+await host.Services.GetRequiredService<DataSeeder>().SeedAsync(CancellationToken.None);
 await host.RunAsync();

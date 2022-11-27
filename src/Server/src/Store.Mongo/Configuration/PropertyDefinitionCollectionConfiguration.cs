@@ -1,4 +1,4 @@
-﻿using MongoDB.Driver;
+using MongoDB.Driver;
 using MongoDB.Extensions.Context;
 
 namespace TagIt.Store.Mongo;
@@ -10,7 +10,7 @@ internal class PropertyDefinitionCollectionConfiguration :
         IMongoCollectionBuilder<PropertyDefinition> builder)
     {
         builder
-            .WithDefaults(CollectionNames.ConnectorDefintion)
+            .WithDefaults(CollectionNames.PropertyDefintion)
             .WithCollectionConfiguration(collection =>
             {
                 var nameIndex = new CreateIndexModel<PropertyDefinition>(

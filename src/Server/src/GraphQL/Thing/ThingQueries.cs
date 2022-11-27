@@ -20,8 +20,17 @@ public class ThingQueries
         return service.GetByIdAsync(id, cancellationToken);
     }
 
+    [UseFiltering]
     public Task<IQueryable<ThingType>> GetThingTypesAsync(
         [Service] IThingTypeService service,
+        CancellationToken cancellationToken)
+    {
+        return service.Query(cancellationToken);
+    }
+
+    [UseFiltering]
+    public Task<IQueryable<ThingClass>> GetThingClassesAsync(
+        [Service] IThingClassService service,
         CancellationToken cancellationToken)
     {
         return service.Query(cancellationToken);

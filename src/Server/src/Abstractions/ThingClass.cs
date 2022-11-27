@@ -7,10 +7,10 @@ public class ThingClass : EntityWithVersion, IEntityWithVersion
 {
     public string Name { get; set; }
 
-    public IReadOnlyList<ProperyDefintionLink> Properties { get; set; }
+    public IReadOnlyList<PropertyDefinitionLink> Properties { get; set; }
 }
 
-public class ProperyDefintionLink
+public class PropertyDefinitionLink
 {
     [ID(nameof(PropertyDefinition))]
     public Guid DefinitionId { get; set; }
