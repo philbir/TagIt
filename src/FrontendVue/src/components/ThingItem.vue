@@ -24,7 +24,7 @@ const data = useFragment(ThingFragment, props.thing);
 
 <template>
   <div>
-    <h3>{{ data.title }}</h3>
-    <img :src="data.thumbnail?.url" />
+    <h6>{{ data.title }}</h6>
+    <v-img :src="data.thumbnail?.url" width="180" />
   </div>
 </template>

@@ -1,10 +1,10 @@
 <template>
-  <v-sheet class="mt-2" :min-height="800">
+  <v-sheet v-if="data" class="mt-2">
     <v-row>
       <v-col
         v-for="thing in data.things.nodes"
         :key="thing.id"
-        md="4"
+        md="2"
         sm="6"
         xs="12"
       >
@@ -14,7 +14,7 @@
   </v-sheet>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useQuery } from "@urql/vue";
 import { graphql } from "../gql";
 import ThingItem from "./ThingItem.vue";
@@ -32,4 +32,6 @@ const searchQueryDocument = graphql(/* GraphQL */ `
 const { fetching, data, error } = useQuery({
   query: searchQueryDocument,
 });
+
+console.log(data.value);
 </script>

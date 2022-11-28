@@ -4,37 +4,43 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "run-p type-check build-only",
     "preview": "vite preview",
-    "test:unit": "vitest --environment jsdom --root src/",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "codegen": "graphql-codegen"
   },
   "dependencies": {
+    "@mdi/font": "7.0.96",
     "@urql/vue": "^1.0.2",
     "graphql": "^16.6.0",
+    "roboto-fontface": "*",
     "urql": "^3.0.3",
     "vue": "^3.2.45",
+    "vue-router": "^4.1.6",
     "vuetify": "^3.0.1",
-    "webfontloader": "^1.0.0",
-    "@mdi/font": "7.0.96",
-    "roboto-fontface": "*"
+    "webfontloader": "^1.0.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.14.1",
     "@graphql-codegen/client-preset": "^1.1.5",
+    "@graphql-codegen/schema-ast": "^2.5.1",
     "@rushstack/eslint-patch": "^1.1.4",
+    "@types/node": "^18.11.9",
     "@vitejs/plugin-vue": "^3.2.0",
+    "@vitejs/plugin-vue-jsx": "^2.1.1",
     "@vue/eslint-config-prettier": "^7.0.0",
-    "@vue/test-utils": "^2.2.4",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "@vue/tsconfig": "^0.1.3",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
-    "jsdom": "^20.0.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
-    "typescript": "^4.9.3",
+    "typescript": "~4.7.4",
     "vite": "^3.2.4",
-    "vite-plugin-vuetify": "^1.0.0-alpha.12",
     "vue-tsc": "^1.0.9",
-    "vitest": "^0.25.3"
+    "vite-plugin-vuetify": "^1.0.0-alpha.12",
+    "@volar-plugins/vetur": "latest"
   }
 }
