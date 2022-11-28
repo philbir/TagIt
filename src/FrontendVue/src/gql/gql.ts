@@ -14,7 +14,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 const documents = {
     "\nfragment ThingItem on Thing {\n  id\n  title\n  type {\n    name\n  }\n  state\n  thumbnail(loadData: true, pageNumber: 1) {\n    url\n  }\n}\n": types.ThingItemFragmentDoc,
-    "\n  query thingsSearch {\n    things {\n      nodes {\n        ...ThingItem\n      }\n    }\n  }\n": types.ThingsSearchDocument,
+    "\n    query getThingById($id: ID!) {\n        thingById(id: $id) {\n            id\n            title\n            type {\n                name\n            }\n            source {\n                connectorId\n                connectorId\n            }\n            date\n            classId\n            state\n            thumbnail(loadData: true, pageNumber: 1) {\n                url\n            }\n        }\n    }\n": types.GetThingByIdDocument,
+    "\n  query thingsSearch {\n    things {\n      nodes {\n        id\n        ...ThingItem\n      }\n    }\n  }\n": types.ThingsSearchDocument,
 };
 
 /**
@@ -24,7 +25,11 @@ export function graphql(source: "\nfragment ThingItem on Thing {\n  id\n  title\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query thingsSearch {\n    things {\n      nodes {\n        ...ThingItem\n      }\n    }\n  }\n"): (typeof documents)["\n  query thingsSearch {\n    things {\n      nodes {\n        ...ThingItem\n      }\n    }\n  }\n"];
+export function graphql(source: "\n    query getThingById($id: ID!) {\n        thingById(id: $id) {\n            id\n            title\n            type {\n                name\n            }\n            source {\n                connectorId\n                connectorId\n            }\n            date\n            classId\n            state\n            thumbnail(loadData: true, pageNumber: 1) {\n                url\n            }\n        }\n    }\n"): (typeof documents)["\n    query getThingById($id: ID!) {\n        thingById(id: $id) {\n            id\n            title\n            type {\n                name\n            }\n            source {\n                connectorId\n                connectorId\n            }\n            date\n            classId\n            state\n            thumbnail(loadData: true, pageNumber: 1) {\n                url\n            }\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query thingsSearch {\n    things {\n      nodes {\n        id\n        ...ThingItem\n      }\n    }\n  }\n"): (typeof documents)["\n  query thingsSearch {\n    things {\n      nodes {\n        id\n        ...ThingItem\n      }\n    }\n  }\n"];
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

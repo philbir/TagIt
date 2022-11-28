@@ -23,6 +23,7 @@ const searchQueryDocument = graphql(/* GraphQL */ `
   query thingsSearch {
     things {
       nodes {
+        id
         ...ThingItem
       }
     }
