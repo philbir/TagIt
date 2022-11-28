@@ -1,13 +1,13 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
+import ThingsPage from "./components/ThingsPage.vue";
 </script>
 
 <template>
-  <header></header>
-  <main>
-    <HelloWorld />
-  </main>
+  <v-app>
+    <v-main>
+      <ThingsPage></ThingsPage>
+    </v-main>
+  </v-app>
 </template>
 
 <style scoped>

@@ -9,4 +9,8 @@ app.use(urql, {
     url: 'http://localhost:5000/graphql',
 });
 
+// Plugins
+import { registerPlugins } from '@/plugins'
+registerPlugins(app)
+
 app.mount("#app");
