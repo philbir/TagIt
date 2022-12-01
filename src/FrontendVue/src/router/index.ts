@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ThingsPage from '../components/ThingsPage.vue'
 import ThingsDetailPage from '../components/ThingsDetailPage.vue'
+import AddCorrespondentPage from '../components/AddCorrespondentPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,11 @@ const router = createRouter({
       component: ThingsDetailPage,
       props: true,
     },
+    {
+      path: "/correspondent/add",
+      name: "correspondent_add",
+      component: AddCorrespondentPage
+    }
   ]
 })
 

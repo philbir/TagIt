@@ -1,13 +1,30 @@
 <template>
-    <h1>Details {{ props.id }}</h1>
-    <pre>
-        {{ data }}
-    </pre>
+    <v-progress-linear v-if="fetching" indeterminate></v-progress-linear>
+    <v-sheet v-else>
+        <v-row>
+            <v-col md="6">
+                <h1>{{ thing?.title }}</h1>
+            </v-col>
+            <v-col md="6">
+                <embed
+                    width="100%"
+                    :height="display.height.value - 60 + 'px'"
+                    :src="pdfUrl"
+                    id="plugin"
+                />
+            </v-col>
+        </v-row>
+    </v-sheet>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from "@urql/vue";
-import { graphql } from "../gql";
+import { computed } from "@vue/reactivity";
+import { useDisplay } from "vuetify/lib/framework.mjs";
+import { graphql, useFragment } from "../gql";
+import { ThingDetailFragmentDoc } from "../gql/graphql";
+
+const display = useDisplay();
 
 const props = defineProps({
     id: {
@@ -16,24 +33,34 @@ const props = defineProps({
     },
 });
 
+const thing = computed(() =>
+    useFragment(ThingDetailFragmentDoc, data.value?.thingById)
+);
+const pdfUrl = `https://localhost:5001/api/thing/preview/${props.id}/Archived`;
+
 const thingDetailsQuery = graphql(/* GraphQL */ `
     query getThingById($id: ID!) {
         thingById(id: $id) {
             id
-            title
-            type {
-                name
-            }
-            source {
-                connectorId
-                connectorId
-            }
-            date
-            classId
-            state
-            thumbnail(loadData: true, pageNumber: 1) {
-                url
-            }
+            ...ThingDetail
+        }
+    }
+
+    fragment ThingDetail on Thing {
+        id
+        title
+        type {
+            name
+        }
+        source {
+            connectorId
+            connectorId
+        }
+        date
+        classId
+        state
+        thumbnail(loadData: true, pageNumber: 1) {
+            url
         }
     }
 `);
