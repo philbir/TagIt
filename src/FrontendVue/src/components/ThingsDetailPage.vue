@@ -6,14 +6,15 @@
                 <h1>{{ thing?.title }}</h1>
             </v-col>
             <v-col md="6">
-                <embed
-                    width="100%"
-                    :height="display.height.value - 60 + 'px'"
-                    :src="pdfUrl"
-                    id="plugin"
-                />
+                <embed width="100%" :height="display.height.value - 60 + 'px'" :src="pdfUrl" id="plugin" />
             </v-col>
         </v-row>
+    </v-sheet>
+
+    <v-sheet>
+        <pre>
+            {{ lookupStore.thingTypes }}
+        </pre>
     </v-sheet>
 </template>
 
@@ -23,8 +24,10 @@ import { computed } from "@vue/reactivity";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { graphql, useFragment } from "../gql";
 import { ThingDetailFragmentDoc } from "../gql/graphql";
+import { useLookupStore } from "../stores/lookupStore";
 
 const display = useDisplay();
+const lookupStore = useLookupStore();
 
 const props = defineProps({
     id: {
@@ -37,6 +40,7 @@ const thing = computed(() =>
     useFragment(ThingDetailFragmentDoc, data.value?.thingById)
 );
 const pdfUrl = `https://localhost:5001/api/thing/preview/${props.id}/Archived`;
+
 
 const thingDetailsQuery = graphql(/* GraphQL */ `
     query getThingById($id: ID!) {
@@ -69,4 +73,7 @@ const { fetching, data, error } = useQuery({
     query: thingDetailsQuery,
     variables: { id: props.id },
 });
+
+
+
 </script>

@@ -1,0 +1,16 @@
+
+query lookups{
+    thingTypes{
+        id
+        name
+        validClasses
+        contentTypeMap
+    }
+
+    correspondents{
+        nodes{
+            id
+            name
+        }
+    }
+}
