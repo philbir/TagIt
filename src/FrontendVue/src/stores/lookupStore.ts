@@ -3,8 +3,6 @@ import { LookupsDocument } from './../gql/graphql';
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-
-
 export const useLookupStore = defineStore('lookup', () => {
 
     const isReady = ref(false);

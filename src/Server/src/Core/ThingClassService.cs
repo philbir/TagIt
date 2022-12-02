@@ -1,4 +1,4 @@
-﻿using TagIt.Store;
+using TagIt.Store;
 
 namespace TagIt;
 
@@ -22,4 +22,10 @@ public class ThingClassService : IThingClassService
     {
         return Task.FromResult(_store.Query());
     }
+
+    public Task<IReadOnlyList<ThingClass>> GetManyAsync(
+        IEnumerable<Guid> ids,
+        CancellationToken cancellationToken)
+         => _store.GetManyAsync(ids, cancellationToken)!;
+
 }

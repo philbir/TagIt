@@ -3,10 +3,22 @@
     <v-sheet v-else>
         <v-row>
             <v-col md="6">
+                <v-form>
+                    <v-row>
+                        <v-col xs="6">
+                            <v-text-field label="Title"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-form>
                 <h1>{{ thing?.title }}</h1>
             </v-col>
             <v-col md="6">
-                <embed width="100%" :height="display.height.value - 60 + 'px'" :src="pdfUrl" id="plugin" />
+                <embed
+                    width="100%"
+                    :height="display.height.value - 60 + 'px'"
+                    :src="pdfUrl"
+                    id="plugin"
+                />
             </v-col>
         </v-row>
     </v-sheet>
@@ -41,7 +53,6 @@ const thing = computed(() =>
 );
 const pdfUrl = `https://localhost:5001/api/thing/preview/${props.id}/Archived`;
 
-
 const thingDetailsQuery = graphql(/* GraphQL */ `
     query getThingById($id: ID!) {
         thingById(id: $id) {
@@ -73,7 +84,4 @@ const { fetching, data, error } = useQuery({
     query: thingDetailsQuery,
     variables: { id: props.id },
 });
-
-
-
 </script>

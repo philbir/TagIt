@@ -1,4 +1,4 @@
-﻿using TagIt.Store;
+using TagIt.Store;
 
 namespace TagIt.GraphQL;
 
@@ -6,6 +6,7 @@ public partial class ThingClassType : ObjectType<ThingClass>
 {
     protected override void Configure(IObjectTypeDescriptor<ThingClass> descriptor)
     {
+        descriptor.Field(x => x.Id).ID();
         descriptor.Field(x => x.Properties)
             .ResolveWith<Resolvers>(x => x.GetPropertiesAsync(default!, default!, default));
     }
@@ -28,5 +29,3 @@ public partial class ThingClassType : ObjectType<ThingClass>
         }
     }
 }
-
-

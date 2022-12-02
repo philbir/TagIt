@@ -17,7 +17,7 @@ const documents = {
     "\n    fragment ThingItem on Thing {\n        id\n        title\n        type {\n            name\n        }\n        state\n        thumbnail(loadData: true, pageNumber: 1) {\n            url\n        }\n    }\n": types.ThingItemFragmentDoc,
     "\n    query getThingById($id: ID!) {\n        thingById(id: $id) {\n            id\n            ...ThingDetail\n        }\n    }\n\n    fragment ThingDetail on Thing {\n        id\n        title\n        type {\n            name\n        }\n        source {\n            connectorId\n            connectorId\n        }\n        date\n        classId\n        state\n        thumbnail(loadData: true, pageNumber: 1) {\n            url\n        }\n    }\n": types.GetThingByIdDocument,
     "\n    query thingsSearch {\n        things {\n            nodes {\n                id\n                ...ThingItem\n            }\n        }\n    }\n": types.ThingsSearchDocument,
-    "query lookups {\n  thingTypes {\n    id\n    name\n    validClasses\n    contentTypeMap\n  }\n  correspondents {\n    nodes {\n      id\n      name\n    }\n  }\n}": types.LookupsDocument,
+    "query lookups {\n  thingTypes {\n    id\n    name\n    validClasses {\n      id\n      name\n    }\n    contentTypeMap\n  }\n  correspondents {\n    nodes {\n      id\n      name\n    }\n  }\n}": types.LookupsDocument,
 };
 
 /**
@@ -39,7 +39,7 @@ export function graphql(source: "\n    query thingsSearch {\n        things {\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query lookups {\n  thingTypes {\n    id\n    name\n    validClasses\n    contentTypeMap\n  }\n  correspondents {\n    nodes {\n      id\n      name\n    }\n  }\n}"): (typeof documents)["query lookups {\n  thingTypes {\n    id\n    name\n    validClasses\n    contentTypeMap\n  }\n  correspondents {\n    nodes {\n      id\n      name\n    }\n  }\n}"];
+export function graphql(source: "query lookups {\n  thingTypes {\n    id\n    name\n    validClasses {\n      id\n      name\n    }\n    contentTypeMap\n  }\n  correspondents {\n    nodes {\n      id\n      name\n    }\n  }\n}"): (typeof documents)["query lookups {\n  thingTypes {\n    id\n    name\n    validClasses {\n      id\n      name\n    }\n    contentTypeMap\n  }\n  correspondents {\n    nodes {\n      id\n      name\n    }\n  }\n}"];
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

@@ -1,22 +1,79 @@
-﻿schema {
-  query: Query
-  mutation: Mutation
-}
+"""
+The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`.
+"""
+directive @defer(
+  """
+  If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to.
+  """
+  label: String
+
+  """
+  Deferred when true.
+  """
+  if: Boolean
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"""
+The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`.
+"""
+directive @stream(
+  """
+  If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to.
+  """
+  label: String
+
+  """
+  The initial elements that shall be send down to the consumer.
+  """
+  initialCount: Int! = 0
+
+  """
+  Streamed when true.
+  """
+  if: Boolean
+) on FIELD
+
+"""
+The `@oneOf` directive is used within the type system definition language
+ to indicate:
+
+ - an Input Object is a Oneof Input Object, or
+ - an Object Type's Field is a Oneof Field.
+"""
+directive @oneOf on INPUT_OBJECT
+
+directive @authorize(
+  """
+  The name of the authorization policy that determines access to the annotated resource.
+  """
+  policy: String
+
+  """
+  Roles that are allowed to access the annotated resource.
+  """
+  roles: [String!]
+
+  """
+  Defines when when the resolver shall be executed.By default the resolver is executed after the policy has determined that the current user is allowed to access the field.
+  """
+  apply: ApplyPolicy! = BEFORE_RESOLVER
+) repeatable on SCHEMA | OBJECT | FIELD_DEFINITION
 
 type Thing implements Node {
-  thumbnail(pageNumber: Int! = 1 loadData: Boolean! = false): ThingThumbnail
-  title: ID
+  id: ID!
+  corespondentId: ID
+  receiverId: ID
   typeId: ID
-  classId: UUID
+  classId: ID
+  thumbnail(pageNumber: Int! = 1, loadData: Boolean! = false): ThingThumbnail
+  title: String
   source: ThingSource
   state: ThingState!
   label: String
-  corespondentId: UUID
-  receiverId: UUID
   tags: [Tag]
   date: DateTime
   relations: [ThingRelation]
-  id: ID!
+  properties: [ThingPropery]
   version: EntityVersion!
   type: ThingType
 }
@@ -26,6 +83,21 @@ type ThingThumbnail {
   pageNumber: Int!
   format: ImageFormat!
   size: ImageSize
+}
+
+type ThingClass {
+  id: ID!
+  properties: [PropertyDefinition!]!
+  name: String
+  version: EntityVersion!
+}
+
+type ThingType {
+  validClasses: [ThingClass!]!
+  name: String
+  contentTypeMap: [String]
+  id: ID!
+  version: EntityVersion!
 }
 
 type ProtectedValue {
@@ -50,27 +122,154 @@ type OAuthClient {
 }
 
 type Query {
-  "Fetches an object given its ID."
-  node("ID of the object." id: ID!): Node
-  "Lookup nodes by a list of IDs."
-  nodes("The list of node IDs." ids: [ID!]!): [Node]!
-  things("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ThingFilterInput): ThingsConnection
+  """
+  Fetches an object given its ID.
+  """
+  node(
+    """
+    ID of the object.
+    """
+    id: ID!
+  ): Node
+
+  """
+  Lookup nodes by a list of IDs.
+  """
+  nodes(
+    """
+    The list of node IDs.
+    """
+    ids: [ID!]!
+  ): [Node]!
+  things(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: ThingFilterInput
+  ): ThingsConnection
   thingById(id: ID!): Thing!
-  thingTypes: [ThingType!]!
-  correspondents("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CorrespondentFilterInput): CorrespondentsConnection
+  thingTypes(where: ThingTypeFilterInput): [ThingType!]!
+  thingClasses(where: ThingClassFilterInput): [ThingClass!]!
+  correspondents(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: CorrespondentFilterInput
+  ): CorrespondentsConnection
   correspondentById(id: ID!): Correspondent!
-  credentials("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CredentialFilterInput): CredentialsConnection
+  credentials(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: CredentialFilterInput
+  ): CredentialsConnection
   credentialsById(id: ID!): Credential!
   webHooks: [WebHook!]!
-  connectors("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ConnectorDefintionFilterInput): ConnectorsConnection
-  jobDefintions("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: JobDefintionFilterInput): JobDefintionsConnection
+  connectors(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: ConnectorDefintionFilterInput
+  ): ConnectorsConnection
+  jobDefintions(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: JobDefintionFilterInput
+  ): JobDefintionsConnection
   jobDefinitionById(id: ID!): JobDefintion!
 }
 
 type Mutation {
-  insertCorrespondent(input: InsertCorrespondentInput!): InsertCorrespondentPayload!
-  addOAuthCredentialClient(input: AddOAuthCredentialClientInput!): AddOAuthCredentialClientPayload!
-  updateJobDefinition(input: UpdateJobDefinitionInput!): UpdateJobDefinitionPayload!
+  insertCorrespondent(
+    input: InsertCorrespondentInput!
+  ): InsertCorrespondentPayload!
+  addOAuthCredentialClient(
+    input: AddOAuthCredentialClientInput!
+  ): AddOAuthCredentialClientPayload!
+  updateJobDefinition(
+    input: UpdateJobDefinitionInput!
+  ): UpdateJobDefinitionPayload!
 }
 
 interface UserError {
@@ -78,7 +277,9 @@ interface UserError {
   message: String!
 }
 
-"The node interface is implemented by entities that have a global unique identifier."
+"""
+The node interface is implemented by entities that have a global unique identifier.
+"""
 interface Node {
   id: ID!
 }
@@ -87,8 +288,6 @@ enum ApplyPolicy {
   BEFORE_RESOLVER
   AFTER_RESOLVER
 }
-
-scalar UUID
 
 type ThingSource {
   id: String
@@ -109,7 +308,9 @@ type Tag {
   text: String
 }
 
-"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+"""
+The `DateTime` scalar represents an ISO-8601 compliant date time type.
+"""
 scalar DateTime
 
 type ThingRelation {
@@ -117,6 +318,12 @@ type ThingRelation {
   type: RelationType!
   from: UUID!
   to: UUID!
+}
+
+type ThingPropery {
+  id: UUID!
+  defintionId: ID!
+  value: String
 }
 
 type EntityVersion {
@@ -135,8 +342,19 @@ type ImageSize {
   width: Int!
 }
 
-"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
+type PropertyDefinition {
+  id: ID!
+  name: String
+  dataType: PropertyDataType!
+  options: [String]
+}
+
+"""
+The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255.
+"""
 scalar Byte
+
+scalar UUID
 
 enum TokenType {
   ID
@@ -153,8 +371,8 @@ enum OAuthFlow {
 input ThingFilterInput {
   and: [ThingFilterInput!]
   or: [ThingFilterInput!]
-  title: IdOperationFilterInput
-  typeId: IdOperationFilterInput
+  title: StringOperationFilterInput
+  typeId: ComparableNullableOfGuidOperationFilterInput
   classId: ComparableNullableOfGuidOperationFilterInput
   source: ThingSourceFilterInput
   state: ThingStateOperationFilterInput
@@ -166,17 +384,47 @@ input ThingFilterInput {
   thumbnails: ListFilterInputTypeOfThingThumbnailFilterInput
   relations: ListFilterInputTypeOfThingRelationFilterInput
   data: ListFilterInputTypeOfThingDataReferenceFilterInput
+  properties: ListFilterInputTypeOfThingProperyFilterInput
   id: IdOperationFilterInput
   version: EntityVersionFilterInput
 }
 
-"A connection to a list of items."
+input ThingTypeFilterInput {
+  and: [ThingTypeFilterInput!]
+  or: [ThingTypeFilterInput!]
+  name: StringOperationFilterInput
+  validClasses: ListComparableGuidOperationFilterInput
+  contentTypeMap: ListStringOperationFilterInput
+  id: IdOperationFilterInput
+  version: EntityVersionFilterInput
+}
+
+input ThingClassFilterInput {
+  and: [ThingClassFilterInput!]
+  or: [ThingClassFilterInput!]
+  name: StringOperationFilterInput
+  properties: ListFilterInputTypeOfPropertyDefinitionLinkFilterInput
+  id: IdOperationFilterInput
+  version: EntityVersionFilterInput
+}
+
+"""
+A connection to a list of items.
+"""
 type ThingsConnection {
-  "Information to aid in pagination."
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
-  "A list of edges."
+
+  """
+  A list of edges.
+  """
   edges: [ThingsEdge!]
-  "A flattened list of the nodes."
+
+  """
+  A flattened list of the nodes.
+  """
   nodes: [Thing!]
 }
 
@@ -187,13 +435,23 @@ input CorrespondentFilterInput {
   name: StringOperationFilterInput
 }
 
-"A connection to a list of items."
+"""
+A connection to a list of items.
+"""
 type CorrespondentsConnection {
-  "Information to aid in pagination."
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
-  "A list of edges."
+
+  """
+  A list of edges.
+  """
   edges: [CorrespondentsEdge!]
-  "A flattened list of the nodes."
+
+  """
+  A flattened list of the nodes.
+  """
   nodes: [Correspondent!]
 }
 
@@ -206,13 +464,23 @@ input CredentialFilterInput {
   tokens: ListFilterInputTypeOfCredentialTokenFilterInput
 }
 
-"A connection to a list of items."
+"""
+A connection to a list of items.
+"""
 type CredentialsConnection {
-  "Information to aid in pagination."
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
-  "A list of edges."
+
+  """
+  A list of edges.
+  """
   edges: [CredentialsEdge!]
-  "A flattened list of the nodes."
+
+  """
+  A flattened list of the nodes.
+  """
   nodes: [Credential!]
 }
 
@@ -227,13 +495,23 @@ input ConnectorDefintionFilterInput {
   credentialId: IdOperationFilterInput
 }
 
-"A connection to a list of items."
+"""
+A connection to a list of items.
+"""
 type ConnectorsConnection {
-  "Information to aid in pagination."
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
-  "A list of edges."
+
+  """
+  A list of edges.
+  """
   edges: [ConnectorsEdge!]
-  "A flattened list of the nodes."
+
+  """
+  A flattened list of the nodes.
+  """
   nodes: [ConnectorDefintion!]
 }
 
@@ -251,21 +529,39 @@ input JobDefintionFilterInput {
   enabled: BooleanOperationFilterInput
 }
 
-"A connection to a list of items."
+"""
+A connection to a list of items.
+"""
 type JobDefintionsConnection {
-  "Information to aid in pagination."
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
-  "A list of edges."
+
+  """
+  A list of edges.
+  """
   edges: [JobDefintionsEdge!]
-  "A flattened list of the nodes."
+
+  """
+  A flattened list of the nodes.
+  """
   nodes: [JobDefintion!]
 }
 
-input IdOperationFilterInput {
-  eq: ID
-  neq: ID
-  in: [ID]
-  nin: [ID]
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
 }
 
 input ComparableNullableOfGuidOperationFilterInput {
@@ -296,21 +592,6 @@ input ThingStateOperationFilterInput {
   neq: ThingState
   in: [ThingState!]
   nin: [ThingState!]
-}
-
-input StringOperationFilterInput {
-  and: [StringOperationFilterInput!]
-  or: [StringOperationFilterInput!]
-  eq: String
-  neq: String
-  contains: String
-  ncontains: String
-  in: [String]
-  nin: [String]
-  startsWith: String
-  nstartsWith: String
-  endsWith: String
-  nendsWith: String
 }
 
 input ListFilterInputTypeOfTagFilterInput {
@@ -356,6 +637,20 @@ input ListFilterInputTypeOfThingDataReferenceFilterInput {
   any: Boolean
 }
 
+input ListFilterInputTypeOfThingProperyFilterInput {
+  all: ThingProperyFilterInput
+  none: ThingProperyFilterInput
+  some: ThingProperyFilterInput
+  any: Boolean
+}
+
+input IdOperationFilterInput {
+  eq: ID
+  neq: ID
+  in: [ID]
+  nin: [ID]
+}
+
 input EntityVersionFilterInput {
   and: [EntityVersionFilterInput!]
   or: [EntityVersionFilterInput!]
@@ -364,23 +659,64 @@ input EntityVersionFilterInput {
   createdBy: ComparableGuidOperationFilterInput
 }
 
-"Information about pagination in a connection."
+input ListComparableGuidOperationFilterInput {
+  all: ComparableGuidOperationFilterInput
+  none: ComparableGuidOperationFilterInput
+  some: ComparableGuidOperationFilterInput
+  any: Boolean
+}
+
+input ListStringOperationFilterInput {
+  all: StringOperationFilterInput
+  none: StringOperationFilterInput
+  some: StringOperationFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfPropertyDefinitionLinkFilterInput {
+  all: PropertyDefinitionLinkFilterInput
+  none: PropertyDefinitionLinkFilterInput
+  some: PropertyDefinitionLinkFilterInput
+  any: Boolean
+}
+
+"""
+Information about pagination in a connection.
+"""
 type PageInfo {
-  "Indicates whether more edges exist following the set defined by the clients arguments."
+  """
+  Indicates whether more edges exist following the set defined by the clients arguments.
+  """
   hasNextPage: Boolean!
-  "Indicates whether more edges exist prior the set defined by the clients arguments."
+
+  """
+  Indicates whether more edges exist prior the set defined by the clients arguments.
+  """
   hasPreviousPage: Boolean!
-  "When paginating backwards, the cursor to continue."
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
   startCursor: String
-  "When paginating forwards, the cursor to continue."
+
+  """
+  When paginating forwards, the cursor to continue.
+  """
   endCursor: String
 }
 
-"An edge in a connection."
+"""
+An edge in a connection.
+"""
 type ThingsEdge {
-  "A cursor for use in pagination."
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
-  "The item at the end of the edge."
+
+  """
+  The item at the end of the edge.
+  """
   node: Thing!
 }
 
@@ -404,11 +740,18 @@ type Correspondent implements Node {
   name: String
 }
 
-"An edge in a connection."
+"""
+An edge in a connection.
+"""
 type CorrespondentsEdge {
-  "A cursor for use in pagination."
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
-  "The item at the end of the edge."
+
+  """
+  The item at the end of the edge.
+  """
   node: Correspondent!
 }
 
@@ -437,11 +780,18 @@ type Credential {
   tokens: [CredentialToken]
 }
 
-"An edge in a connection."
+"""
+An edge in a connection.
+"""
 type CredentialsEdge {
-  "A cursor for use in pagination."
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
-  "The item at the end of the edge."
+
+  """
+  The item at the end of the edge.
+  """
   node: Credential!
 }
 
@@ -462,11 +812,18 @@ type ConnectorDefintion implements Node {
   credential: Credential
 }
 
-"An edge in a connection."
+"""
+An edge in a connection.
+"""
 type ConnectorsEdge {
-  "A cursor for use in pagination."
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
-  "The item at the end of the edge."
+
+  """
+  The item at the end of the edge.
+  """
   node: ConnectorDefintion!
 }
 
@@ -480,7 +837,7 @@ input JobRunModeOperationFilterInput {
 input JobScheduleFilterInput {
   and: [JobScheduleFilterInput!]
   or: [JobScheduleFilterInput!]
-  type: JobSchudeleTypeOperationFilterInput
+  type: JobScheduleTypeOperationFilterInput
   cronExpression: StringOperationFilterInput
   intervall: ComparableNullableOfInt32OperationFilterInput
 }
@@ -511,11 +868,18 @@ type JobDefintion implements Node {
   sourceConnector: ConnectorDefintion!
 }
 
-"An edge in a connection."
+"""
+An edge in a connection.
+"""
 type JobDefintionsEdge {
-  "A cursor for use in pagination."
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
-  "The item at the end of the edge."
+
+  """
+  The item at the end of the edge.
+  """
   node: JobDefintion!
 }
 
@@ -555,6 +919,14 @@ input ThingDataReferenceFilterInput {
   contentType: StringOperationFilterInput
 }
 
+input ThingProperyFilterInput {
+  and: [ThingProperyFilterInput!]
+  or: [ThingProperyFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  defintionId: IdOperationFilterInput
+  value: StringOperationFilterInput
+}
+
 input ComparableInt32OperationFilterInput {
   eq: Int
   neq: Int
@@ -585,18 +957,17 @@ input ComparableDateTimeOperationFilterInput {
   nlte: DateTime
 }
 
+input PropertyDefinitionLinkFilterInput {
+  and: [PropertyDefinitionLinkFilterInput!]
+  or: [PropertyDefinitionLinkFilterInput!]
+  definitionId: IdOperationFilterInput
+}
+
 input ProtectedValueFilterInput {
   and: [ProtectedValueFilterInput!]
   or: [ProtectedValueFilterInput!]
   cipher: ListComparableByteOperationFilterInput
   value: StringOperationFilterInput
-}
-
-input ListStringOperationFilterInput {
-  all: StringOperationFilterInput
-  none: StringOperationFilterInput
-  some: StringOperationFilterInput
-  any: Boolean
 }
 
 input OAuthFlowOperationFilterInput {
@@ -616,11 +987,11 @@ input CredentialTokenFilterInput {
   expiresAt: ComparableNullableOfDateTimeOffsetOperationFilterInput
 }
 
-input JobSchudeleTypeOperationFilterInput {
-  eq: JobSchudeleType
-  neq: JobSchudeleType
-  in: [JobSchudeleType!]
-  nin: [JobSchudeleType!]
+input JobScheduleTypeOperationFilterInput {
+  eq: JobScheduleType
+  neq: JobScheduleType
+  in: [JobScheduleType!]
+  nin: [JobScheduleType!]
 }
 
 input ComparableNullableOfInt32OperationFilterInput {
@@ -755,7 +1126,7 @@ enum JobActionMode {
   LINK
 }
 
-enum JobSchudeleType {
+enum JobScheduleType {
   INTERVAL
   CRON
 }
@@ -768,7 +1139,7 @@ type JobAction {
 }
 
 type JobSchedule {
-  type: JobSchudeleType!
+  type: JobScheduleType!
   cronExpression: String
   intervall: Int
 }
@@ -776,6 +1147,13 @@ type JobSchedule {
 enum JobRunMode {
   WATCH
   HARVEST
+}
+
+enum PropertyDataType {
+  STRING
+  NUMBER
+  DATE_TIME
+  BOOLEAN
 }
 
 input UpdateJobDefinitionInput {
@@ -815,21 +1193,13 @@ type KeyValuePairOfStringAndString {
   value: String!
 }
 
-type ThingType {
-  name: String
-  validClasses: [UUID!]
-  contentTypeMap: [String]
-  id: ID!
-  version: EntityVersion!
-}
-
 input ProtectedValueInput {
   cipher: [Byte!]
   value: String
 }
 
 input JobScheduleInput {
-  type: JobSchudeleType!
+  type: JobScheduleType!
   cronExpression: String
   intervall: Int
 }
@@ -872,8 +1242,3 @@ type AddOAuthCredentialClientPayload {
 type UpdateJobDefinitionPayload {
   jobDefintion: JobDefintion
 }
-
-"The `@oneOf` directive is used within the type system definition language\n to indicate:\n\n - an Input Object is a Oneof Input Object, or\n - an Object Type's Field is a Oneof Field."
-directive @oneOf on INPUT_OBJECT
-
-directive @authorize("The name of the authorization policy that determines access to the annotated resource." policy: String "Roles that are allowed to access the annotated resource." roles: [String!] "Defines when when the resolver shall be executed.By default the resolver is executed after the policy has determined that the current user is allowed to access the field." apply: ApplyPolicy! = BEFORE_RESOLVER) repeatable on SCHEMA | OBJECT | FIELD_DEFINITION

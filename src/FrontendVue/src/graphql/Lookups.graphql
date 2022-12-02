@@ -1,14 +1,16 @@
-
-query lookups{
-    thingTypes{
+query lookups {
+    thingTypes {
         id
         name
-        validClasses
+        validClasses {
+            id
+            name
+        }
         contentTypeMap
     }
 
-    correspondents{
-        nodes{
+    correspondents {
+        nodes {
             id
             name
         }

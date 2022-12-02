@@ -18,6 +18,7 @@ public static class ThingRequestExecutorBuilderExtensions
             .AddType<ThingGraphQLType>()
             .AddType<ThingThumbnailType>()
             .AddType<ThingClassType>()
+            .AddType<ThingTypeType>()
             .AddTypeExtension<ThingQueries>()
             .AddTypeExtension<CorrespondentQueries>()
             .AddTypeExtension<CorrespondentMutations>();
