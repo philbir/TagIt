@@ -1,4 +1,4 @@
-﻿using TagIt.Store;
+using TagIt.Store;
 
 namespace TagIt.GraphQL;
 
@@ -9,11 +9,17 @@ public partial class ThingGraphQLType : ObjectType<Thing>
         descriptor.Field(x => x.Id).ID();
         descriptor.Field(x => x.CorespondentId).ID(nameof(Correspondent));
         descriptor.Field(x => x.ReceiverId).ID(nameof(Receiver));
-        descriptor.Field(x => x.TypeId).ID(nameof(ThingType));
-        descriptor.Field(x => x.ClassId).ID(nameof(ThingClass));
+        descriptor.Field(x => x.ClassId).Ignore();
+        descriptor.Field(x => x.TypeId).Ignore();
 
         descriptor.Ignore(x => x.Thumbnails);
         descriptor.Ignore(x => x.Data);
+
+        descriptor.Field("type")
+            .ResolveWith<Resolvers>(x => x.GetTypeAsync(default!, default!, default!));
+
+        descriptor.Field("class")
+            .ResolveWith<Resolvers>(x => x.GetClassAsync(default!, default!, default!));
 
         descriptor.Field("thumbnail")
             .Argument("pageNumber", a => a
@@ -43,6 +49,32 @@ public partial class ThingGraphQLType : ObjectType<Thing>
             }
 
             return thumbnail;
+        }
+
+        internal async Task<ThingType?> GetTypeAsync(
+            [Parent] Thing thing,
+            [DataLoader] ThingTypeByIdDataLoader dataLoader,
+            CancellationToken cancellationToken)
+        {
+            if (thing.TypeId is { })
+            {
+                return await dataLoader.LoadAsync(thing.TypeId.Value, cancellationToken);
+            }
+
+            return null;
+        }
+
+        internal async Task<ThingClass?> GetClassAsync(
+            [Parent] Thing thing,
+            [DataLoader] ThingClassByIdDataLoader dataLoader,
+            CancellationToken cancellationToken)
+        {
+            if (thing.ClassId is { })
+            {
+                return await dataLoader.LoadAsync(thing.ClassId.Value, cancellationToken);
+            }
+
+            return null;
         }
     }
 }

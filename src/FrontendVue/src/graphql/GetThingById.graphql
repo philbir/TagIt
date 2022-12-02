@@ -1,0 +1,18 @@
+query getThingByIdTest($id: ID!) {
+    thingById(id: $id) {
+        id
+        title
+        type {
+            name
+        }
+        source {
+            connectorId
+            connectorId
+        }
+        date
+        state
+        thumbnail(loadData: true, pageNumber: 1) {
+            url
+        }
+    }
+}

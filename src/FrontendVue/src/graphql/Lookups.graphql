@@ -5,6 +5,11 @@ query lookups {
         validClasses {
             id
             name
+            properties {
+                id
+                name
+                dataType
+            }
         }
         contentTypeMap
     }
