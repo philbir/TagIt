@@ -13,7 +13,7 @@ public class CorrespondentService : ICorrespondentService
 
     public Task<IQueryable<Correspondent>> Query(CancellationToken cancellationToken)
     {
-        return Task.FromResult(_store.Query());
+        return Task.FromResult(_store.Query().OrderBy( x => x.Name).AsQueryable());
     }
 
     public Task<Correspondent> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -33,4 +33,9 @@ public class CorrespondentService : ICorrespondentService
 
         return _store.InsertAsync(correspondent, cancellationToken)!;
     }
+
+    public Task<IReadOnlyList<Correspondent>> GetManyAsync(
+        IEnumerable<Guid> ids,
+        CancellationToken cancellationToken)
+         => _store.GetManyAsync(ids, cancellationToken);
 }

@@ -13,11 +13,4 @@ query lookups {
         }
         contentTypeMap
     }
-
-    correspondents {
-        nodes {
-            id
-            name
-        }
-    }
 }

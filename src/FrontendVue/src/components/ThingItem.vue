@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { graphql } from "../gql/gql";
-import { type FragmentType, useFragment } from "../gql/fragment-masking";
+import { graphql } from "../generated/gql";
+import { type FragmentType, useFragment } from "../generated/fragment-masking";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 
@@ -12,7 +12,7 @@ const ThingFragment = graphql(/* GraphQL */ `
             name
         }
         state
-        thumbnail(loadData: true, pageNumber: 1) {
+        thumbnail(loadData: false, pageNumber: 1) {
             url
         }
     }

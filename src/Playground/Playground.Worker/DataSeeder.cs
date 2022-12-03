@@ -14,11 +14,13 @@ public class DataSeeder
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        await SeedConnectorsAsync(cancellationToken);
+        //await SeedConnectorsAsync(cancellationToken);
         //await SeedJobsAsync(cancellationToken);
-        await SeedPropertyDefinitionsAsync(cancellationToken);
-        await SeedThingTypesAsync(cancellationToken);
-        await SeedThingClassesAsync(cancellationToken);
+        //await SeedPropertyDefinitionsAsync(cancellationToken);
+        //await SeedThingTypesAsync(cancellationToken);
+        //await SeedThingClassesAsync(cancellationToken);
+
+        await SeedReceiversAsync(cancellationToken);
     }
 
     public async Task SeedConnectorsAsync(CancellationToken cancellationToken)
@@ -64,6 +66,18 @@ public class DataSeeder
         await collection.DeleteManyAsync(Builders<ThingType>.Filter.Empty);
         await collection.InsertManyAsync(
             ThingTypes,
+            new InsertManyOptions(),
+            cancellationToken);
+    }
+
+    public async Task SeedReceiversAsync(CancellationToken cancellationToken)
+    {
+        IMongoCollection<Receiver> collection = _tagIdDbContext
+            .GetCollection<Receiver>();
+
+        await collection.DeleteManyAsync(Builders<Receiver>.Filter.Empty);
+        await collection.InsertManyAsync(
+            Receivers,
             new InsertManyOptions(),
             cancellationToken);
     }
@@ -296,6 +310,14 @@ public class DataSeeder
             }
         };
 
+    public IEnumerable<Receiver> Receivers =>
+        new List<Receiver>()
+        {
+            new() { Id = Guid.NewGuid(), Name = "John"},
+            new() { Id = Guid.NewGuid(), Name = "Annie"},
+            new() { Id = Guid.NewGuid(), Name = "Yael"},
+            new() { Id = Guid.NewGuid(), Name = "Jana"},
+        };
 
     private EntityVersion NewVersion =>
         new EntityVersion

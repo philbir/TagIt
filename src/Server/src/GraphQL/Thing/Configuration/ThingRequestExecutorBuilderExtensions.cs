@@ -11,6 +11,8 @@ public static class ThingRequestExecutorBuilderExtensions
         builder
             .AddDataLoader<PropertyDefinitionByIdDataLoader>()
             .AddDataLoader<ThingClassByIdDataLoader>()
+            .AddDataLoader<CorrespondentByIdDataLoader>()
+            .AddDataLoader<ReceiverByIdDataLoader>()
             .AddDataLoader<ThingTypeByIdDataLoader>();
 
         // types
@@ -19,7 +21,11 @@ public static class ThingRequestExecutorBuilderExtensions
             .AddType<ThingThumbnailType>()
             .AddType<ThingClassType>()
             .AddType<ThingTypeType>()
+            .AddType<ReceiverType>()
+            .AddType<ThingPropertyType>()
             .AddTypeExtension<ThingQueries>()
+            .AddTypeExtension<ThingMutations>()
+            .AddTypeExtension<ReceiverQueries>()
             .AddTypeExtension<CorrespondentQueries>()
             .AddTypeExtension<CorrespondentMutations>();
 

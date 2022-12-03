@@ -576,6 +576,7 @@ export type Mutation = {
   addOAuthCredentialClient: AddOAuthCredentialClientPayload;
   insertCorrespondent: InsertCorrespondentPayload;
   updateJobDefinition: UpdateJobDefinitionPayload;
+  updateThing: UpdateThingPayload;
 };
 
 
@@ -591,6 +592,11 @@ export type MutationInsertCorrespondentArgs = {
 
 export type MutationUpdateJobDefinitionArgs = {
   input: UpdateJobDefinitionInput;
+};
+
+
+export type MutationUpdateThingArgs = {
+  input: UpdateThingInput;
 };
 
 /** The node interface is implemented by entities that have a global unique identifier. */
@@ -705,6 +711,7 @@ export type Query = {
   node?: Maybe<Node>;
   /** Lookup nodes by a list of IDs. */
   nodes: Array<Maybe<Node>>;
+  receivers?: Maybe<ReceiversConnection>;
   thingById: Thing;
   thingClasses: Array<ThingClass>;
   thingTypes: Array<ThingType>;
@@ -774,6 +781,15 @@ export type QueryNodesArgs = {
 };
 
 
+export type QueryReceiversArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ReceiverFilterInput>;
+};
+
+
 export type QueryThingByIdArgs = {
   id: Scalars['ID'];
 };
@@ -795,6 +811,39 @@ export type QueryThingsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ThingFilterInput>;
+};
+
+export type Receiver = {
+  __typename?: 'Receiver';
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ReceiverFilterInput = {
+  and?: InputMaybe<Array<ReceiverFilterInput>>;
+  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  name?: InputMaybe<StringOperationFilterInput>;
+  or?: InputMaybe<Array<ReceiverFilterInput>>;
+};
+
+/** A connection to a list of items. */
+export type ReceiversConnection = {
+  __typename?: 'ReceiversConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<ReceiversEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Receiver>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type ReceiversEdge = {
+  __typename?: 'ReceiversEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Receiver;
 };
 
 export enum RelationType {
@@ -875,12 +924,12 @@ export type TagFilterInput = {
 export type Thing = Node & {
   __typename?: 'Thing';
   class?: Maybe<ThingClass>;
-  corespondentId?: Maybe<Scalars['ID']>;
+  correspondent?: Maybe<Correspondent>;
   date?: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   label?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<ThingPropery>>>;
-  receiverId?: Maybe<Scalars['ID']>;
+  receiver?: Maybe<Receiver>;
   relations?: Maybe<Array<Maybe<ThingRelation>>>;
   source?: Maybe<ThingSource>;
   state: ThingState;
@@ -946,14 +995,15 @@ export type ThingFilterInput = {
 
 export type ThingPropery = {
   __typename?: 'ThingPropery';
-  defintionId: Scalars['ID'];
-  id: Scalars['UUID'];
+  definition: PropertyDefinition;
+  definitionId: Scalars['ID'];
+  id: Scalars['ID'];
   value?: Maybe<Scalars['String']>;
 };
 
 export type ThingProperyFilterInput = {
   and?: InputMaybe<Array<ThingProperyFilterInput>>;
-  defintionId?: InputMaybe<IdOperationFilterInput>;
+  definitionId?: InputMaybe<ComparableGuidOperationFilterInput>;
   id?: InputMaybe<ComparableGuidOperationFilterInput>;
   or?: InputMaybe<Array<ThingProperyFilterInput>>;
   value?: InputMaybe<StringOperationFilterInput>;
@@ -1091,6 +1141,27 @@ export type UpdateJobDefinitionPayload = {
   jobDefintion?: Maybe<JobDefintion>;
 };
 
+export type UpdateThingInput = {
+  classId?: InputMaybe<Scalars['ID']>;
+  correspondentId?: InputMaybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  properties?: InputMaybe<Array<UpdateThingPropertyInput>>;
+  receiverId?: InputMaybe<Scalars['ID']>;
+  title: Scalars['String'];
+  typeId: Scalars['ID'];
+};
+
+export type UpdateThingPayload = {
+  __typename?: 'UpdateThingPayload';
+  thing?: Maybe<Thing>;
+};
+
+export type UpdateThingPropertyInput = {
+  definitionId: Scalars['ID'];
+  id?: InputMaybe<Scalars['ID']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
 export type UserError = {
   code: Scalars['String'];
   message: Scalars['String'];
@@ -1118,6 +1189,14 @@ export type InsertCorrespondentMutation = { __typename?: 'Mutation', insertCorre
 
 export type ThingItemFragment = { __typename?: 'Thing', id: string, title?: string | null, state: ThingState, type?: { __typename?: 'ThingType', name?: string | null } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingItemFragment' };
 
+export type ThingsSearchQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ThingsSearchQuery = { __typename?: 'Query', things?: { __typename?: 'ThingsConnection', nodes?: Array<(
+      { __typename?: 'Thing', id: string }
+      & { ' $fragmentRefs'?: { 'ThingItemFragment': ThingItemFragment } }
+    )> | null } | null };
+
 export type GetThingByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1128,32 +1207,36 @@ export type GetThingByIdQuery = { __typename?: 'Query', thingById: (
     & { ' $fragmentRefs'?: { 'ThingDetailFragment': ThingDetailFragment } }
   ) };
 
-export type ThingDetailFragment = { __typename?: 'Thing', id: string, title?: string | null, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', id: string, name?: string | null } | null, class?: { __typename?: 'ThingClass', id: string, name?: string | null } | null, source?: { __typename?: 'ThingSource', connectorId: any } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingDetailFragment' };
-
-export type ThingsSearchQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ThingsSearchQuery = { __typename?: 'Query', things?: { __typename?: 'ThingsConnection', nodes?: Array<(
-      { __typename?: 'Thing', id: string }
-      & { ' $fragmentRefs'?: { 'ThingItemFragment': ThingItemFragment } }
-    )> | null } | null };
-
-export type GetThingByIdTestQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type GetThingByIdTestQuery = { __typename?: 'Query', thingById: { __typename?: 'Thing', id: string, title?: string | null, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', name?: string | null } | null, source?: { __typename?: 'ThingSource', connectorId: any } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } };
+export type ThingDetailFragment = { __typename?: 'Thing', id: string, title?: string | null, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', id: string, name?: string | null } | null, class?: { __typename?: 'ThingClass', id: string, name?: string | null } | null, correspondent?: { __typename?: 'Correspondent', id: string, name?: string | null } | null, receiver?: { __typename?: 'Receiver', id: string, name?: string | null } | null, properties?: Array<{ __typename?: 'ThingPropery', id: string, value?: string | null, definition: { __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType } } | null> | null, source?: { __typename?: 'ThingSource', connectorId: any, uniqueId?: string | null } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingDetailFragment' };
 
 export type LookupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LookupsQuery = { __typename?: 'Query', thingTypes: Array<{ __typename?: 'ThingType', id: string, name?: string | null, contentTypeMap?: Array<string | null> | null, validClasses: Array<{ __typename?: 'ThingClass', id: string, name?: string | null, properties: Array<{ __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType }> }> }>, correspondents?: { __typename?: 'CorrespondentsConnection', nodes?: Array<{ __typename?: 'Correspondent', id: string, name?: string | null }> | null } | null };
+export type LookupsQuery = { __typename?: 'Query', thingTypes: Array<{ __typename?: 'ThingType', id: string, name?: string | null, contentTypeMap?: Array<string | null> | null, validClasses: Array<{ __typename?: 'ThingClass', id: string, name?: string | null, properties: Array<{ __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType }> }> }> };
 
-export const ThingItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":true}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingItemFragment, unknown>;
-export const ThingDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"connectorId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":true}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingDetailFragment, unknown>;
+export type SearchCorrespondentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SearchCorrespondentsQuery = { __typename?: 'Query', correspondents?: { __typename?: 'CorrespondentsConnection', nodes?: Array<{ __typename?: 'Correspondent', id: string, name?: string | null }> | null } | null };
+
+export type SearchReceiversQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SearchReceiversQuery = { __typename?: 'Query', receivers?: { __typename?: 'ReceiversConnection', nodes?: Array<{ __typename?: 'Receiver', id: string, name?: string | null }> | null } | null };
+
+export type UpdateThingMutationVariables = Exact<{
+  input: UpdateThingInput;
+}>;
+
+
+export type UpdateThingMutation = { __typename?: 'Mutation', updateThing: { __typename?: 'UpdateThingPayload', thing?: { __typename?: 'Thing', id: string } | null } };
+
+export const ThingItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingItemFragment, unknown>;
+export const ThingDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"receiver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"definition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"uniqueId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingDetailFragment, unknown>;
 export const InsertCorrespondentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertCorrespondent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InsertCorrespondentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertCorrespondent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<InsertCorrespondentMutation, InsertCorrespondentMutationVariables>;
-export const GetThingByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getThingById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingDetail"}}]}}]}},...ThingDetailFragmentDoc.definitions]} as unknown as DocumentNode<GetThingByIdQuery, GetThingByIdQueryVariables>;
 export const ThingsSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"thingsSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"things"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingItem"}}]}}]}}]}},...ThingItemFragmentDoc.definitions]} as unknown as DocumentNode<ThingsSearchQuery, ThingsSearchQueryVariables>;
-export const GetThingByIdTestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getThingByIdTest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"connectorId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":true}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<GetThingByIdTestQuery, GetThingByIdTestQueryVariables>;
-export const LookupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lookups"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validClasses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentTypeMap"}}]}},{"kind":"Field","name":{"kind":"Name","value":"correspondents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<LookupsQuery, LookupsQueryVariables>;
+export const GetThingByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getThingById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingDetail"}}]}}]}},...ThingDetailFragmentDoc.definitions]} as unknown as DocumentNode<GetThingByIdQuery, GetThingByIdQueryVariables>;
+export const LookupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lookups"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validClasses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentTypeMap"}}]}}]}}]} as unknown as DocumentNode<LookupsQuery, LookupsQueryVariables>;
+export const SearchCorrespondentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchCorrespondents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"correspondents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"50"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchCorrespondentsQuery, SearchCorrespondentsQueryVariables>;
+export const SearchReceiversDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchReceivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"receivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchReceiversQuery, SearchReceiversQueryVariables>;
+export const UpdateThingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateThing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateThingInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateThing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateThingMutation, UpdateThingMutationVariables>;

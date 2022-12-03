@@ -1,5 +1,6 @@
 using HotChocolate.Types.Relay;
 using Microsoft.AspNetCore.Mvc;
+using TagIt.Store;
 
 namespace TagIt.Controllers;
 
@@ -9,15 +10,18 @@ public class ThingDataController : Controller
     private readonly IIdSerializer _idSerializer;
     private readonly IThingDataResolver _thingDataResolver;
     private readonly IThingService _thingService;
+    private readonly IThumbnailStore _thumbnailStore;
 
     public ThingDataController(
         IIdSerializer idSerializer,
         IThingDataResolver thingDataResolver,
-        IThingService thingService)
+        IThingService thingService,
+        IThumbnailStore thumbnailStore)
     {
         _idSerializer = idSerializer;
         _thingDataResolver = thingDataResolver;
         _thingService = thingService;
+        _thumbnailStore = thumbnailStore;
     }
 
     [HttpGet]
@@ -38,5 +42,17 @@ public class ThingDataController : Controller
             thing,
             cancellationToken);
         return new FileStreamResult(data.Stream, "application/pdf");
+    }
+
+    [HttpGet]
+    [Route("thumbnail/{id}/{format}")]
+    public async Task<IActionResult> GetThumbnailAsync(
+        string id,
+        string format,
+        CancellationToken cancellationToken)
+    {
+        var data = await _thumbnailStore.GetAsync(id, cancellationToken);
+
+        return new FileContentResult(data, $"image/{format.ToLower()}");
     }
 }

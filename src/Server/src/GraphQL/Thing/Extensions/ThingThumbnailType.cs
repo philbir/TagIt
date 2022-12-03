@@ -1,4 +1,6 @@
+using System.Xml.Linq;
 using TagIt.Image;
+using TagIt.Store;
 
 namespace TagIt.GraphQL;
 
@@ -24,7 +26,7 @@ public partial class ThingThumbnailType : ObjectType<ThingThumbnail>
                 return thumbnail.Data.ToImageDataUrl(thumbnail.Format);
             }
 
-            return $"/api/thing/thumbnail/{thumbnail.FileId}";
+            return $"/api/thing/thumbnail/{thumbnail.FileId}/{thumbnail.Format}";
         }
     }
 }

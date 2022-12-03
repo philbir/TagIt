@@ -20,4 +20,3 @@ public class CorrespondentQueries
         return service.GetByIdAsync(id, cancellationToken);
     }
 }
-

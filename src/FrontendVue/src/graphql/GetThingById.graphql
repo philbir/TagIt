@@ -1,18 +1,45 @@
-query getThingByIdTest($id: ID!) {
+query getThingById($id: ID!) {
     thingById(id: $id) {
         id
-        title
-        type {
+        ...ThingDetail
+    }
+}
+
+fragment ThingDetail on Thing {
+    id
+    title
+    type {
+        id
+        name
+    }
+    class {
+        id
+        name
+    }
+    correspondent {
+        id
+        name
+    }
+    receiver {
+        id
+        name
+    }
+    properties {
+        id
+        value
+        definition {
+            id
             name
+            dataType
         }
-        source {
-            connectorId
-            connectorId
-        }
-        date
-        state
-        thumbnail(loadData: true, pageNumber: 1) {
-            url
-        }
+    }
+    source {
+        connectorId
+        uniqueId
+    }
+    date
+    state
+    thumbnail(loadData: false, pageNumber: 1) {
+        url
     }
 }

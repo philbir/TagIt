@@ -55,6 +55,7 @@ public static class TagItServerBuilderExtensions
         services.AddSingleton<IOpenIdConnectDiscoveryService, OpenIdConnectDiscoveryService>();
         services.AddSingleton<ICredentialStoreTokenManager, CredentialStoreTokenManager>();
         services.AddSingleton<IJobDefintionService, JobDefintionService>();
+        services.AddSingleton<IReceiverService, ReceiverService>();
         services.AddHttpClient();
 
         services.AddSingleton<IImageConverter, MagickImageConverter>();

@@ -26,5 +26,3 @@ public class ThingClassByIdDataLoader
         return classes.ToDictionary(x => x.Id)!;
     }
 }
-
-

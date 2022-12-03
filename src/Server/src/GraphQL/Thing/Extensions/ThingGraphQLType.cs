@@ -7,8 +7,8 @@ public partial class ThingGraphQLType : ObjectType<Thing>
     protected override void Configure(IObjectTypeDescriptor<Thing> descriptor)
     {
         descriptor.Field(x => x.Id).ID();
-        descriptor.Field(x => x.CorespondentId).ID(nameof(Correspondent));
-        descriptor.Field(x => x.ReceiverId).ID(nameof(Receiver));
+        descriptor.Field(x => x.CorespondentId).Ignore();
+        descriptor.Field(x => x.ReceiverId).Ignore();
         descriptor.Field(x => x.ClassId).Ignore();
         descriptor.Field(x => x.TypeId).Ignore();
 
@@ -20,6 +20,13 @@ public partial class ThingGraphQLType : ObjectType<Thing>
 
         descriptor.Field("class")
             .ResolveWith<Resolvers>(x => x.GetClassAsync(default!, default!, default!));
+
+
+        descriptor.Field("correspondent")
+            .ResolveWith<Resolvers>(x => x.GetCorrespondentAsync(default!, default!, default!));
+
+        descriptor.Field("receiver")
+            .ResolveWith<Resolvers>(x => x.GetReceiverAsync(default!, default!, default!));
 
         descriptor.Field("thumbnail")
             .Argument("pageNumber", a => a
@@ -43,7 +50,7 @@ public partial class ThingGraphQLType : ObjectType<Thing>
         {
             ThingThumbnail? thumbnail = thing.Thumbnails.FirstOrDefault();
 
-            if (thumbnail is not null)
+            if (thumbnail is not null && loadData)
             {
                 thumbnail.Data = await store.GetAsync(thumbnail.FileId, cancellationToken);
             }
@@ -72,6 +79,32 @@ public partial class ThingGraphQLType : ObjectType<Thing>
             if (thing.ClassId is { })
             {
                 return await dataLoader.LoadAsync(thing.ClassId.Value, cancellationToken);
+            }
+
+            return null;
+        }
+
+        internal async Task<Correspondent?> GetCorrespondentAsync(
+            [Parent] Thing thing,
+            [DataLoader] CorrespondentByIdDataLoader dataLoader,
+            CancellationToken cancellationToken)
+        {
+            if (thing.CorespondentId is { })
+            {
+                return await dataLoader.LoadAsync(thing.CorespondentId.Value, cancellationToken);
+            }
+
+            return null;
+        }
+
+        internal async Task<Receiver?> GetReceiverAsync(
+            [Parent] Thing thing,
+            [DataLoader] ReceiverByIdDataLoader dataLoader,
+            CancellationToken cancellationToken)
+        {
+            if (thing.ReceiverId is { })
+            {
+                return await dataLoader.LoadAsync(thing.ReceiverId.Value, cancellationToken);
             }
 
             return null;

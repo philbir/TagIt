@@ -38,12 +38,10 @@ public class ThingPropery
 {
     public Guid Id { get; set; }
 
-    [ID(nameof(PropertyDefinition))]
-    public Guid DefintionId { get; set; }
+    public Guid DefinitionId { get; set; }
 
     public string Value { get; set; }
 }
-
 
 
 public class ThingDataReference

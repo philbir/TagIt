@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { useQuery } from "@urql/vue";
-import { graphql } from "../gql";
+import { graphql } from "../generated";
 import ThingItem from "./ThingItem.vue";
 
 const searchQueryDocument = graphql(/* GraphQL */ `

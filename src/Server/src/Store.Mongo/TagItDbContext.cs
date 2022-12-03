@@ -34,6 +34,7 @@ internal class TagIdDbContext : MongoDbContext, ITagIdDbContext
             .ConfigureCollection(new ConnectorDefintionCollectionConfiguration())
             .ConfigureCollection(new CredentialCollectionConfiguration())
             .ConfigureCollection(new ReceiverCollectionConfiguration())
+            .ConfigureCollection(new TagDefintionCollectionConfiguration())
             .ConfigureCollection(new CorrespondentCollectionConfiguration())
             .ConfigureCollection(new JobDefintionCollectionConfiguration())
             .ConfigureCollection(new PropertyDefinitionCollectionConfiguration())
