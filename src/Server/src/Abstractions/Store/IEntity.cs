@@ -14,7 +14,6 @@ public interface IEntityWithVersion : IEntity
 
 public class EntityWithVersion
 {
-    [ID]
     public Guid Id { get; set; }
 
     public EntityVersion Version { get; set; }

@@ -8,11 +8,9 @@
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-        <PackageReference Include="HotChocolate" />
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="HotChocolate.Types.Relay"/>
     </ItemGroup>
 
 </Project>

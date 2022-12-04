@@ -4,7 +4,6 @@
     <AssemblyName>TagIt.GraphQL</AssemblyName>
     <RootNamespace>TagIt.GraphQL</RootNamespace>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace TagIt.GraphQL;
+namespace TagIt.GraphQL;
 
 public class CredentialTokenType : ObjectType<CredentialToken>
 {
@@ -8,3 +8,4 @@ public class CredentialTokenType : ObjectType<CredentialToken>
             .Resolve(x => "***");
     }
 }
+

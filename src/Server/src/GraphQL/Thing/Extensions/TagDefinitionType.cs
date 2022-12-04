@@ -1,4 +1,4 @@
-﻿namespace TagIt.GraphQL;
+namespace TagIt.GraphQL;
 
 public partial class TagDefinitionType : ObjectType<TagDefinition>
 {
@@ -7,4 +7,3 @@ public partial class TagDefinitionType : ObjectType<TagDefinition>
         descriptor.Field(x => x.Id).ID();
     }
 }
-

@@ -14,11 +14,8 @@ public static class ConnectorRequestExecutorBuilderExtensions
 
         // types
         builder
+            .AddType<ConnectorDefintionType>()
             .AddTypeExtension<ConnectorQueries>();
-
-        // extensions
-        builder
-            .AddTypeExtension<ConnectorExtensions>();
 
         // nodes
         builder

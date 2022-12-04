@@ -26,6 +26,8 @@ public static class ThingRequestExecutorBuilderExtensions
             .AddType<ThingTagType>()
             .AddType<ReceiverType>()
             .AddType<ThingPropertyType>()
+            .AddType<PropertyDefinitionLinkType>()
+            .AddType<PropertyDefinitionType>()
             .AddTypeExtension<ThingQueries>()
             .AddTypeExtension<ThingMutations>()
             .AddTypeExtension<ReceiverQueries>()

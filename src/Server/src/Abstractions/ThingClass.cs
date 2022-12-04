@@ -12,6 +12,5 @@ public class ThingClass : EntityWithVersion, IEntityWithVersion
 
 public class PropertyDefinitionLink
 {
-    [ID(nameof(PropertyDefinition))]
     public Guid DefinitionId { get; set; }
 }

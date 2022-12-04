@@ -1,6 +1,5 @@
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TagIt.GraphQL.Job.Extensions;
 
 namespace TagIt.GraphQL;
 
@@ -16,8 +15,8 @@ public static class JobRequestExecutorBuilderExtensions
 
         // extensions
         builder
-            .AddTypeExtension<JobDefinitionExtensions>()
-            .AddTypeExtension<JobActionExtensions>();
+            .AddType<JobDefintionType>()
+            .AddType<JobActionType>();
 
         // nodes
         builder
