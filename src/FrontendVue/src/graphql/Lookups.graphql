@@ -13,4 +13,11 @@ query lookups {
         }
         contentTypeMap
     }
+    tagDefintions {
+        nodes {
+            id
+            name
+            color
+        }
+    }
 }

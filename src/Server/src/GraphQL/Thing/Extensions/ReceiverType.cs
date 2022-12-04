@@ -1,4 +1,4 @@
-﻿namespace TagIt.GraphQL;
+namespace TagIt.GraphQL;
 
 public partial class ReceiverType : ObjectType<Receiver>
 {
@@ -7,3 +7,4 @@ public partial class ReceiverType : ObjectType<Receiver>
         descriptor.Field(x => x.Id).ID();
     }
 }
+

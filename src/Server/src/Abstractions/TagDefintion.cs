@@ -5,7 +5,7 @@ using TagIt.Store;
 
 namespace TagIt;
 
-public class TagDefintion : IEntity
+public class TagDefinition : IEntity
 {
     public Guid Id { get; set; }
 

@@ -39,6 +39,7 @@ public static class MongoStoreCollectionExtensions
         services.AddSingleton<IThumbnailStore, ThumbnailStore>();
         services.AddSingleton<IReceiverStore, ReceiverStore>();
         services.AddSingleton<IPropertyDefinitionStore, PropertyDefinitionStore>();
+        services.AddSingleton<ITagDefinitionStore, TagDefinitionStore>();
 
         return services;
     }

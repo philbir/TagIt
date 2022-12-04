@@ -1,4 +1,4 @@
-﻿using TagIt.Store;
+using TagIt.Store;
 
 namespace TagIt.GraphQL;
 
@@ -25,5 +25,4 @@ public class PropertyDefinitionByIdDataLoader
         return definitions.ToDictionary(x => x.Id)!;
     }
 }
-
 

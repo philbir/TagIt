@@ -40,10 +40,15 @@ public class ThingService : IThingService
         thing.Title = request.Title;
         thing.ReceiverId = request.ReceiverId;
         thing.CorespondentId = request.CorrespondentId;
+        thing.Tags = request.Tags
+            .Select(t => new ThingTag { DefintionId = t })
+            .ToList();
 
         UpdateProperties(thing, request);
 
-        SaveEntityResult<Thing> result = await _entityManager.SaveAsync(thing, cancellationToken);
+        SaveEntityResult<Thing> result = await _entityManager.SaveAsync(
+            thing,
+            cancellationToken);
 
         return result.Entity;
     }

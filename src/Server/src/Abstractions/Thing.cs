@@ -21,9 +21,9 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public Guid? ReceiverId { get; set; }
 
-    public IReadOnlyList<Tag> Tags { get; set; }
-
     public DateTime? Date { get; set; }
+
+    public IReadOnlyList<ThingTag> Tags { get; set; }
 
     public IReadOnlyList<ThingThumbnail> Thumbnails { get; set; } = new List<ThingThumbnail>();
 
@@ -103,7 +103,7 @@ public class AddThingRequest
 
     public Guid? Receiver { get; set; }
 
-    public IReadOnlyList<Tag> Tags { get; set; }
+    public IReadOnlyList<ThingTag> Tags { get; set; }
 
     public DateTime? Date { get; set; }
 

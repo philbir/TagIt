@@ -49,6 +49,7 @@ public static class UpdateThingInputExtensions
             ReceiverId = input.ReceiverId,
             CorrespondentId = input.CorrespondentId,
             Title = input.Title,
+            Tags = input.Tags,
             Properties = input.Properties?.Select(p => new UpdateThingPropertyRequest
             {
                 Id = p.Id,
@@ -79,6 +80,9 @@ public class UpdateThingInput
     public Guid? ReceiverId { get; set; }
 
     public IEnumerable<UpdateThingPropertyInput>? Properties { get; set; }
+
+    [ID(nameof(TagDefinition))]
+    public IEnumerable<Guid> Tags { get; set; } = new List<Guid>();
 }
 
 public class UpdateThingPropertyInput

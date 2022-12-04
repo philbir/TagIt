@@ -6,6 +6,7 @@ import { defineStore } from "pinia";
 export const useLookupStore = defineStore("lookup", () => {
     const isReady = ref(false);
     const thingTypes = ref();
+    const tagDefintions = ref();
 
     const load = async () => {
         const result = await graphqlClient
@@ -13,8 +14,10 @@ export const useLookupStore = defineStore("lookup", () => {
             .toPromise();
 
         thingTypes.value = result.data?.thingTypes;
+        tagDefintions.value = result.data?.tagDefintions?.nodes;
+
         isReady.value = true;
     };
 
-    return { isReady, thingTypes, load };
+    return { isReady, thingTypes,tagDefintions, load };
 });

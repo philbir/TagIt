@@ -29,6 +29,8 @@ public class UpdateThingRequest
     public Guid? ReceiverId { get; set; }
 
     public IEnumerable<UpdateThingPropertyRequest> Properties { get; set; } = Enumerable.Empty<UpdateThingPropertyRequest>();
+
+    public IEnumerable<Guid> Tags { get; set; } = Enumerable.Empty<Guid>();
 }
 
 public class UpdateThingPropertyRequest

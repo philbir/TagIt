@@ -1,13 +1,6 @@
-#nullable disable
-
-
 namespace TagIt;
 
-public class Tag
+public class ThingTag
 {
-    public Guid TypeId { get; set; }
-
-    public string Value { get; set; }
-
-    public string Text { get; set; }
+    public Guid DefintionId { get; set; }
 }

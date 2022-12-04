@@ -1,4 +1,4 @@
-﻿namespace TagIt.Store;
+namespace TagIt.Store;
 
 public interface IPropertyDefinitionStore
 {
@@ -23,4 +23,7 @@ public interface IPropertyDefinitionStore
 
     public IQueryable<PropertyDefinition> Query();
 }
+
+
+
 

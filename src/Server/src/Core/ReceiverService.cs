@@ -1,4 +1,4 @@
-﻿using TagIt.Store;
+using TagIt.Store;
 
 namespace TagIt;
 

@@ -561,13 +561,6 @@ input ListFilterInputTypeOfPropertyDefinitionLinkFilterInput {
   some: PropertyDefinitionLinkFilterInput
 }
 
-input ListFilterInputTypeOfTagFilterInput {
-  all: TagFilterInput
-  any: Boolean
-  none: TagFilterInput
-  some: TagFilterInput
-}
-
 input ListFilterInputTypeOfThingDataReferenceFilterInput {
   all: ThingDataReferenceFilterInput
   any: Boolean
@@ -587,6 +580,13 @@ input ListFilterInputTypeOfThingRelationFilterInput {
   any: Boolean
   none: ThingRelationFilterInput
   some: ThingRelationFilterInput
+}
+
+input ListFilterInputTypeOfThingTagFilterInput {
+  all: ThingTagFilterInput
+  any: Boolean
+  none: ThingTagFilterInput
+  some: ThingTagFilterInput
 }
 
 input ListFilterInputTypeOfThingThumbnailFilterInput {
@@ -810,6 +810,22 @@ type Query {
     last: Int
     where: ReceiverFilterInput
   ): ReceiversConnection
+  tagDefintions(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    where: TagDefinitionFilterInput
+  ): TagDefintionsConnection
   thingById(id: ID!): Thing!
   thingClasses(where: ThingClassFilterInput): [ThingClass!]!
   thingTypes(where: ThingTypeFilterInput): [ThingType!]!
@@ -924,18 +940,39 @@ input StringOperationFilterInput {
   startsWith: String
 }
 
-type Tag {
-  text: String
-  typeId: UUID!
-  value: String
+type TagDefinition {
+  color: String
+  id: ID!
+  name: String
 }
 
-input TagFilterInput {
-  and: [TagFilterInput!]
-  or: [TagFilterInput!]
-  text: StringOperationFilterInput
-  typeId: ComparableGuidOperationFilterInput
-  value: StringOperationFilterInput
+input TagDefinitionFilterInput {
+  and: [TagDefinitionFilterInput!]
+  color: StringOperationFilterInput
+  id: ComparableGuidOperationFilterInput
+  name: StringOperationFilterInput
+  or: [TagDefinitionFilterInput!]
+}
+
+"""A connection to a list of items."""
+type TagDefintionsConnection {
+  """A list of edges."""
+  edges: [TagDefintionsEdge!]
+
+  """A flattened list of the nodes."""
+  nodes: [TagDefinition!]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type TagDefintionsEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: TagDefinition!
 }
 
 type Thing implements Node {
@@ -949,7 +986,7 @@ type Thing implements Node {
   relations: [ThingRelation]
   source: ThingSource
   state: ThingState!
-  tags: [Tag]
+  tags: [TagDefinition!]!
   thumbnail(loadData: Boolean! = false, pageNumber: Int! = 1): ThingThumbnail
   title: String
   type: ThingType
@@ -995,7 +1032,7 @@ input ThingFilterInput {
   relations: ListFilterInputTypeOfThingRelationFilterInput
   source: ThingSourceFilterInput
   state: ThingStateOperationFilterInput
-  tags: ListFilterInputTypeOfTagFilterInput
+  tags: ListFilterInputTypeOfThingTagFilterInput
   thumbnails: ListFilterInputTypeOfThingThumbnailFilterInput
   title: StringOperationFilterInput
   typeId: ComparableNullableOfGuidOperationFilterInput
@@ -1059,6 +1096,16 @@ input ThingStateOperationFilterInput {
   in: [ThingState!]
   neq: ThingState
   nin: [ThingState!]
+}
+
+type ThingTag {
+  defintionId: ID!
+}
+
+input ThingTagFilterInput {
+  and: [ThingTagFilterInput!]
+  defintionId: ComparableGuidOperationFilterInput
+  or: [ThingTagFilterInput!]
 }
 
 type ThingThumbnail {
@@ -1153,6 +1200,7 @@ input UpdateThingInput {
   id: ID!
   properties: [UpdateThingPropertyInput!]
   receiverId: ID
+  tags: [ID!]!
   title: String!
   typeId: ID!
 }

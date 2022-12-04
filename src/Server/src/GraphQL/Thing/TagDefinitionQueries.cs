@@ -1,12 +1,12 @@
 namespace TagIt.GraphQL;
 
 [ExtendObjectType(OperationTypeNames.Query)]
-public class ReceiverQueries
+public class TagDefinitionQueries
 {
     [UsePaging]
     [UseFiltering]
-    public Task<IQueryable<Receiver>> GetReceiversAsync(
-        [Service] IReceiverService service,
+    public Task<IQueryable<TagDefinition>> GetTagDefintionsAsync(
+        [Service] ITagDefinitionService service,
         CancellationToken cancellationToken)
     {
         return service.Query(cancellationToken);

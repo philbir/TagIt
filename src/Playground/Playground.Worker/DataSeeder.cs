@@ -19,8 +19,8 @@ public class DataSeeder
         //await SeedPropertyDefinitionsAsync(cancellationToken);
         //await SeedThingTypesAsync(cancellationToken);
         //await SeedThingClassesAsync(cancellationToken);
-
-        await SeedReceiversAsync(cancellationToken);
+        //await SeedReceiversAsync(cancellationToken);
+        await SeedTagDefintionsAsync(cancellationToken);
     }
 
     public async Task SeedConnectorsAsync(CancellationToken cancellationToken)
@@ -94,6 +94,18 @@ public class DataSeeder
             cancellationToken);
     }
 
+    public async Task SeedTagDefintionsAsync(CancellationToken cancellationToken)
+    {
+        IMongoCollection<TagDefinition> collection = _tagIdDbContext
+            .GetCollection<TagDefinition>();
+
+        await collection.DeleteManyAsync(Builders<TagDefinition>.Filter.Empty);
+        await collection.InsertManyAsync(
+            TagDefintions,
+            new InsertManyOptions(),
+            cancellationToken);
+    }
+
     public IEnumerable<ThingClass> ThingClasses =>
         new List<ThingClass>()
         {
@@ -144,6 +156,29 @@ public class DataSeeder
                 DataType = PropertyDataType.DateTime
             },
     };
+
+    public IEnumerable<TagDefinition> TagDefintions =>
+        new List<TagDefinition>()
+        {
+            new()
+            {
+                Id = Guid.Parse("0c691214-bd32-4a16-9919-b815262c1bc3"),
+                Name = "New",
+                Color = "#F44336"
+            },
+            new()
+            {
+                Id = Guid.Parse("6a2e467a-1381-41d1-bd3a-08dc40bcdc47"),
+                Name = "Foo",
+                Color = "#9C27B0"
+            },
+            new()
+            {
+                Id = Guid.Parse("da6bbc68-3a3f-4d89-a424-4317e1c54510"),
+                Name = "Hot",
+                Color = "#4CAF50"
+            }
+        };
 
     public IEnumerable<ThingType> ThingTypes =>
         new List<ThingType>()

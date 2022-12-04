@@ -28,6 +28,9 @@ public partial class ThingGraphQLType : ObjectType<Thing>
         descriptor.Field("receiver")
             .ResolveWith<Resolvers>(x => x.GetReceiverAsync(default!, default!, default!));
 
+        descriptor.Field(x => x.Tags)
+            .ResolveWith<Resolvers>(x => x.GetTagsAsync(default!, default!, default!));
+
         descriptor.Field("thumbnail")
             .Argument("pageNumber", a => a
                 .DefaultValue(1)
@@ -56,6 +59,21 @@ public partial class ThingGraphQLType : ObjectType<Thing>
             }
 
             return thumbnail;
+        }
+
+        internal async Task<IReadOnlyList<TagDefinition>> GetTagsAsync(
+            [Parent] Thing thing,
+            [DataLoader] TagDefinitionByIdDataLoader dataLoader,
+            CancellationToken cancellationToken)
+        {
+            if (thing.Tags is { })
+            {
+                return await dataLoader.LoadAsync(
+                    thing.Tags.Select(x => x.DefintionId).ToArray(),
+                    cancellationToken) ;
+            }
+
+            return Array.Empty<TagDefinition>();
         }
 
         internal async Task<ThingType?> GetTypeAsync(

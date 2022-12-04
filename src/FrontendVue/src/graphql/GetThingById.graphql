@@ -33,6 +33,11 @@ fragment ThingDetail on Thing {
             dataType
         }
     }
+    tags {
+        id
+        name
+        color
+    }
     source {
         connectorId
         uniqueId

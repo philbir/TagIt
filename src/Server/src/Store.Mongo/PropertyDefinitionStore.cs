@@ -1,4 +1,4 @@
-﻿namespace TagIt.Store.Mongo;
+namespace TagIt.Store.Mongo;
 
 public class PropertyDefinitionStore : Store<PropertyDefinition>, IPropertyDefinitionStore
 {
