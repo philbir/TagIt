@@ -1,7 +1,0 @@
-mutation updateJobDefintion($input: UpdateJobDefinitionInput!) {
-  updateJobDefinition(input: $input) {
-    jobDefintion {
-      id
-    }
-  }
-}
