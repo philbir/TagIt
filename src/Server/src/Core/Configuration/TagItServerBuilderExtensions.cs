@@ -61,8 +61,10 @@ public static class TagItServerBuilderExtensions
 
         services.AddSingleton<IImageConverter, MagickImageConverter>();
         services.AddSingleton<IThumbnailGeneratorService, ThumbnailGeneratorService>();
-
         services.AddPdfImageConversion();
+
+        services.AddSingleton<IDataExtractionService, DataExtractionService>();
+        services.AddSingleton<IThingDataExtractor, PdfTextDataExtractor>();
 
         services.AddSingleton<IConnectionManager>((sp) =>
         {

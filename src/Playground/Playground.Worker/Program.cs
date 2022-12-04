@@ -24,7 +24,10 @@ IHost host = Host.CreateDefaultBuilder(args)
         builder.Services.AddSingleton<IUserContextFactory, UserContextFactory>();
         builder.Services.AddSingleton<DataSeeder>();
         //services.AddHostedService<TagItWorker>();
-        services.AddHostedService<JobWorker>();
+        //services.AddHostedService<JobWorker>();
+
+        builder.Services.AddHostedService<DataExtractionWorker>();
+
     })
     .UseSerilog()
     .Build();
@@ -33,5 +36,5 @@ IUserContextAccessor accessor = host.Services.GetRequiredService<IUserContextAcc
 accessor.Context = await host.Services.GetRequiredService<IUserContextFactory>()
     .CreateAsync(CancellationToken.None);
 
-await host.Services.GetRequiredService<DataSeeder>().SeedAsync(CancellationToken.None);
+//await host.Services.GetRequiredService<DataSeeder>().SeedAsync(CancellationToken.None);
 await host.RunAsync();

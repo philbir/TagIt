@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>dotnet-tagit</UserSecretsId>
   </PropertyGroup>
 
