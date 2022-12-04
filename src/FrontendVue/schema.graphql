@@ -60,6 +60,14 @@ type AddOAuthCredentialClientPayload {
   credential: Credential
 }
 
+input AddTagDefintionInput {
+  name: String!
+}
+
+type AddTagDefintionPayload {
+  tagDefinition: TagDefinition
+}
+
 enum ApplyPolicy {
   AFTER_RESOLVER
   BEFORE_RESOLVER
@@ -212,7 +220,6 @@ input ComparableNullableOfInt32OperationFilterInput {
 
 type ConnectorDefintion implements Node {
   credential: Credential
-  credentialId: ID
   id: ID!
   name: String
   properties: [KeyValuePairOfStringAndString!]
@@ -222,8 +229,8 @@ type ConnectorDefintion implements Node {
 
 input ConnectorDefintionFilterInput {
   and: [ConnectorDefintionFilterInput!]
-  credentialId: IdOperationFilterInput
-  id: IdOperationFilterInput
+  credentialId: ComparableNullableOfGuidOperationFilterInput
+  id: ComparableGuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ConnectorDefintionFilterInput!]
   properties: IDictionaryOfStringAndStringFilterInput
@@ -295,7 +302,7 @@ type Credential {
 input CredentialFilterInput {
   and: [CredentialFilterInput!]
   client: OAuthClientFilterInput
-  id: IdOperationFilterInput
+  id: ComparableGuidOperationFilterInput
   name: StringOperationFilterInput
   or: [CredentialFilterInput!]
   tokens: ListFilterInputTypeOfCredentialTokenFilterInput
@@ -364,13 +371,6 @@ input IDictionaryOfStringAndStringFilterInput {
   values: ListStringOperationFilterInput
 }
 
-input IdOperationFilterInput {
-  eq: ID
-  in: [ID]
-  neq: ID
-  nin: [ID]
-}
-
 enum ImageFormat {
   PNG
   WEB_P
@@ -405,21 +405,20 @@ type InsertCorrespondentPayload {
 
 type JobAction {
   destinationConnector: ConnectorDefintion
-  destinationConnectorId: ID
   mode: JobActionMode!
   source: SourceAction
 }
 
 input JobActionFilterInput {
   and: [JobActionFilterInput!]
-  destinationConnectorId: IdOperationFilterInput
+  destinationConnectorId: ComparableNullableOfGuidOperationFilterInput
   mode: JobActionModeOperationFilterInput
   or: [JobActionFilterInput!]
   source: SourceActionFilterInput
 }
 
 input JobActionInput {
-  destinationConnectorId: ID
+  destinationConnectorId: UUID
   mode: JobActionMode!
   source: SourceActionInput
 }
@@ -446,7 +445,6 @@ type JobDefintion implements Node {
   runMode: JobRunMode!
   schedule: JobSchedule
   sourceConnector: ConnectorDefintion!
-  sourceConnectorId: ID!
 }
 
 input JobDefintionFilterInput {
@@ -455,12 +453,12 @@ input JobDefintionFilterInput {
   cronSchedule: StringOperationFilterInput
   enabled: BooleanOperationFilterInput
   filter: StringOperationFilterInput
-  id: IdOperationFilterInput
+  id: ComparableGuidOperationFilterInput
   name: StringOperationFilterInput
   or: [JobDefintionFilterInput!]
   runMode: JobRunModeOperationFilterInput
   schedule: JobScheduleFilterInput
-  sourceConnectorId: IdOperationFilterInput
+  sourceConnectorId: ComparableGuidOperationFilterInput
 }
 
 """A connection to a list of items."""
@@ -605,6 +603,7 @@ input ListStringOperationFilterInput {
 
 type Mutation {
   addOAuthCredentialClient(input: AddOAuthCredentialClientInput!): AddOAuthCredentialClientPayload!
+  addTagDefintion(input: AddTagDefintionInput!): AddTagDefintionPayload!
   insertCorrespondent(input: InsertCorrespondentInput!): InsertCorrespondentPayload!
   updateJobDefinition(input: UpdateJobDefinitionInput!): UpdateJobDefinitionPayload!
   updateThing(input: UpdateThingInput!): UpdateThingPayload!
@@ -692,9 +691,13 @@ type PropertyDefinition {
   options: [String]
 }
 
+type PropertyDefinitionLink {
+  definitionId: ID!
+}
+
 input PropertyDefinitionLinkFilterInput {
   and: [PropertyDefinitionLinkFilterInput!]
-  definitionId: IdOperationFilterInput
+  definitionId: ComparableGuidOperationFilterInput
   or: [PropertyDefinitionLinkFilterInput!]
 }
 
@@ -895,21 +898,21 @@ input RelationTypeOperationFilterInput {
 
 type SourceAction {
   mode: SourceActionMode!
-  newConnectorId: ID
+  newConnectorId: UUID
   newLocation: String
 }
 
 input SourceActionFilterInput {
   and: [SourceActionFilterInput!]
   mode: SourceActionModeOperationFilterInput
-  newConnectorId: IdOperationFilterInput
+  newConnectorId: ComparableNullableOfGuidOperationFilterInput
   newLocation: StringOperationFilterInput
   or: [SourceActionFilterInput!]
 }
 
 input SourceActionInput {
   mode: SourceActionMode!
-  newConnectorId: ID
+  newConnectorId: UUID
   newLocation: String
 }
 
@@ -1002,7 +1005,7 @@ type ThingClass {
 
 input ThingClassFilterInput {
   and: [ThingClassFilterInput!]
-  id: IdOperationFilterInput
+  id: ComparableGuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ThingClassFilterInput!]
   properties: ListFilterInputTypeOfPropertyDefinitionLinkFilterInput
@@ -1024,7 +1027,7 @@ input ThingFilterInput {
   corespondentId: ComparableNullableOfGuidOperationFilterInput
   data: ListFilterInputTypeOfThingDataReferenceFilterInput
   date: ComparableNullableOfDateTimeOperationFilterInput
-  id: IdOperationFilterInput
+  id: ComparableGuidOperationFilterInput
   label: StringOperationFilterInput
   or: [ThingFilterInput!]
   properties: ListFilterInputTypeOfThingProperyFilterInput
@@ -1127,7 +1130,7 @@ input ThingThumbnailFilterInput {
 
 type ThingType {
   contentTypeMap: [String]
-  id: ID!
+  id: UUID!
   name: String
   validClasses: [ThingClass!]!
   version: EntityVersion!
@@ -1136,7 +1139,7 @@ type ThingType {
 input ThingTypeFilterInput {
   and: [ThingTypeFilterInput!]
   contentTypeMap: ListStringOperationFilterInput
-  id: IdOperationFilterInput
+  id: ComparableGuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ThingTypeFilterInput!]
   validClasses: ListComparableGuidOperationFilterInput
