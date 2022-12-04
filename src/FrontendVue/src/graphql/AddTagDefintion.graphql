@@ -1,0 +1,9 @@
+mutation addTagDefintion($input: AddTagDefintionInput!) {
+    addTagDefintion(input: $input) {
+        tagDefinition {
+            id
+            name
+            color
+        }
+    }
+}

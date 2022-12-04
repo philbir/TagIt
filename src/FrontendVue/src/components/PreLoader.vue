@@ -1,6 +1,24 @@
 <template>
     <div v-if="!lookupStore.isReady">
-        <v-progress-circular color="primary" indeterminate :size="72" :width="12"></v-progress-circular>
+        <v-container fill-height fluid>
+            <v-row align="center" justify="center">
+                <v-col class="d-flex justify-center">
+                    <div class="text-center">
+                        <v-row>
+                            <v-col>
+                                <v-progress-circular :size="110" color="blue" indeterminate></v-progress-circular>
+                            </v-col>
+                        </v-row>
+
+                        <v-row>
+                            <v-subheader class="text-center" style="margin: auto">Starting tag
+                                engine...</v-subheader>
+                        </v-row>
+                        <br />
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
     <slot v-else></slot>
 </template>

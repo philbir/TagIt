@@ -16,6 +16,7 @@ const documents = {
     "\n    mutation insertCorrespondent($input: InsertCorrespondentInput!) {\n        insertCorrespondent(input: $input) {\n            correspondent {\n                id\n                name\n            }\n        }\n    }\n": types.InsertCorrespondentDocument,
     "\n    fragment ThingItem on Thing {\n        id\n        title\n        type {\n            name\n        }\n        state\n        thumbnail(loadData: false, pageNumber: 1) {\n            url\n        }\n    }\n": types.ThingItemFragmentDoc,
     "\n    query thingsSearch {\n        things {\n            nodes {\n                id\n                ...ThingItem\n            }\n        }\n    }\n": types.ThingsSearchDocument,
+    "mutation addTagDefintion($input: AddTagDefintionInput!) {\n  addTagDefintion(input: $input) {\n    tagDefinition {\n      id\n      name\n      color\n    }\n  }\n}": types.AddTagDefintionDocument,
     "query getThingById($id: ID!) {\n  thingById(id: $id) {\n    id\n    ...ThingDetail\n  }\n}\n\nfragment ThingDetail on Thing {\n  id\n  title\n  type {\n    id\n    name\n  }\n  class {\n    id\n    name\n  }\n  correspondent {\n    id\n    name\n  }\n  receiver {\n    id\n    name\n  }\n  properties {\n    id\n    value\n    definition {\n      id\n      name\n      dataType\n    }\n  }\n  tags {\n    id\n    name\n    color\n  }\n  source {\n    connectorId\n    uniqueId\n  }\n  date\n  state\n  thumbnail(loadData: false, pageNumber: 1) {\n    url\n  }\n}": types.GetThingByIdDocument,
     "mutation insertCorrespondent($input: InsertCorrespondentInput!) {\n  insertCorrespondent(input: $input) {\n    correspondent {\n      id\n      name\n    }\n  }\n}": types.InsertCorrespondentDocument,
     "query lookups {\n  thingTypes {\n    id\n    name\n    validClasses {\n      id\n      name\n      properties {\n        id\n        name\n        dataType\n      }\n    }\n    contentTypeMap\n  }\n  tagDefintions {\n    nodes {\n      id\n      name\n      color\n    }\n  }\n}": types.LookupsDocument,
@@ -36,6 +37,10 @@ export function graphql(source: "\n    fragment ThingItem on Thing {\n        id
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query thingsSearch {\n        things {\n            nodes {\n                id\n                ...ThingItem\n            }\n        }\n    }\n"): (typeof documents)["\n    query thingsSearch {\n        things {\n            nodes {\n                id\n                ...ThingItem\n            }\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation addTagDefintion($input: AddTagDefintionInput!) {\n  addTagDefintion(input: $input) {\n    tagDefinition {\n      id\n      name\n      color\n    }\n  }\n}"): (typeof documents)["mutation addTagDefintion($input: AddTagDefintionInput!) {\n  addTagDefintion(input: $input) {\n    tagDefinition {\n      id\n      name\n      color\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
