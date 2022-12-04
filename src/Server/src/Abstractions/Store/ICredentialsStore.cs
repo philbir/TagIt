@@ -8,5 +8,9 @@ public interface ICredentialsStore
 
     Task<Credential> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
+    Task<IReadOnlyList<Credential>> GetManyAsync(
+        IEnumerable<Guid> ids,
+        CancellationToken cancellationToken);
+
     public IQueryable<Credential> Query();
 }

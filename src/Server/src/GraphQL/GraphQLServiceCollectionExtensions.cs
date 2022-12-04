@@ -23,6 +23,8 @@ public static class GraphQLServiceCollectionExtensions
             .AddThings()
             .AddCredentials()
             .AddWebHooks()
+            .AddConnectors()
+            .AddJobs()
             .AddMutationConventions()
             .AddErrorInterfaceType<IUserError>()
             .AddSharedTypes()

@@ -22,14 +22,3 @@ internal class ConnectorDefintionCollectionConfiguration :
             });
     }
 }
-
-internal class WebHookCollectionConfiguration :
-    IMongoCollectionConfiguration<WebHook>
-{
-    public void OnConfiguring(
-        IMongoCollectionBuilder<WebHook> builder)
-    {
-        builder
-            .WithDefaults(CollectionNames.WebHook);
-    }
-}

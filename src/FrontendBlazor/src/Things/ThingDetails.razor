@@ -1,0 +1,39 @@
+@attribute [Route(Routing.Things.Details)]
+
+<UseGetThingById Id="@Id" Context="result" Strategy="ExecutionStrategy.CacheFirst">
+    <ChildContent>
+        <MudPaper Class="pa-4">
+            <MudGrid>
+                <MudItem xs="12" sm="7">
+                    <MudImage Src="@result.ThingById.Thumbnail.Url"></MudImage>
+                </MudItem>
+                <MudItem sm="5">
+                    <MudText Typo="Typo.body2">@result.ThingById.Type.Name</MudText>
+                    <embed id="plugin" type="application/x-google-chrome-pdf" src="@PreviewUrl" />
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </ChildContent>
+    <LoadingContent>
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    </LoadingContent>
+    <ErrorContent>
+        <div>Error</div>
+    </ErrorContent>
+</UseGetThingById>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Inject]
+    ISnackbar Snackbar { get; set; }
+
+    string PreviewUrl => $"https://localhost:5001/api/thing/preview/{Id}/Archived";
+
+    protected async override void OnInitialized()
+    {
+
+    }
+}

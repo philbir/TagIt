@@ -1,0 +1,8 @@
+query searchCorrespondents {
+    correspondents(first: 50) {
+        nodes {
+            id
+            name
+        }
+    }
+}

@@ -29,6 +29,7 @@ public static class MongoStoreCollectionExtensions
         services.AddStore<IThingClassStore, ThingClass, ThingClassStore>();
         services.AddStore<ICredentialsStore, Credential, CredentialsStore>();
         services.AddSingleton<IAuditStore, AuditStore>();
+        services.AddSingleton<ICorrespendentStore, CorrespondentStore>();
         services.AddSingleton<IFileStore, FileStore>();
         services.AddSingleton<IConnectorStore, ConnectorStore>();
         services.AddSingleton<IJobDefintionStore, JobDefintionStore>();
@@ -36,6 +37,9 @@ public static class MongoStoreCollectionExtensions
         services.AddSingleton<IWebHookStore, WebHookStore>();
         services.AddSingleton<IClientAuthStateStore, ClientAuthStateStore>();
         services.AddSingleton<IThumbnailStore, ThumbnailStore>();
+        services.AddSingleton<IReceiverStore, ReceiverStore>();
+        services.AddSingleton<IPropertyDefinitionStore, PropertyDefinitionStore>();
+        services.AddSingleton<ITagDefinitionStore, TagDefinitionStore>();
 
         return services;
     }

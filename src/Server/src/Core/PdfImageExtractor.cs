@@ -9,7 +9,5 @@ public class PdfImageExtractor
         CancellationToken cancellationToken)
     {
         return null;
-
     }
-
 }

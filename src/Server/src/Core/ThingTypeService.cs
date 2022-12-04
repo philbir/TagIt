@@ -1,5 +1,4 @@
 using TagIt.Store;
-using TagIt.Store.Mongo;
 
 namespace TagIt;
 

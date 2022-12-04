@@ -10,10 +10,3 @@ public class Correspondent : IEntity
 
     public string Name { get; set; }
 }
-
-public class Receiver : IEntity
-{
-    public Guid Id { get; set; }
-
-    public string Name { get; set; }
-}

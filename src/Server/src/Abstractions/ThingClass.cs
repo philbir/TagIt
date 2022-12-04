@@ -1,4 +1,4 @@
-﻿#nullable disable
+#nullable disable
 using TagIt.Store;
 
 namespace TagIt;
@@ -6,4 +6,11 @@ namespace TagIt;
 public class ThingClass : EntityWithVersion, IEntityWithVersion
 {
     public string Name { get; set; }
+
+    public IReadOnlyList<PropertyDefinitionLink> Properties { get; set; }
+}
+
+public class PropertyDefinitionLink
+{
+    public Guid DefinitionId { get; set; }
 }

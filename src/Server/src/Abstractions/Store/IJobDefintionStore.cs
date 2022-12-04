@@ -12,4 +12,10 @@ public interface IJobDefintionStore
 
     Task<IReadOnlyList<JobDefintion>> GetAllAsync(
         CancellationToken cancellationToken);
+
+    Task<JobDefintion> InsertAsync(JobDefintion entity, CancellationToken cancellationToken);
+
+    Task<JobDefintion> UpdateAsync(JobDefintion entity, CancellationToken cancellationToken);
+
+    public IQueryable<JobDefintion> Query();
 }

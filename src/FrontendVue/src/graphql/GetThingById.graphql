@@ -1,0 +1,50 @@
+query getThingById($id: ID!) {
+    thingById(id: $id) {
+        id
+        ...ThingDetail
+    }
+}
+
+fragment ThingDetail on Thing {
+    id
+    title
+    type {
+        id
+        name
+    }
+    class {
+        id
+        name
+    }
+    correspondent {
+        id
+        name
+    }
+    receiver {
+        id
+        name
+    }
+    properties {
+        id
+        value
+        definition {
+            id
+            name
+            dataType
+        }
+    }
+    tags {
+        id
+        name
+        color
+    }
+    source {
+        connectorId
+        uniqueId
+    }
+    date
+    state
+    thumbnail(loadData: false, pageNumber: 1) {
+        url
+    }
+}

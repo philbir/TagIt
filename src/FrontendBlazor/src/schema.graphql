@@ -5,8 +5,8 @@
 
 type Thing implements Node {
   thumbnail(pageNumber: Int! = 1 loadData: Boolean! = false): ThingThumbnail
-  title: String
-  typeId: UUID
+  title: ID
+  typeId: ID
   classId: UUID
   source: ThingSource
   state: ThingState!
@@ -28,19 +28,49 @@ type ThingThumbnail {
   size: ImageSize
 }
 
+type ProtectedValue {
+  cipher: [Byte!]
+}
+
+type CredentialToken {
+  value: String
+  id: UUID!
+  type: TokenType!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+type OAuthClient {
+  secret: String
+  id: String
+  product: String
+  authority: String
+  scopes: [String]
+  flow: OAuthFlow!
+}
+
 type Query {
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]!
   things("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ThingFilterInput): ThingsConnection
+  thingById(id: ID!): Thing!
   thingTypes: [ThingType!]!
-  credentials: [Credential!]!
+  correspondents("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CorrespondentFilterInput): CorrespondentsConnection
+  correspondentById(id: ID!): Correspondent!
+  credentials("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: CredentialFilterInput): CredentialsConnection
+  credentialsById(id: ID!): Credential!
   webHooks: [WebHook!]!
+  connectors("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ConnectorDefintionFilterInput): ConnectorsConnection
+  jobDefintions("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: JobDefintionFilterInput): JobDefintionsConnection
+  jobDefinitionById(id: ID!): JobDefintion!
 }
 
 type Mutation {
+  insertCorrespondent(input: InsertCorrespondentInput!): InsertCorrespondentPayload!
   addOAuthCredentialClient(input: AddOAuthCredentialClientInput!): AddOAuthCredentialClientPayload!
+  updateJobDefinition(input: UpdateJobDefinitionInput!): UpdateJobDefinitionPayload!
 }
 
 interface UserError {
@@ -105,11 +135,26 @@ type ImageSize {
   width: Int!
 }
 
+"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
+scalar Byte
+
+enum TokenType {
+  ID
+  ACCESS
+  REFRESH
+}
+
+enum OAuthFlow {
+  CODE
+  CLIENT_CREDENTIALS
+  DEVICE
+}
+
 input ThingFilterInput {
   and: [ThingFilterInput!]
   or: [ThingFilterInput!]
-  title: StringOperationFilterInput
-  typeId: ComparableNullableOfGuidOperationFilterInput
+  title: IdOperationFilterInput
+  typeId: IdOperationFilterInput
   classId: ComparableNullableOfGuidOperationFilterInput
   source: ThingSourceFilterInput
   state: ThingStateOperationFilterInput
@@ -121,7 +166,7 @@ input ThingFilterInput {
   thumbnails: ListFilterInputTypeOfThingThumbnailFilterInput
   relations: ListFilterInputTypeOfThingRelationFilterInput
   data: ListFilterInputTypeOfThingDataReferenceFilterInput
-  id: ComparableGuidOperationFilterInput
+  id: IdOperationFilterInput
   version: EntityVersionFilterInput
 }
 
@@ -135,19 +180,92 @@ type ThingsConnection {
   nodes: [Thing!]
 }
 
-input StringOperationFilterInput {
-  and: [StringOperationFilterInput!]
-  or: [StringOperationFilterInput!]
-  eq: String
-  neq: String
-  contains: String
-  ncontains: String
-  in: [String]
-  nin: [String]
-  startsWith: String
-  nstartsWith: String
-  endsWith: String
-  nendsWith: String
+input CorrespondentFilterInput {
+  and: [CorrespondentFilterInput!]
+  or: [CorrespondentFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  name: StringOperationFilterInput
+}
+
+"A connection to a list of items."
+type CorrespondentsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [CorrespondentsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Correspondent!]
+}
+
+input CredentialFilterInput {
+  and: [CredentialFilterInput!]
+  or: [CredentialFilterInput!]
+  id: IdOperationFilterInput
+  name: StringOperationFilterInput
+  client: OAuthClientFilterInput
+  tokens: ListFilterInputTypeOfCredentialTokenFilterInput
+}
+
+"A connection to a list of items."
+type CredentialsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [CredentialsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Credential!]
+}
+
+input ConnectorDefintionFilterInput {
+  and: [ConnectorDefintionFilterInput!]
+  or: [ConnectorDefintionFilterInput!]
+  id: IdOperationFilterInput
+  type: StringOperationFilterInput
+  name: StringOperationFilterInput
+  root: StringOperationFilterInput
+  properties: IDictionaryOfStringAndStringFilterInput
+  credentialId: IdOperationFilterInput
+}
+
+"A connection to a list of items."
+type ConnectorsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ConnectorsEdge!]
+  "A flattened list of the nodes."
+  nodes: [ConnectorDefintion!]
+}
+
+input JobDefintionFilterInput {
+  and: [JobDefintionFilterInput!]
+  or: [JobDefintionFilterInput!]
+  id: IdOperationFilterInput
+  name: StringOperationFilterInput
+  runMode: JobRunModeOperationFilterInput
+  cronSchedule: StringOperationFilterInput
+  schedule: JobScheduleFilterInput
+  filter: StringOperationFilterInput
+  sourceConnectorId: IdOperationFilterInput
+  action: JobActionFilterInput
+  enabled: BooleanOperationFilterInput
+}
+
+"A connection to a list of items."
+type JobDefintionsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [JobDefintionsEdge!]
+  "A flattened list of the nodes."
+  nodes: [JobDefintion!]
+}
+
+input IdOperationFilterInput {
+  eq: ID
+  neq: ID
+  in: [ID]
+  nin: [ID]
 }
 
 input ComparableNullableOfGuidOperationFilterInput {
@@ -178,6 +296,21 @@ input ThingStateOperationFilterInput {
   neq: ThingState
   in: [ThingState!]
   nin: [ThingState!]
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
 }
 
 input ListFilterInputTypeOfTagFilterInput {
@@ -223,21 +356,6 @@ input ListFilterInputTypeOfThingDataReferenceFilterInput {
   any: Boolean
 }
 
-input ComparableGuidOperationFilterInput {
-  eq: UUID
-  neq: UUID
-  in: [UUID!]
-  nin: [UUID!]
-  gt: UUID
-  ngt: UUID
-  gte: UUID
-  ngte: UUID
-  lt: UUID
-  nlt: UUID
-  lte: UUID
-  nlte: UUID
-}
-
 input EntityVersionFilterInput {
   and: [EntityVersionFilterInput!]
   or: [EntityVersionFilterInput!]
@@ -264,6 +382,141 @@ type ThingsEdge {
   cursor: String!
   "The item at the end of the edge."
   node: Thing!
+}
+
+input ComparableGuidOperationFilterInput {
+  eq: UUID
+  neq: UUID
+  in: [UUID!]
+  nin: [UUID!]
+  gt: UUID
+  ngt: UUID
+  gte: UUID
+  ngte: UUID
+  lt: UUID
+  nlt: UUID
+  lte: UUID
+  nlte: UUID
+}
+
+type Correspondent implements Node {
+  id: ID!
+  name: String
+}
+
+"An edge in a connection."
+type CorrespondentsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Correspondent!
+}
+
+input OAuthClientFilterInput {
+  and: [OAuthClientFilterInput!]
+  or: [OAuthClientFilterInput!]
+  id: StringOperationFilterInput
+  product: StringOperationFilterInput
+  secret: ProtectedValueFilterInput
+  authority: StringOperationFilterInput
+  scopes: ListStringOperationFilterInput
+  flow: OAuthFlowOperationFilterInput
+}
+
+input ListFilterInputTypeOfCredentialTokenFilterInput {
+  all: CredentialTokenFilterInput
+  none: CredentialTokenFilterInput
+  some: CredentialTokenFilterInput
+  any: Boolean
+}
+
+type Credential {
+  id: ID!
+  name: String
+  client: OAuthClient
+  tokens: [CredentialToken]
+}
+
+"An edge in a connection."
+type CredentialsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Credential!
+}
+
+input IDictionaryOfStringAndStringFilterInput {
+  and: [IDictionaryOfStringAndStringFilterInput!]
+  or: [IDictionaryOfStringAndStringFilterInput!]
+  keys: ListStringOperationFilterInput
+  values: ListStringOperationFilterInput
+}
+
+type ConnectorDefintion implements Node {
+  id: ID!
+  type: String
+  name: String
+  root: String
+  properties: [KeyValuePairOfStringAndString!]
+  credentialId: ID
+  credential: Credential
+}
+
+"An edge in a connection."
+type ConnectorsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: ConnectorDefintion!
+}
+
+input JobRunModeOperationFilterInput {
+  eq: JobRunMode
+  neq: JobRunMode
+  in: [JobRunMode!]
+  nin: [JobRunMode!]
+}
+
+input JobScheduleFilterInput {
+  and: [JobScheduleFilterInput!]
+  or: [JobScheduleFilterInput!]
+  type: JobSchudeleTypeOperationFilterInput
+  cronExpression: StringOperationFilterInput
+  intervall: ComparableNullableOfInt32OperationFilterInput
+}
+
+input JobActionFilterInput {
+  and: [JobActionFilterInput!]
+  or: [JobActionFilterInput!]
+  mode: JobActionModeOperationFilterInput
+  source: SourceActionFilterInput
+  destinationConnectorId: IdOperationFilterInput
+}
+
+input BooleanOperationFilterInput {
+  eq: Boolean
+  neq: Boolean
+}
+
+type JobDefintion implements Node {
+  id: ID!
+  name: String!
+  runMode: JobRunMode!
+  cronSchedule: String
+  schedule: JobSchedule
+  filter: String
+  sourceConnectorId: ID!
+  action: JobAction!
+  enabled: Boolean!
+  sourceConnector: ConnectorDefintion!
+}
+
+"An edge in a connection."
+type JobDefintionsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: JobDefintion!
 }
 
 input TagFilterInput {
@@ -332,6 +585,74 @@ input ComparableDateTimeOperationFilterInput {
   nlte: DateTime
 }
 
+input ProtectedValueFilterInput {
+  and: [ProtectedValueFilterInput!]
+  or: [ProtectedValueFilterInput!]
+  cipher: ListComparableByteOperationFilterInput
+  value: StringOperationFilterInput
+}
+
+input ListStringOperationFilterInput {
+  all: StringOperationFilterInput
+  none: StringOperationFilterInput
+  some: StringOperationFilterInput
+  any: Boolean
+}
+
+input OAuthFlowOperationFilterInput {
+  eq: OAuthFlow
+  neq: OAuthFlow
+  in: [OAuthFlow!]
+  nin: [OAuthFlow!]
+}
+
+input CredentialTokenFilterInput {
+  and: [CredentialTokenFilterInput!]
+  or: [CredentialTokenFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  type: TokenTypeOperationFilterInput
+  value: ProtectedValueFilterInput
+  createdAt: ComparableDateTimeOffsetOperationFilterInput
+  expiresAt: ComparableNullableOfDateTimeOffsetOperationFilterInput
+}
+
+input JobSchudeleTypeOperationFilterInput {
+  eq: JobSchudeleType
+  neq: JobSchudeleType
+  in: [JobSchudeleType!]
+  nin: [JobSchudeleType!]
+}
+
+input ComparableNullableOfInt32OperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int]
+  nin: [Int]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input JobActionModeOperationFilterInput {
+  eq: JobActionMode
+  neq: JobActionMode
+  in: [JobActionMode!]
+  nin: [JobActionMode!]
+}
+
+input SourceActionFilterInput {
+  and: [SourceActionFilterInput!]
+  or: [SourceActionFilterInput!]
+  mode: SourceActionModeOperationFilterInput
+  newLocation: StringOperationFilterInput
+  newConnectorId: IdOperationFilterInput
+}
+
 input ListComparableByteOperationFilterInput {
   all: ComparableByteOperationFilterInput
   none: ComparableByteOperationFilterInput
@@ -360,6 +681,50 @@ input RelationTypeOperationFilterInput {
   nin: [RelationType!]
 }
 
+input TokenTypeOperationFilterInput {
+  eq: TokenType
+  neq: TokenType
+  in: [TokenType!]
+  nin: [TokenType!]
+}
+
+input ComparableDateTimeOffsetOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime!]
+  nin: [DateTime!]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input ComparableNullableOfDateTimeOffsetOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input SourceActionModeOperationFilterInput {
+  eq: SourceActionMode
+  neq: SourceActionMode
+  in: [SourceActionMode!]
+  nin: [SourceActionMode!]
+}
+
 input ComparableByteOperationFilterInput {
   eq: Byte
   neq: Byte
@@ -375,12 +740,53 @@ input ComparableByteOperationFilterInput {
   nlte: Byte
 }
 
-"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
-scalar Byte
+enum SourceActionMode {
+  DELETE
+  MOVE
+}
 
 enum RelationType {
   CHILD
   RELATATED
+}
+
+enum JobActionMode {
+  IMPORT
+  LINK
+}
+
+enum JobSchudeleType {
+  INTERVAL
+  CRON
+}
+
+type JobAction {
+  mode: JobActionMode!
+  source: SourceAction
+  destinationConnectorId: ID
+  destinationConnector: ConnectorDefintion
+}
+
+type JobSchedule {
+  type: JobSchudeleType!
+  cronExpression: String
+  intervall: Int
+}
+
+enum JobRunMode {
+  WATCH
+  HARVEST
+}
+
+input UpdateJobDefinitionInput {
+  id: ID!
+  name: String!
+  runMode: JobRunMode!
+  filter: String
+  sourceConnectorId: ID!
+  action: JobActionInput!
+  schedule: JobScheduleInput
+  enabled: Boolean!
 }
 
 type WebHook {
@@ -404,42 +810,17 @@ input OAuthClientInput {
   flow: OAuthFlow!
 }
 
-type Credential {
-  id: UUID!
-  name: String
-  client: OAuthClient
-  tokens: [CredentialToken]
+type KeyValuePairOfStringAndString {
+  key: String!
+  value: String!
 }
 
 type ThingType {
   name: String
   validClasses: [UUID!]
   contentTypeMap: [String]
-  id: UUID!
+  id: ID!
   version: EntityVersion!
-}
-
-type CredentialToken {
-  id: UUID!
-  type: TokenType!
-  value: ProtectedValue
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
-type OAuthClient {
-  id: String
-  product: String
-  secret: ProtectedValue
-  authority: String
-  scopes: [String]
-  flow: OAuthFlow!
-}
-
-enum OAuthFlow {
-  CODE
-  CLIENT_CREDENTIALS
-  DEVICE
 }
 
 input ProtectedValueInput {
@@ -447,15 +828,36 @@ input ProtectedValueInput {
   value: String
 }
 
-type ProtectedValue {
-  cipher: [Byte!]
-  value: String
+input JobScheduleInput {
+  type: JobSchudeleType!
+  cronExpression: String
+  intervall: Int
 }
 
-enum TokenType {
-  ID
-  ACCESS
-  REFRESH
+input JobActionInput {
+  mode: JobActionMode!
+  source: SourceActionInput
+  destinationConnectorId: ID
+}
+
+type SourceAction {
+  mode: SourceActionMode!
+  newLocation: String
+  newConnectorId: ID
+}
+
+input SourceActionInput {
+  mode: SourceActionMode!
+  newLocation: String
+  newConnectorId: ID
+}
+
+input InsertCorrespondentInput {
+  name: String!
+}
+
+type InsertCorrespondentPayload {
+  correspondent: Correspondent
 }
 
 input AddOAuthCredentialClientInput {
@@ -465,6 +867,10 @@ input AddOAuthCredentialClientInput {
 
 type AddOAuthCredentialClientPayload {
   credential: Credential
+}
+
+type UpdateJobDefinitionPayload {
+  jobDefintion: JobDefintion
 }
 
 "The `@oneOf` directive is used within the type system definition language\n to indicate:\n\n - an Input Object is a Oneof Input Object, or\n - an Object Type's Field is a Oneof Field."

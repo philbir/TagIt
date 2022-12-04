@@ -13,6 +13,8 @@ public class JobDefintion : IEntity
 
     public string? CronSchedule { get; set; }
 
+    public JobSchedule? Schedule { get; set; }
+
     public string? Filter { get; set; }
 
     public Guid SourceConnectorId { get; set; }
@@ -20,6 +22,25 @@ public class JobDefintion : IEntity
     public JobAction Action { get; set; }
 
     public bool Enabled { get; set; }
+}
+
+
+public class JobSchedule
+{
+    public JobScheduleType Type { get; set; }
+
+    public string? CronExpression { get; set; }
+
+    /// <summary>
+    /// Intervall in seconds
+    /// </summary>
+    public int? Intervall { get; set; }
+}
+
+public enum JobScheduleType
+{
+    Interval,
+    Cron
 }
 
 public class JobAction

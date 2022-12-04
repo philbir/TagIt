@@ -16,8 +16,11 @@ public class DataSeeder
     {
         //await SeedConnectorsAsync(cancellationToken);
         //await SeedJobsAsync(cancellationToken);
-        await SeedThingTypesAsync(cancellationToken);
-        await SeedThingClassesAsync(cancellationToken);
+        //await SeedPropertyDefinitionsAsync(cancellationToken);
+        //await SeedThingTypesAsync(cancellationToken);
+        //await SeedThingClassesAsync(cancellationToken);
+        //await SeedReceiversAsync(cancellationToken);
+        await SeedTagDefintionsAsync(cancellationToken);
     }
 
     public async Task SeedConnectorsAsync(CancellationToken cancellationToken)
@@ -43,6 +46,18 @@ public class DataSeeder
             cancellationToken);
     }
 
+    public async Task SeedPropertyDefinitionsAsync(CancellationToken cancellationToken)
+    {
+        IMongoCollection<PropertyDefinition> collection = _tagIdDbContext
+            .GetCollection<PropertyDefinition>();
+
+        await collection.DeleteManyAsync(Builders<PropertyDefinition>.Filter.Empty);
+        await collection.InsertManyAsync(
+            PropertyDefinitions,
+            new InsertManyOptions(),
+            cancellationToken);
+    }
+
     public async Task SeedThingTypesAsync(CancellationToken cancellationToken)
     {
         IMongoCollection<ThingType> collection = _tagIdDbContext
@@ -55,6 +70,18 @@ public class DataSeeder
             cancellationToken);
     }
 
+    public async Task SeedReceiversAsync(CancellationToken cancellationToken)
+    {
+        IMongoCollection<Receiver> collection = _tagIdDbContext
+            .GetCollection<Receiver>();
+
+        await collection.DeleteManyAsync(Builders<Receiver>.Filter.Empty);
+        await collection.InsertManyAsync(
+            Receivers,
+            new InsertManyOptions(),
+            cancellationToken);
+    }
+
     public async Task SeedThingClassesAsync(CancellationToken cancellationToken)
     {
         IMongoCollection<ThingClass> collection = _tagIdDbContext
@@ -63,6 +90,18 @@ public class DataSeeder
         await collection.DeleteManyAsync(Builders<ThingClass>.Filter.Empty);
         await collection.InsertManyAsync(
             ThingClasses,
+            new InsertManyOptions(),
+            cancellationToken);
+    }
+
+    public async Task SeedTagDefintionsAsync(CancellationToken cancellationToken)
+    {
+        IMongoCollection<TagDefinition> collection = _tagIdDbContext
+            .GetCollection<TagDefinition>();
+
+        await collection.DeleteManyAsync(Builders<TagDefinition>.Filter.Empty);
+        await collection.InsertManyAsync(
+            TagDefintions,
             new InsertManyOptions(),
             cancellationToken);
     }
@@ -80,6 +119,11 @@ public class DataSeeder
                 {
                     Id = Guid.Parse("5cb97142-c291-429c-a070-5da01d7e3991"),
                     Name = "Bill",
+                    Properties = new List<PropertyDefinitionLink>
+                    {
+                        new PropertyDefinitionLink{ DefinitionId = Guid.Parse("efaf1a07-6f3f-4169-9bab-1190e20e805d")},
+                        new PropertyDefinitionLink{ DefinitionId = Guid.Parse("e16c1632-9272-4288-9533-112c85515598")},
+                    },
                     Version = NewVersion
                 },
                 new ThingClass
@@ -88,6 +132,52 @@ public class DataSeeder
                     Name = "Receipt",
                     Version = NewVersion
                 }
+        };
+
+    public IEnumerable<PropertyDefinition> PropertyDefinitions =>
+    new List<PropertyDefinition>()
+    {
+            new()
+            {
+                Id = Guid.Parse("efaf1a07-6f3f-4169-9bab-1190e20e805d"),
+                Name = "Amount",
+                DataType = PropertyDataType.Number
+            },
+            new()
+            {
+                Id = Guid.Parse("25b99fe4-21a0-4801-a010-1ff15f7d90aa"),
+                Name = "WarantyUntil",
+                DataType = PropertyDataType.DateTime
+            },
+            new()
+            {
+                Id = Guid.Parse("e16c1632-9272-4288-9533-112c85515598"),
+                Name = "DueDate",
+                DataType = PropertyDataType.DateTime
+            },
+    };
+
+    public IEnumerable<TagDefinition> TagDefintions =>
+        new List<TagDefinition>()
+        {
+            new()
+            {
+                Id = Guid.Parse("0c691214-bd32-4a16-9919-b815262c1bc3"),
+                Name = "New",
+                Color = "#F44336"
+            },
+            new()
+            {
+                Id = Guid.Parse("6a2e467a-1381-41d1-bd3a-08dc40bcdc47"),
+                Name = "Foo",
+                Color = "#9C27B0"
+            },
+            new()
+            {
+                Id = Guid.Parse("da6bbc68-3a3f-4d89-a424-4317e1c54510"),
+                Name = "Hot",
+                Color = "#4CAF50"
+            }
         };
 
     public IEnumerable<ThingType> ThingTypes =>
@@ -141,7 +231,11 @@ public class DataSeeder
                 Enabled= false,
                 RunMode = JobRunMode.Harvest,
                 SourceConnectorId= Connectors.Skip(1).First().Id,
-                CronSchedule = "*",
+                Schedule = new JobSchedule
+                {
+                    Type = JobScheduleType.Interval,
+                    Intervall = 60
+                },
                 Action = new JobAction
                 {
                     Mode = JobActionMode.Import,
@@ -161,7 +255,11 @@ public class DataSeeder
                 Enabled= true,
                 RunMode = JobRunMode.Harvest,
                 SourceConnectorId = Connectors.Skip(3).First().Id,
-                CronSchedule = "*",
+                Schedule = new JobSchedule
+                {
+                    Type = JobScheduleType.Interval,
+                    Intervall = 60
+                },
                 Action = new JobAction
                 {
                     Mode = JobActionMode.Import,
@@ -247,6 +345,14 @@ public class DataSeeder
             }
         };
 
+    public IEnumerable<Receiver> Receivers =>
+        new List<Receiver>()
+        {
+            new() { Id = Guid.NewGuid(), Name = "John"},
+            new() { Id = Guid.NewGuid(), Name = "Annie"},
+            new() { Id = Guid.NewGuid(), Name = "Yael"},
+            new() { Id = Guid.NewGuid(), Name = "Jana"},
+        };
 
     private EntityVersion NewVersion =>
         new EntityVersion

@@ -30,3 +30,59 @@
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+.thing-item-wrapper {
+    position: relative;
+}
+
+.thing-item-header {
+    top: 0px;
+    width: 100%;
+    height: 60px;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    background-color: #2e2e2e;
+    opacity: .85;
+    position: absolute;
+    color: #fff;
+    font-weight: bolder;
+    padding: 6px;
+    font-size: 1.0em;
+}
+
+.thing-item-header small {
+    font-size: .9em;
+    font-weight: lighter;
+}
+
+
+.thing-item-footer {
+    /*pointer-events: none;*/
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: #b3adad;
+    opacity: 0;
+    position: absolute;
+    color: #fff;
+    font-weight: bolder;
+    padding: 6px;
+    font-size: 1.0em;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+    .thing-item-footer.active {
+        opacity: .8;
+        transition: opacity;
+        transition-timing-function: ease-in-out;
+        transition-duration: 400ms;
+        transition-delay: 0s;
+    }
+
+
+    .text-elipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }

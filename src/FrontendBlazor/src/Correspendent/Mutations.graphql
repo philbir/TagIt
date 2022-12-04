@@ -1,0 +1,8 @@
+mutation insertCorrespondent($input: InsertCorrespondentInput!) {
+  insertCorrespondent(input: $input) {
+    correspondent {
+      id
+      name
+    }
+  }
+}

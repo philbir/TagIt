@@ -47,10 +47,16 @@ public static class TagItServerBuilderExtensions
         services.AddSingleton<IThingDataResolver, ThingDataResolver>();
         services.AddEntityService<IThingService, ThingService, Thing>();
         services.AddEntityService<IThingTypeService, ThingTypeService, ThingType>();
+        services.AddEntityService<IThingClassService, ThingClassService, ThingClass>();
         services.AddSingleton<ICredentialStoreService, CredentialStoreService>();
+        services.AddSingleton<IConnectorDefinitionService, ConnectorDefinitionService>();
+        services.AddSingleton<ICorrespondentService, CorrespondentService>();
         services.AddSingleton<IUserContextAccessor, UserContextAccessor>();
         services.AddSingleton<IOpenIdConnectDiscoveryService, OpenIdConnectDiscoveryService>();
         services.AddSingleton<ICredentialStoreTokenManager, CredentialStoreTokenManager>();
+        services.AddSingleton<IJobDefintionService, JobDefintionService>();
+        services.AddSingleton<IReceiverService, ReceiverService>();
+        services.AddSingleton<ITagDefinitionService, TagDefinitionService>();
         services.AddHttpClient();
 
         services.AddSingleton<IImageConverter, MagickImageConverter>();

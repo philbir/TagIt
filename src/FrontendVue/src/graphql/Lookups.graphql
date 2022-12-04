@@ -1,0 +1,23 @@
+query lookups {
+    thingTypes {
+        id
+        name
+        validClasses {
+            id
+            name
+            properties {
+                id
+                name
+                dataType
+            }
+        }
+        contentTypeMap
+    }
+    tagDefintions {
+        nodes {
+            id
+            name
+            color
+        }
+    }
+}

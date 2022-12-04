@@ -1,4 +1,10 @@
 <MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="things" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Things</MudNavLink>
+    <MudNavLink Href="things" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.FilePresent">Things</MudNavLink>
+    <MudNavLink Href="correspondents" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Signpost">Correspondents</MudNavLink>
+      <MudNavGroup Title="Settings" Icon="@Icons.Filled.Settings" Expanded="true">
+        <MudNavLink Href="connectors" Match="NavLinkMatch.Prefix">Connectors</MudNavLink>
+        <MudNavLink Href="jobdefinitions" Match="NavLinkMatch.Prefix">Jobs</MudNavLink>
+        <MudNavLink Href="credentials" Match="NavLinkMatch.Prefix">Credentials</MudNavLink>
+    </MudNavGroup>
 </MudNavMenu>

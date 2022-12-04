@@ -38,6 +38,7 @@ app.UseStaticFiles();
 app.UseRouting();
 //app.UseAuthentication();
 //app.UseAuthorization();
+app.UseMiddleware<UserContextMiddleware>();
 app.UseCors();
 app.UseEndpoints(endpoints =>
 {

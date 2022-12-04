@@ -6,4 +6,9 @@ public class JobDefintionStore : Store<JobDefintion>, IJobDefintionStore
         : base(dbContext)
     {
     }
+
+    IQueryable<JobDefintion> IJobDefintionStore.Query()
+    {
+        return Query;
+    }
 }
