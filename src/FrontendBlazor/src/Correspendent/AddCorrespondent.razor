@@ -1,0 +1,55 @@
+@attribute [Route(Routing.Correspondent.Add)]
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form" @bind-IsValid="@success">
+                <MudTextField @bind-Value="model.Name" For="@(() => model.Name)" Label="Name" Required="true" RequiredError="Name is required" />
+            </MudForm>
+        </MudPaper>
+        <MudPaper Class="pa-4 mt-4">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=> Save())">Save</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" Href="@Routing.Correspondent.Page" Class="mx-2">Cancel</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            <MudText Typo="Typo.subtitle2">@($"Errors ({errors.Length})")</MudText>
+                @foreach (var error in errors)
+            {
+                <MudText Color="@Color.Error">@error</MudText>
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    [Inject] ISnackbar Snackbar { get; set; }
+    [Inject] InsertCorrespondentMutation InsertCorrespondentMutation { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
+
+    bool success;
+    string[] errors = { };
+    MudTextField<string> pwField1;
+    MudForm form;
+
+    AddCorrespondentForm model = new AddCorrespondentForm();
+
+    async Task Save()
+    {
+        var result = await InsertCorrespondentMutation.ExecuteAsync(
+            new InsertCorrespondentInput
+            {
+                Name = model.Name!
+            });
+
+        Snackbar.Add($"Correspondent {model.Name} added.", Severity.Success);
+        NavigationManager.NavigateTo(Routing.Correspondent.Page);
+    }
+
+    public class AddCorrespondentForm
+    {
+        public string? Name { get; set; }
+    }
+}

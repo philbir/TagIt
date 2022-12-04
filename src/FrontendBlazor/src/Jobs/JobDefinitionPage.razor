@@ -1,0 +1,45 @@
+@using System.Text.Json;
+@attribute [Route(Routing.JobDefintions.Page)]
+
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudDataGrid Items="@Service.JobDefintions" T="JobDefinitionItem" Striped RowClick="@RowClicked">
+        <Columns>
+            <Column T="JobDefinitionItem" Field="Name" />
+            <Column T="JobDefinitionItem" Field="RunMode" />
+            <Column T="JobDefinitionItem" Field="Filter" />
+            <Column T="JobDefinitionItem" Field="SourceConnectorName" Title="Connector" />
+            <Column T="JobDefinitionItem" Field="Enabled" Context="context">
+                <CellTemplate>
+                    <MudCheckBox Checked="@context.Item.Enabled"></MudCheckBox>
+                </CellTemplate>
+            </Column>
+
+        </Columns>
+    </MudDataGrid>
+    <MudFab Class="mt-10" Href="@Routing.JobDefintions.Add" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+</MudContainer>
+
+
+@code {
+
+    [Inject]
+    public SettingsService Service { get; set; }
+
+    [Inject]
+    public NavigationManager Navigation { get; set; }
+
+
+    override protected async Task OnInitializedAsync()
+    {
+        Service.LoadJobDefintionsAsync((j) =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private void RowClicked(DataGridRowClickEventArgs<JobDefinitionItem> e)
+    {
+        Navigation.NavigateTo(Routing.JobDefintions.GetEdit(e.Item.Id));
+    }
+}

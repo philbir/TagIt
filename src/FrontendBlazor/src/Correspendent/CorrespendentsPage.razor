@@ -1,0 +1,45 @@
+@attribute [Route(Routing.Correspondent.Page)]
+
+@if (correspondents is not null)
+{
+    <MudContainer MaxWidth="MaxWidth.Medium">
+        <MudDataGrid T="CorrespondentItem" Items="@correspondents">
+            <Columns>
+                <Column Resizable="true" T="CorrespondentItem" Field="Id" Title="Id" />
+                <Column T="CorrespondentItem" Field="Name" Title="Name" />
+            </Columns>
+        </MudDataGrid>
+        <MudFab Class="mt-10" Href="@Routing.Correspondent.Add" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+    </MudContainer>
+}
+else
+{
+    <div>Loading</div>
+}
+
+@code {
+
+    [Inject]
+    public CorrespondentsSearchQuery SearchQuery { get; set; }
+
+    public IEnumerable<CorrespondentItem>? correspondents = null;
+
+    private IDisposable storeCorrespondents;
+
+
+    override protected async Task OnInitializedAsync()
+    {
+        storeCorrespondents = SearchQuery
+         .Watch(ExecutionStrategy.CacheAndNetwork)
+         .Where(x => !x.Errors.Any())
+         .Select(x => x.Data.Correspondents.Nodes.Select(t => new CorrespondentItem(t.Id, t.Name)))
+         .Subscribe(result =>
+         {
+             correspondents = result;
+             StateHasChanged();
+         });
+    }
+
+    public record CorrespondentItem(string Id, string Name);
+}
+
