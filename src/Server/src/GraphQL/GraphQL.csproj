@@ -10,6 +10,13 @@
     <PackageReference Include="HotChocolate.AspNetCore" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" />
     <PackageReference Include="HotChocolate.Data" />
+      <PackageReference Include="HotChocolate.Types.Analyzers">
+
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+
+      </PackageReference>
+
   </ItemGroup>
 
   <ItemGroup>

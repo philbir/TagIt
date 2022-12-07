@@ -12,8 +12,9 @@ public class ThingQueries
         return service.Query(cancellationToken);
     }
 
+    [NodeResolver]
     public Task<Thing> GetThingByIdAsync(
-        [ID(nameof(Thing))] Guid id,
+        Guid id,
         [Service] IThingService service,
         CancellationToken cancellationToken)
     {

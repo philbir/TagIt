@@ -15,6 +15,7 @@ public class JobQueries
         return service.Query(cancellationToken);
     }
 
+    [NodeResolver]
     public Task<JobDefintion> GetJobDefinitionByIdAsync(
         [ID(nameof(JobDefintion))] Guid id,
         [Service] IJobDefintionService service,

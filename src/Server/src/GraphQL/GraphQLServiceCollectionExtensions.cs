@@ -20,11 +20,7 @@ public static class GraphQLServiceCollectionExtensions
         this IRequestExecutorBuilder builder)
     {
         builder
-            .AddThings()
-            .AddCredentials()
-            .AddWebHooks()
-            .AddConnectors()
-            .AddJobs()
+            .AddTagIt()
             .AddMutationConventions()
             .AddErrorInterfaceType<IUserError>()
             .AddSharedTypes()
@@ -34,7 +30,6 @@ public static class GraphQLServiceCollectionExtensions
             .AddSorting()
             .ModifyOptions(x =>
             {
-                x.EnableFlagEnums = true;
                 x.EnableOneOf = true;
             });
 
