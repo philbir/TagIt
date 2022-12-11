@@ -5,14 +5,14 @@ namespace TagIt;
 public class DataExtractionWorker : BackgroundService
 {
     private readonly IThingService _thingService;
-    private readonly IDataExtractionService _dataExtractionService;
+    private readonly IContentExtractionService _contentExtractionService;
 
     public DataExtractionWorker(
         IThingService thingService,
-        IDataExtractionService dataExtractionService)
+        IContentExtractionService contentExtractionService)
     {
         _thingService = thingService;
-        _dataExtractionService = dataExtractionService;
+        _contentExtractionService = contentExtractionService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -23,7 +23,7 @@ public class DataExtractionWorker : BackgroundService
             Guid.Parse("90b7a2e6-9982-472e-9e9f-5ca09e00bb1c"),
             stoppingToken);
 
-        var data = await _dataExtractionService.ExtractAsync(thing, stoppingToken);
+        var data = await _contentExtractionService.ExtractAsync(thing, stoppingToken);
 
         var all = string.Join('\n', data.Select(x =>
         {

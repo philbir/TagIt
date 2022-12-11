@@ -10,17 +10,19 @@ namespace TagIt;
 
 public class TokenExtractorService
 {
-    public async ValueTask ExtractAsync(string value, CancellationToken cancellationToken)
+    public async ValueTask<IEnumerable<TokenData>> TokenizeAsync(
+        string value,
+        CancellationToken cancellationToken)
     {
-
-
-
+        throw new NotImplementedException();
     }
 }
 
-public class DateTokenExtractor : ITokenExtractor
+public class DateContentTokenizer : IContentTokenizer
 {
     Regex dateExpression = new Regex(@"\d{1,2}\.\d{1,2}\.\d{4}");
+
+    public string Name { get; } = "Date";
 
     public ValueTask<IReadOnlyList<TokenData>> TokenizeAsync(string value, CancellationToken cancellationToken)
     {
@@ -34,16 +36,13 @@ public class DateTokenExtractor : ITokenExtractor
 
             var tokenData = new TokenData
             {
-                Value = date,
-                Index = match.Index,
-                Length = match.Length,
-                Display = GetDisplay(match, value)
+                Value = date, Index = match.Index, Length = match.Length, Display = GetDisplay(match, value)
             };
 
             result.Add(tokenData);
         }
 
-        return ValueTask.FromResult((IReadOnlyList<TokenData>) result);
+        return ValueTask.FromResult((IReadOnlyList<TokenData>)result);
     }
 
     private string GetDisplay(Match match, string value)
@@ -56,16 +55,18 @@ public class DateTokenExtractor : ITokenExtractor
     }
 }
 
-public interface ITokenExtractor
+public interface IContentTokenizer
 {
+    string Name { get; }
     ValueTask<IReadOnlyList<TokenData>> TokenizeAsync(string value, CancellationToken cancellationToken);
 }
 
 public class TokenData
 {
+    public string Type { get; set; }
     public object Value { get; set; }
-    public int Index { get; internal set; }
-    public int Length { get; internal set; }
+    public int Index { get; set; }
+    public int Length { get; set; }
     public string Display { get; set; }
 
     public override string ToString()

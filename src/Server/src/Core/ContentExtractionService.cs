@@ -4,12 +4,12 @@ using iText.Kernel.Pdf.Canvas.Parser.Listener;
 
 namespace TagIt;
 
-public class DataExtractionService : IDataExtractionService
+public class DataContent : IDataExtractionService
 {
     private readonly IThingDataResolver _thingDataResolver;
     private readonly IEnumerable<IThingDataExtractor> _thingDataExtractors;
 
-    public DataExtractionService(
+    public DataContent(
         IThingDataResolver thingDataResolver,
         IEnumerable<IThingDataExtractor> thingDataExtractors)
     {
