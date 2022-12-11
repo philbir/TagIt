@@ -1,5 +1,4 @@
 
-using System.Security.Cryptography.X509Certificates;
 using MongoDB.Driver;
 
 namespace TagIt.Store.Mongo;
@@ -27,5 +26,3 @@ public class ThingStore : Store<Thing>, IThingStore
             cancellationToken);
     }
 }
-
-

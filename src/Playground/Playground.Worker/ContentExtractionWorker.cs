@@ -2,17 +2,20 @@ using Serilog;
 
 namespace TagIt;
 
-public class DataExtractionWorker : BackgroundService
+public class ContentExtractionWorker : BackgroundService
 {
     private readonly IThingService _thingService;
     private readonly IContentExtractionService _contentExtractionService;
+    private readonly IThingContentService _contentService;
 
-    public DataExtractionWorker(
+    public ContentExtractionWorker(
         IThingService thingService,
-        IContentExtractionService contentExtractionService)
+        IContentExtractionService contentExtractionService,
+        IThingContentService contentService)
     {
         _thingService = thingService;
         _contentExtractionService = contentExtractionService;
+        _contentService = contentService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -23,17 +26,20 @@ public class DataExtractionWorker : BackgroundService
             Guid.Parse("90b7a2e6-9982-472e-9e9f-5ca09e00bb1c"),
             stoppingToken);
 
-        var data = await _contentExtractionService.ExtractAsync(thing, stoppingToken);
+        IReadOnlyList<IThingContentData> contents = await _contentExtractionService.ExtractAsync(
+            thing,
+            stoppingToken);
 
-        var all = string.Join('\n', data.Select(x =>
+        await _contentService.AddContentAsync(thing.Id, contents, stoppingToken);
+
+        var all = string.Join('\n', contents.Select(x =>
         {
             return x.ToString();
         }));
 
-        var dateExtractor = new DateTokenExtractor();
+        var dateExtractor = new DateContentTokenizer();
 
         var tokens = new List<TokenData>();
-
 
         foreach (var text in all.Split('\n'))
         {

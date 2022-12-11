@@ -25,6 +25,7 @@ public static class ThingRequestExecutorBuilderExtensions
             .AddType<TagDefinitionType>()
             .AddType<ThingTagType>()
             .AddType<ReceiverType>()
+            .AddType<PageTextContent>()
             .AddType<ThingPropertyType>()
             .AddType<PropertyDefinitionLinkType>()
             .AddType<PropertyDefinitionType>()

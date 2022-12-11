@@ -36,7 +36,11 @@ public class DateContentTokenizer : IContentTokenizer
 
             var tokenData = new TokenData
             {
-                Value = date, Index = match.Index, Length = match.Length, Display = GetDisplay(match, value)
+                Tokenizer = Name,
+                Value = date,
+                Index = match.Index,
+                Length = match.Length,
+                Display = GetDisplay(match, value)
             };
 
             result.Add(tokenData);
@@ -63,7 +67,7 @@ public interface IContentTokenizer
 
 public class TokenData
 {
-    public string Type { get; set; }
+    public string Tokenizer { get; set; }
     public object Value { get; set; }
     public int Index { get; set; }
     public int Length { get; set; }

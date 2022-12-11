@@ -57,14 +57,15 @@ public static class TagItServerBuilderExtensions
         services.AddSingleton<IJobDefintionService, JobDefintionService>();
         services.AddSingleton<IReceiverService, ReceiverService>();
         services.AddSingleton<ITagDefinitionService, TagDefinitionService>();
+        services.AddSingleton<IThingContentService, ThingContentService>();
         services.AddHttpClient();
 
         services.AddSingleton<IImageConverter, MagickImageConverter>();
         services.AddSingleton<IThumbnailGeneratorService, ThumbnailGeneratorService>();
         services.AddPdfImageConversion();
 
-        services.AddSingleton<IDataExtractionService, DataExtractionService>();
-        services.AddSingleton<IThingDataExtractor, PdfTextDataExtractor>();
+        services.AddSingleton<IContentExtractionService, ContentExtractionService>();
+        services.AddSingleton<IThingContentExtractor, PdfTextContentExtractor>();
 
         services.AddSingleton<IConnectionManager>((sp) =>
         {

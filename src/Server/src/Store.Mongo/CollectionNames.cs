@@ -3,6 +3,7 @@ namespace TagIt.Store.Mongo;
 internal static class CollectionNames
 {
     public static readonly string Thing = "thing";
+    public static readonly string ThingContent = "thing_content";
     public static readonly string Correspondent = "correspondent";
     public static readonly string Receiver = "receiver";
     public static readonly string User = "user";

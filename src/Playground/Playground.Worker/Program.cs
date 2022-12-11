@@ -26,7 +26,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         //services.AddHostedService<TagItWorker>();
         //services.AddHostedService<JobWorker>();
 
-        builder.Services.AddHostedService<DataExtractionWorker>();
+        builder.Services.AddHostedService<ContentExtractionWorker>();
 
     })
     .UseSerilog()

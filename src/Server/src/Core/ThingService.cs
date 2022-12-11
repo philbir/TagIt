@@ -82,4 +82,3 @@ public class ThingService : IThingService
         thing.Properties = properties;
     }
 }
-

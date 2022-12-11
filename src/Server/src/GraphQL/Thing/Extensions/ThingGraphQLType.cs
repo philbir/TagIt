@@ -21,7 +21,6 @@ public partial class ThingGraphQLType : ObjectType<Thing>
         descriptor.Field("class")
             .ResolveWith<Resolvers>(x => x.GetClassAsync(default!, default!, default!));
 
-
         descriptor.Field("correspondent")
             .ResolveWith<Resolvers>(x => x.GetCorrespondentAsync(default!, default!, default!));
 
@@ -30,6 +29,9 @@ public partial class ThingGraphQLType : ObjectType<Thing>
 
         descriptor.Field(x => x.Tags)
             .ResolveWith<Resolvers>(x => x.GetTagsAsync(default!, default!, default!));
+
+        descriptor.Field("content")
+            .ResolveWith<Resolvers>(x => x.GetContentsAsync(default!, default!, default!));
 
         descriptor.Field("thumbnail")
             .Argument("pageNumber", a => a
@@ -70,7 +72,7 @@ public partial class ThingGraphQLType : ObjectType<Thing>
             {
                 return await dataLoader.LoadAsync(
                     thing.Tags.Select(x => x.DefintionId).ToArray(),
-                    cancellationToken) ;
+                    cancellationToken);
             }
 
             return Array.Empty<TagDefinition>();
@@ -127,7 +129,11 @@ public partial class ThingGraphQLType : ObjectType<Thing>
 
             return null;
         }
+
+        internal Task<IReadOnlyList<ThingContent>> GetContentsAsync(
+            [Parent] Thing thing,
+            [Service] IThingContentService service,
+            CancellationToken cancellationToken)
+            => service.GetByThingIdAsync(thing.Id, cancellationToken);
     }
 }
-
-

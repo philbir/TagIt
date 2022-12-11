@@ -11,4 +11,3 @@ public interface IThingStore
     public IQueryable <Thing> Query();
     Task UpdateThumbnailsAsync(Guid id, List<ThingThumbnail> thumbails, CancellationToken cancellationToken);
 }
-

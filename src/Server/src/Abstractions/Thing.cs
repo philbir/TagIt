@@ -27,6 +27,7 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public IReadOnlyList<ThingThumbnail> Thumbnails { get; set; } = new List<ThingThumbnail>();
 
+
     public IReadOnlyList<ThingRelation> Relations { get; set; } = new List<ThingRelation>();
 
     public IReadOnlyList<ThingDataReference> Data { get; set; } = new List<ThingDataReference>();
@@ -43,6 +44,10 @@ public class ThingPropery
     public string Value { get; set; }
 }
 
+public interface IThingContentData
+{
+    public string Source { get; set; }
+}
 
 public class ThingDataReference
 {

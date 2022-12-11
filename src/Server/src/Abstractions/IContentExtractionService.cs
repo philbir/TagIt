@@ -1,6 +1,6 @@
 ﻿namespace TagIt;
 
-public interface IDataExtractionService
+public interface IContentExtractionService
 {
-    Task<IReadOnlyList<IExtractedData>> ExtractAsync(Thing thing, CancellationToken cancellationToken);
+    Task<IReadOnlyList<IThingContentData>> ExtractAsync(Thing thing, CancellationToken cancellationToken);
 }
