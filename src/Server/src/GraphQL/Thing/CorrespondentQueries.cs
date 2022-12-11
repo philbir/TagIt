@@ -12,8 +12,9 @@ public class CorrespondentQueries
         return service.Query(cancellationToken);
     }
 
+    [NodeResolver]
     public Task<Correspondent> GetCorrespondentByIdAsync(
-        [ID(nameof(Correspondent))] Guid id,
+        Guid id,
         [Service] ICorrespondentService service,
         CancellationToken cancellationToken)
     {

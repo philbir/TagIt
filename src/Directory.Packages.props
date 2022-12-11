@@ -3,12 +3,13 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-      <PackageVersion Include="HotChocolate.AspNetCore" Version="12.15.0" />
-      <PackageVersion Include="HotChocolate" Version="12.15.0" />
-    <PackageVersion Include="HotChocolate.AspNetCore.Authorization" Version="12.15.0" />
-    <PackageVersion Include="HotChocolate.Data" Version="12.15.0" />
-    <PackageVersion Include="HotChocolate.Types" Version="12.15.2" />
-    <PackageVersion Include="GreenDonut" Version="12.15.0" />
+      <PackageVersion Include="HotChocolate.AspNetCore" Version="13.0.0-preview.85" />
+      <PackageVersion Include="HotChocolate" Version="13.0.0-preview.85" />
+    <PackageVersion Include="HotChocolate.AspNetCore.Authorization" Version="13.0.0-preview.85" />
+    <PackageVersion Include="HotChocolate.Data" Version="13.0.0-preview.85" />
+    <PackageVersion Include="HotChocolate.Types" Version="13.0.0-preview.85" />
+      <PackageVersion Include="HotChocolate.Types.Analyzers" Version="13.0.0-preview.85" />
+    <PackageVersion Include="GreenDonut" Version="13.0.0-preview.85" />
     <PackageVersion Include="IdentityModel" Version="6.0.0" />
     <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="12.2.1" />
     <PackageVersion Include="Magick.NET-Q16-x64" Version="12.2.1" />
