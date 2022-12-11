@@ -1,17 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>TagIt.MicrosoftGraph</AssemblyName>
-    <RootNamespace>TagIt.MicrosoftGraph</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>TagIt.MicrosoftGraph</AssemblyName>
+        <RootNamespace>TagIt.MicrosoftGraph</RootNamespace>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
 
-  <ItemGroup>
-      <PackageReference Include="Azure.Identity" />
-      <PackageReference Include="Microsoft.Graph" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Azure.Identity"/>
+        <PackageReference Include="Microsoft.Graph"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
-  </ItemGroup>
-  
+    <ItemGroup>
+        <ProjectReference Include="..\Core\Core.csproj"/>
+    </ItemGroup>
+
 </Project>

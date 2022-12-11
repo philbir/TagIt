@@ -33,10 +33,30 @@ fragment ThingDetail on Thing {
             dataType
         }
     }
+    contentText
+    content {
+        id
+        source
+        data {
+            ... on PageTextContent {
+                pageNumber
+                lines
+            }
+        }
+    }
     tags {
         id
         name
         color
+    }
+    content {
+        source
+        data {
+            ... on PageTextContent {
+                pageNumber
+                lines
+            }
+        }
     }
     source {
         connectorId

@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <AssemblyName>TagIt.Abstractions</AssemblyName>
+        <TargetFramework>net7.0</TargetFramework>
+
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AnyDiff" />

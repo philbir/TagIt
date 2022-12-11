@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <AssemblyName>TagIt.Core</AssemblyName>
+        <TargetFramework>net7.0</TargetFramework>
+
     </PropertyGroup>
 
     <ItemGroup>

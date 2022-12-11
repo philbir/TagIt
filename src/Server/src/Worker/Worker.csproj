@@ -3,6 +3,7 @@
   <PropertyGroup>
       <AssemblyName>TagIt.Server.Worker</AssemblyName>
       <UserSecretsId>dotnet-tagit</UserSecretsId>
+      <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

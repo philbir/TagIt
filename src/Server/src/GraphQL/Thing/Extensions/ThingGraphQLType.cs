@@ -33,6 +33,9 @@ public partial class ThingGraphQLType : ObjectType<Thing>
         descriptor.Field("content")
             .ResolveWith<Resolvers>(x => x.GetContentsAsync(default!, default!, default!));
 
+        descriptor.Field("contentText")
+            .ResolveWith<Resolvers>(x => x.GetContentTextAsync(default!, default!, default!));
+
         descriptor.Field("thumbnail")
             .Argument("pageNumber", a => a
                 .DefaultValue(1)
@@ -135,5 +138,26 @@ public partial class ThingGraphQLType : ObjectType<Thing>
             [Service] IThingContentService service,
             CancellationToken cancellationToken)
             => service.GetByThingIdAsync(thing.Id, cancellationToken);
+
+        internal async Task<string> GetContentTextAsync(
+            [Parent] Thing thing,
+            [Service] IThingContentService service,
+            CancellationToken cancellationToken)
+        {
+            IReadOnlyList<ThingContent> contents = await service.GetByThingIdAsync(
+                thing.Id,
+                cancellationToken);
+
+            var all = string.Join(
+                '\n',
+                contents.Select(x => x.Data.ToString()));
+
+            return all;
+        }
     }
+}
+
+public class PageTextContentType : ObjectType<PageTextContent>
+{
+
 }

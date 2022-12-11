@@ -13,6 +13,10 @@ internal class ThingContentConfiguration :
             {
                 cm.AutoMap();
                 cm.MapIdMember(c => c.Id);
+            })
+            .AddBsonClassMap<PageTextContent>(cm =>
+            {
+                cm.AutoMap();
             });
     }
 }

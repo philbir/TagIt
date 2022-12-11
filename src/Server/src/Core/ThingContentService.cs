@@ -34,10 +34,17 @@ public class ThingContentService : IThingContentService
         await _store.InsertManyAsync(contents, cancellationToken);
     }
 
-    public Task<IReadOnlyList<ThingContent>> GetByThingIdAsync(
+    public async Task<IReadOnlyList<ThingContent>> GetByThingIdAsync(
         Guid thingId,
         CancellationToken cancellationToken)
     {
-        return _store.GetByThingIdAsync(thingId, cancellationToken);
+        try
+        {
+            return await _store.GetByThingIdAsync(thingId, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            return Array.Empty<ThingContent>();
+        }
     }
 }
