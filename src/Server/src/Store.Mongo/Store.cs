@@ -4,20 +4,22 @@ namespace TagIt.Store.Mongo;
 
 public class Store<TEntity> : IStore<TEntity> where TEntity : class, IEntity, new()
 {
-    protected readonly ITagIdDbContext _dbContext;
+    private readonly ITagIdDbContext _dbContext;
 
-    public Store(ITagIdDbContext dbContext)
+    protected Store(ITagIdDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public IMongoCollection<TEntity> Collection
+    protected IMongoCollection<TEntity> Collection
         => _dbContext.GetCollection<TEntity>();
 
-    public IMongoQueryable<TEntity> Query
+    protected IMongoQueryable<TEntity> Query
         => Collection.AsQueryable();
 
-    public virtual async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public virtual async Task<TEntity> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken)
     {
         TEntity entity = await Query
             .Where(x => x.Id == id)
@@ -26,7 +28,8 @@ public class Store<TEntity> : IStore<TEntity> where TEntity : class, IEntity, ne
         return entity;
     }
 
-    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(
+        CancellationToken cancellationToken)
     {
         return await Query
             .ToListAsync(cancellationToken);
@@ -41,7 +44,9 @@ public class Store<TEntity> : IStore<TEntity> where TEntity : class, IEntity, ne
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken)
+    public virtual async Task<TEntity> InsertAsync(
+        TEntity entity,
+        CancellationToken cancellationToken)
     {
         await Collection.InsertOneAsync(
             entity,
@@ -49,6 +54,16 @@ public class Store<TEntity> : IStore<TEntity> where TEntity : class, IEntity, ne
             cancellationToken);
 
         return entity;
+    }
+
+    public virtual async Task InsertManyAsync(
+        IEnumerable<TEntity> entities,
+        CancellationToken cancellationToken)
+    {
+        await Collection.InsertManyAsync(
+            entities,
+            new InsertManyOptions(),
+            cancellationToken);
     }
 
     public virtual async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken)

@@ -10,7 +10,7 @@ public class MagickPdfImageExtractor : IImageExtractor
     public MagickPdfImageExtractor(IOptions<PdfOptions> options)
     {
         _options = options.Value;
-        MagickNET.SetGhostscriptDirectory(_options.GhostScriptPath);
+        //MagickNET.SetGhostscriptDirectory(_options.GhostScriptPath);
     }
 
     public string[] SupportedTypes => new string[] { "pdf" };

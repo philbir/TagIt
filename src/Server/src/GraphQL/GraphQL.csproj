@@ -4,6 +4,7 @@
     <AssemblyName>TagIt.GraphQL</AssemblyName>
     <RootNamespace>TagIt.GraphQL</RootNamespace>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
           <PrivateAssets>all</PrivateAssets>
 
       </PackageReference>
+      <PackageReference Include="HotChocolate.Types.Scalars" />
 
   </ItemGroup>
 

@@ -9,8 +9,10 @@ public interface ICorrespendentStore
     Task<Correspondent> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
     Task<IReadOnlyList<Correspondent>> GetManyAsync(
-        IEnumerable<Guid> ids, CancellationToken
-        cancellationToken);
+        IEnumerable<Guid> ids,
+        CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<Correspondent>> GetAllAsync(CancellationToken cancellationToken);
 
     public IQueryable<Correspondent> Query();
 

@@ -28,6 +28,18 @@ public static class GraphQLServiceCollectionExtensions
             .AddGlobalObjectIdentification()
             .AddFiltering()
             .AddSorting()
+            .AddTypeConverter<DateTimeOffset, DateTime>(t =>
+                {
+                    DateTime date = t.LocalDateTime;
+                    DateTime.SpecifyKind(date, DateTimeKind.Utc);
+                    return date;
+                }
+            )
+            /*
+            .AddTypeConverter<DateTime, DateTimeOffset>(
+                t => t.Kind is DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(t, DateTimeKind.Utc)
+                    : t)*/
             .ModifyOptions(x =>
             {
                 x.EnableOneOf = true;
@@ -38,10 +50,7 @@ public static class GraphQLServiceCollectionExtensions
 
     private static IRequestExecutorBuilder AddSharedTypes(this IRequestExecutorBuilder builder)
     {
-        builder.AddQueryType();
-        builder.AddMutationType();
         builder.AddInterfaceType<IUserError>();
-
         return builder;
     }
 }

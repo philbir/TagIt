@@ -5,10 +5,14 @@ namespace TagIt;
 public class TagDefinitionService : ITagDefinitionService
 {
     private readonly ITagDefinitionStore _store;
+    private readonly IContentDetectorService _detectorService;
 
-    public TagDefinitionService(ITagDefinitionStore store)
+    public TagDefinitionService(
+        ITagDefinitionStore store,
+        IContentDetectorService detectorService)
     {
         _store = store;
+        _detectorService = detectorService;
     }
 
     public Task<IQueryable<TagDefinition>> Query(CancellationToken cancellationToken)
@@ -31,6 +35,15 @@ public class TagDefinitionService : ITagDefinitionService
         };
 
         return await _store.InsertAsync(tagDefinition, cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<DetectResult<TagDefinition>>> DetectFromContentAsync(
+        IThingContentAccessor content,
+        CancellationToken cancellationToken)
+    {
+        IReadOnlyList<TagDefinition> all = await _store.GetAllAsync(cancellationToken);
+
+        return _detectorService.Detect(all, content);
     }
 
     public Task<IReadOnlyList<TagDefinition>> GetManyAsync(

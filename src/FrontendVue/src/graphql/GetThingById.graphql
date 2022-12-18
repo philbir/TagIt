@@ -33,6 +33,22 @@ fragment ThingDetail on Thing {
             dataType
         }
     }
+    content {
+        text
+        detectedCorrespondents {
+            item {
+                id
+                name
+            }
+            scrore
+        }
+        tokens {
+            tokenizer
+            value
+            displays
+            matchCount
+        }
+    }
     tags {
         id
         name

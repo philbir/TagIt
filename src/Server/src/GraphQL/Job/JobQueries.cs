@@ -3,7 +3,7 @@ using TagIt.Jobs;
 
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Query)]
+[QueryType]
 public class JobQueries
 {
     [UsePaging]

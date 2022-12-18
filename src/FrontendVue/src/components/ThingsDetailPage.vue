@@ -2,101 +2,274 @@
     <v-progress-linear v-if="fetching" indeterminate></v-progress-linear>
     <div v-else>
         <v-toolbar>
-            <v-btn icon="mdi-arrow-left" @click="router.back" color="primary"></v-btn>
+            <v-btn
+                icon="mdi-arrow-left"
+                @click="router.back"
+                color="primary"
+            ></v-btn>
             <v-toolbar-title>{{ editModel.title }}</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn variant="flat" color="success" class="mr-4" prepend-icon="mdi-content-save" @click="handleClickSave">
+            <v-btn
+                variant="flat"
+                color="success"
+                class="mr-4"
+                prepend-icon="mdi-content-save"
+                @click="handleClickSave"
+            >
                 Save
             </v-btn>
         </v-toolbar>
-        <v-sheet>
-            <v-row>
-                <v-col md="6">
-                    <v-form>
-                        <v-container>
-                            <v-row>
-                                <v-col xs="12">
-                                    <v-text-field variant="solo" label="Title" v-model="editModel.title"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col xs="6">
-                                    <v-autocomplete clearable label="Correspondent" :menu-props="{ maxHeight: 300 }"
-                                        v-model="editModel.correspondentId" :items="correspondentStore.list"
-                                        item-value="id" item-title="name" variant="solo"
-                                        @update:search="handlecorrespondentSearch">
-                                        <template v-slot:no-data>
-                                            <v-sheet class="ma-2">
-                                                Add new
-                                                {{ correspondentSearch }}
-                                                <v-btn @click="
-                                                    handleClickAddCorrespondent
-                                                ">Add</v-btn>
-                                            </v-sheet>
-                                        </template>
-                                    </v-autocomplete>
-                                </v-col>
-                                <v-col>
-                                    <v-select clearable variant="solo" label="Receiver" v-model="editModel.receiverId"
-                                        item-value="id" item-title="name" :items="receiverStore.list"></v-select>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col xs="6">
-                                    <v-select label="Type" variant="solo" v-model="editModel.typeId"
-                                        :items="lookupStore.thingTypes" item-value="id" item-title="name"></v-select>
-                                </v-col>
-                                <v-col xs="6">
-                                    <v-select v-if="classOptions.length > 0" label="Class" variant="solo"
-                                        v-model="editModel.classId" :items="classOptions" item-value="id"
-                                        item-title="name"></v-select>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col xs="6">
-                                    <v-autocomplete clearable label="Tags" :menu-props="{ maxHeight: 300 }"
-                                        :items="lookupStore.tagDefintions" item-value="id" item-title="name"
-                                        @update:search="handleTagSearch" variant="solo" v-model="editModel.tags"
-                                        :search="tagSearch" multiple chips closable-chips>
-                                        <template v-slot:no-data>
-                                            <v-sheet class="ma-2">
-                                                Create new tag:
-                                                <v-btn color="primary" variant="outlined"
-                                                    prepend-icon="mdi-tag-plus-outline" @click="handClickAddTag">{{
-                                                            tagSearch
-                                                    }} </v-btn>
-                                            </v-sheet>
-                                        </template>
-                                        <template v-slot:chip="{ props, item }">
-                                            <v-chip v-bind="props" :color="item.raw.color"
-                                                :text="item.raw.name"></v-chip>
-                                        </template>
-                                        <template v-slot:item="{ props, item }">
-                                            <v-list-item v-bind="props" rounded="x1" title="">
-                                                <v-chip :color="item.raw.color">{{ item.raw.name }}</v-chip>
-                                            </v-list-item>
-                                        </template>
-                                    </v-autocomplete>
-                                </v-col>
-                            </v-row>
-                            <v-row v-for="prop in properties">
-                                <v-col>
-                                    <ThingPropertyEdit :value="prop" @change="handlePropertyChange" />
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-form>
-                </v-col>
-                <v-col md="6" v-if="true">
-                    <embed width="100%" :height="display.height.value - 80 + 'px'" :src="pdfUrl" id="plugin" />
-                </v-col>
-                <v-col md="6" v-if="false">
-                    <pre>{{ editModel }}</pre>
-                    <hr />
-                    <pre>{{ properties }}</pre>
-                </v-col>
-            </v-row>
-        </v-sheet>
+        <v-row>
+            <v-col md="6">
+                <v-tabs v-model="tab">
+                    <v-tab value="details"> Details </v-tab>
+                    <v-tab value="content"> Content </v-tab>
+                </v-tabs>
+                <v-window v-model="tab">
+                    <v-window-item value="details" key="details">
+                        <v-sheet>
+                            <v-form>
+                                <v-container>
+                                    <v-row>
+                                        <v-col xs="12">
+                                            <v-text-field
+                                                variant="solo"
+                                                label="Title"
+                                                v-model="editModel.title"
+                                            ></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col xs="6">
+                                            <v-select
+                                                label="State"
+                                                variant="solo"
+                                                v-model="editModel.state"
+                                                :items="lookupStore.thingStates"
+                                                item-value="id"
+                                                item-title="name"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col xs="6">
+                                            <v-text-field
+                                                variant="solo"
+                                                label="Date"
+                                                type="date"
+                                                v-model="editModel.date"
+                                            >
+                                                <template v-slot:append-inner>
+                                                    <ThingDatesMenu
+                                                        :tokens="
+                                                            thing?.content
+                                                                ?.tokens
+                                                        "
+                                                        @change="
+                                                            handleDateMenuSelected
+                                                        "
+                                                    ></ThingDatesMenu>
+                                                </template>
+                                            </v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col xs="6">
+                                            <v-autocomplete
+                                                clearable
+                                                label="Correspondent"
+                                                :menu-props="{
+                                                    maxHeight: 300,
+                                                }"
+                                                v-model="
+                                                    editModel.correspondentId
+                                                "
+                                                :items="correspondentStore.list"
+                                                item-value="id"
+                                                item-title="name"
+                                                variant="solo"
+                                                @update:search="
+                                                    handlecorrespondentSearch
+                                                "
+                                            >
+                                                <template v-slot:no-data>
+                                                    <v-sheet class="ma-2">
+                                                        Add new
+                                                        {{
+                                                            correspondentSearch
+                                                        }}
+                                                        <v-btn
+                                                            @click="
+                                                                handleClickAddCorrespondent
+                                                            "
+                                                            >Add</v-btn
+                                                        >
+                                                    </v-sheet>
+                                                </template>
+                                                <template
+                                                    v-if="
+                                                        thing?.content
+                                                            ?.detectedCorrespondents
+                                                            .length
+                                                    "
+                                                    v-slot:append-inner
+                                                >
+                                                    <DetetectedItemsMenu
+                                                        @change="
+                                                            handleCorrespondentChange
+                                                        "
+                                                        :items="
+                                                            thing?.content
+                                                                ?.detectedCorrespondents
+                                                        "
+                                                    ></DetetectedItemsMenu>
+                                                </template>
+                                            </v-autocomplete>
+                                        </v-col>
+                                        <v-col>
+                                            <v-select
+                                                clearable
+                                                variant="solo"
+                                                label="Receiver"
+                                                v-model="editModel.receiverId"
+                                                item-value="id"
+                                                item-title="name"
+                                                :items="receiverStore.list"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col xs="6">
+                                            <v-select
+                                                label="Type"
+                                                variant="solo"
+                                                v-model="editModel.typeId"
+                                                :items="lookupStore.thingTypes"
+                                                item-value="id"
+                                                item-title="name"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col xs="6">
+                                            <v-select
+                                                v-if="classOptions.length > 0"
+                                                label="Class"
+                                                variant="solo"
+                                                v-model="editModel.classId"
+                                                :items="classOptions"
+                                                item-value="id"
+                                                item-title="name"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col xs="6">
+                                            <v-autocomplete
+                                                clearable
+                                                label="Tags"
+                                                :menu-props="{
+                                                    maxHeight: 300,
+                                                }"
+                                                :items="
+                                                    lookupStore.tagDefintions
+                                                "
+                                                item-value="id"
+                                                item-title="name"
+                                                @update:search="handleTagSearch"
+                                                variant="solo"
+                                                v-model="editModel.tags"
+                                                :search="tagSearch"
+                                                multiple
+                                                chips
+                                                closable-chips
+                                            >
+                                                <template v-slot:no-data>
+                                                    <v-sheet class="ma-2">
+                                                        Create new tag:
+                                                        <v-btn
+                                                            color="primary"
+                                                            variant="outlined"
+                                                            prepend-icon="mdi-tag-plus-outline"
+                                                            @click="
+                                                                handClickAddTag
+                                                            "
+                                                            >{{ tagSearch }}
+                                                        </v-btn>
+                                                    </v-sheet>
+                                                </template>
+                                                <template
+                                                    v-slot:chip="{
+                                                        props,
+                                                        item,
+                                                    }"
+                                                >
+                                                    <v-chip
+                                                        v-bind="props"
+                                                        :color="item.raw.color"
+                                                        :text="item.raw.name"
+                                                    ></v-chip>
+                                                </template>
+                                                <template
+                                                    v-slot:item="{
+                                                        props,
+                                                        item,
+                                                    }"
+                                                >
+                                                    <v-list-item
+                                                        v-bind="props"
+                                                        rounded="x1"
+                                                        title=""
+                                                    >
+                                                        <v-chip
+                                                            :color="
+                                                                item.raw.color
+                                                            "
+                                                            >{{
+                                                                item.raw.name
+                                                            }}</v-chip
+                                                        >
+                                                    </v-list-item>
+                                                </template>
+                                            </v-autocomplete>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row v-for="prop in properties">
+                                        <v-col>
+                                            <ThingPropertyEdit
+                                                :value="prop"
+                                                @change="handlePropertyChange"
+                                            />
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-form>
+                        </v-sheet>
+                    </v-window-item>
+                    <v-window-item value="content" key="content">
+                        <v-textarea
+                            variant="solo"
+                            :model-value="thing?.content?.text"
+                            :style="{
+                                height: display.height.value - 200 + 'px',
+                            }"
+                            density="compact"
+                            no-resize
+                            rows="50"
+                        >
+                        </v-textarea>
+                    </v-window-item> </v-window
+            ></v-col>
+            <v-col md="6" v-if="false">
+                <embed
+                    width="100%"
+                    :height="display.height.value - 140 + 'px'"
+                    :src="pdfUrl"
+                    id="plugin"
+                />
+            </v-col>
+            <v-col md="6" v-if="true">
+                <pre>{{ editModel }}</pre>
+                <hr />
+                <pre>{{ properties }}</pre>
+            </v-col>
+        </v-row>
     </div>
 </template>
 
@@ -115,6 +288,9 @@ import { useCorrenspondentStore } from "@/stores/correspondentStore";
 import { ref, reactive, onMounted } from "vue";
 import ThingPropertyEdit from "./ThingPropertyEdit.vue";
 import { useRouter } from "vue-router";
+import ThingDatesMenu from "./ThingDatesMenu.vue";
+import { DateTime } from "luxon";
+import DetetectedItemsMenu from "./DetetectedItemsMenu.vue";
 
 const editModel = reactive<{
     id?: string | null;
@@ -124,6 +300,8 @@ const editModel = reactive<{
     correspondentId?: string | null;
     receiverId?: string | null;
     tags?: Array<string> | null;
+    state?: string | null;
+    date?: string | null;
     properties: Array<{
         id?: string | null;
         definitionId?: string | null;
@@ -142,6 +320,7 @@ const lookupStore = useLookupStore();
 const correspondentStore = useCorrenspondentStore();
 const receiverStore = useReceiverStore();
 const thingStore = useThingStore();
+const tab = ref("details");
 
 const correspondentSearch = ref();
 const tagSearch = ref();
@@ -151,9 +330,13 @@ const handlecorrespondentSearch = (e: string) => {
     correspondentSearch.value = e;
 };
 
+const handleCorrespondentChange = (e: string) => {
+    editModel.correspondentId = e;
+};
+
 const handleTagSearch = (e: string) => {
     tagSearch.value = e;
-}
+};
 
 const handleClickAddCorrespondent = async () => {
     const newCorrespondent = await correspondentStore.addCorrespondent(
@@ -169,7 +352,7 @@ const handClickAddTag = async () => {
     }
 
     tagSearch.value = "";
-}
+};
 
 const handlePropertyChange = (e: any) => {
     if (e.id) {
@@ -201,9 +384,14 @@ const handleClickSave = async () => {
         classId: editModel.classId,
         receiverId: editModel.receiverId,
         correspondentId: editModel.correspondentId,
+        date: editModel.date,
         properties: editModel.properties ?? [],
         tags: editModel.tags ?? [],
     });
+};
+
+const handleDateMenuSelected = (date: DateTime) => {
+    editModel.date = date.toISODate();
 };
 
 const props = defineProps({
@@ -278,20 +466,20 @@ onMounted(async () => {
 });
 
 const setModel = (thing: ThingDetailFragment) => {
-    console.log(thing.properties);
     editModel.title = thing.title;
     editModel.typeId = thing.type?.id;
     editModel.classId = thing.class?.id;
     editModel.receiverId = thing.receiver?.id;
     editModel.correspondentId = thing.correspondent?.id;
     editModel.tags = thing.tags.map((t) => t.id);
+    editModel.date = thing.date;
     editModel.properties = thing.properties?.map(
         (p: any) =>
-        ({
-            id: p.id,
-            definitionId: p.definition.id,
-            value: p.value,
-        } ?? [])
+            ({
+                id: p.id,
+                definitionId: p.definition.id,
+                value: p.value,
+            } ?? [])
     );
 };
 </script>

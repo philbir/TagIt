@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255. */
   Byte: any;
+  /** The `Date` scalar represents an ISO-8601 compliant date type. */
+  Date: any;
   /** The `DateTime` scalar represents an ISO-8601 compliant date time type. */
   DateTime: any;
   UUID: any;
@@ -48,142 +50,22 @@ export type BooleanOperationFilterInput = {
   neq?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type ComparableByteOperationFilterInput = {
+export type ByteOperationFilterInput = {
   eq?: InputMaybe<Scalars['Byte']>;
   gt?: InputMaybe<Scalars['Byte']>;
   gte?: InputMaybe<Scalars['Byte']>;
-  in?: InputMaybe<Array<Scalars['Byte']>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Byte']>>>;
   lt?: InputMaybe<Scalars['Byte']>;
   lte?: InputMaybe<Scalars['Byte']>;
   neq?: InputMaybe<Scalars['Byte']>;
   ngt?: InputMaybe<Scalars['Byte']>;
   ngte?: InputMaybe<Scalars['Byte']>;
-  nin?: InputMaybe<Array<Scalars['Byte']>>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['Byte']>>>;
   nlt?: InputMaybe<Scalars['Byte']>;
   nlte?: InputMaybe<Scalars['Byte']>;
 };
 
-export type ComparableDateTimeOffsetOperationFilterInput = {
-  eq?: InputMaybe<Scalars['DateTime']>;
-  gt?: InputMaybe<Scalars['DateTime']>;
-  gte?: InputMaybe<Scalars['DateTime']>;
-  in?: InputMaybe<Array<Scalars['DateTime']>>;
-  lt?: InputMaybe<Scalars['DateTime']>;
-  lte?: InputMaybe<Scalars['DateTime']>;
-  neq?: InputMaybe<Scalars['DateTime']>;
-  ngt?: InputMaybe<Scalars['DateTime']>;
-  ngte?: InputMaybe<Scalars['DateTime']>;
-  nin?: InputMaybe<Array<Scalars['DateTime']>>;
-  nlt?: InputMaybe<Scalars['DateTime']>;
-  nlte?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type ComparableDateTimeOperationFilterInput = {
-  eq?: InputMaybe<Scalars['DateTime']>;
-  gt?: InputMaybe<Scalars['DateTime']>;
-  gte?: InputMaybe<Scalars['DateTime']>;
-  in?: InputMaybe<Array<Scalars['DateTime']>>;
-  lt?: InputMaybe<Scalars['DateTime']>;
-  lte?: InputMaybe<Scalars['DateTime']>;
-  neq?: InputMaybe<Scalars['DateTime']>;
-  ngt?: InputMaybe<Scalars['DateTime']>;
-  ngte?: InputMaybe<Scalars['DateTime']>;
-  nin?: InputMaybe<Array<Scalars['DateTime']>>;
-  nlt?: InputMaybe<Scalars['DateTime']>;
-  nlte?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type ComparableGuidOperationFilterInput = {
-  eq?: InputMaybe<Scalars['UUID']>;
-  gt?: InputMaybe<Scalars['UUID']>;
-  gte?: InputMaybe<Scalars['UUID']>;
-  in?: InputMaybe<Array<Scalars['UUID']>>;
-  lt?: InputMaybe<Scalars['UUID']>;
-  lte?: InputMaybe<Scalars['UUID']>;
-  neq?: InputMaybe<Scalars['UUID']>;
-  ngt?: InputMaybe<Scalars['UUID']>;
-  ngte?: InputMaybe<Scalars['UUID']>;
-  nin?: InputMaybe<Array<Scalars['UUID']>>;
-  nlt?: InputMaybe<Scalars['UUID']>;
-  nlte?: InputMaybe<Scalars['UUID']>;
-};
-
-export type ComparableInt32OperationFilterInput = {
-  eq?: InputMaybe<Scalars['Int']>;
-  gt?: InputMaybe<Scalars['Int']>;
-  gte?: InputMaybe<Scalars['Int']>;
-  in?: InputMaybe<Array<Scalars['Int']>>;
-  lt?: InputMaybe<Scalars['Int']>;
-  lte?: InputMaybe<Scalars['Int']>;
-  neq?: InputMaybe<Scalars['Int']>;
-  ngt?: InputMaybe<Scalars['Int']>;
-  ngte?: InputMaybe<Scalars['Int']>;
-  nin?: InputMaybe<Array<Scalars['Int']>>;
-  nlt?: InputMaybe<Scalars['Int']>;
-  nlte?: InputMaybe<Scalars['Int']>;
-};
-
-export type ComparableNullableOfDateTimeOffsetOperationFilterInput = {
-  eq?: InputMaybe<Scalars['DateTime']>;
-  gt?: InputMaybe<Scalars['DateTime']>;
-  gte?: InputMaybe<Scalars['DateTime']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  lt?: InputMaybe<Scalars['DateTime']>;
-  lte?: InputMaybe<Scalars['DateTime']>;
-  neq?: InputMaybe<Scalars['DateTime']>;
-  ngt?: InputMaybe<Scalars['DateTime']>;
-  ngte?: InputMaybe<Scalars['DateTime']>;
-  nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  nlt?: InputMaybe<Scalars['DateTime']>;
-  nlte?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type ComparableNullableOfDateTimeOperationFilterInput = {
-  eq?: InputMaybe<Scalars['DateTime']>;
-  gt?: InputMaybe<Scalars['DateTime']>;
-  gte?: InputMaybe<Scalars['DateTime']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  lt?: InputMaybe<Scalars['DateTime']>;
-  lte?: InputMaybe<Scalars['DateTime']>;
-  neq?: InputMaybe<Scalars['DateTime']>;
-  ngt?: InputMaybe<Scalars['DateTime']>;
-  ngte?: InputMaybe<Scalars['DateTime']>;
-  nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  nlt?: InputMaybe<Scalars['DateTime']>;
-  nlte?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type ComparableNullableOfGuidOperationFilterInput = {
-  eq?: InputMaybe<Scalars['UUID']>;
-  gt?: InputMaybe<Scalars['UUID']>;
-  gte?: InputMaybe<Scalars['UUID']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['UUID']>>>;
-  lt?: InputMaybe<Scalars['UUID']>;
-  lte?: InputMaybe<Scalars['UUID']>;
-  neq?: InputMaybe<Scalars['UUID']>;
-  ngt?: InputMaybe<Scalars['UUID']>;
-  ngte?: InputMaybe<Scalars['UUID']>;
-  nin?: InputMaybe<Array<InputMaybe<Scalars['UUID']>>>;
-  nlt?: InputMaybe<Scalars['UUID']>;
-  nlte?: InputMaybe<Scalars['UUID']>;
-};
-
-export type ComparableNullableOfInt32OperationFilterInput = {
-  eq?: InputMaybe<Scalars['Int']>;
-  gt?: InputMaybe<Scalars['Int']>;
-  gte?: InputMaybe<Scalars['Int']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
-  lt?: InputMaybe<Scalars['Int']>;
-  lte?: InputMaybe<Scalars['Int']>;
-  neq?: InputMaybe<Scalars['Int']>;
-  ngt?: InputMaybe<Scalars['Int']>;
-  ngte?: InputMaybe<Scalars['Int']>;
-  nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
-  nlt?: InputMaybe<Scalars['Int']>;
-  nlte?: InputMaybe<Scalars['Int']>;
-};
-
-export type ConnectorDefintion = Node & {
+export type ConnectorDefintion = {
   __typename?: 'ConnectorDefintion';
   credential?: Maybe<Credential>;
   id: Scalars['ID'];
@@ -195,8 +77,8 @@ export type ConnectorDefintion = Node & {
 
 export type ConnectorDefintionFilterInput = {
   and?: InputMaybe<Array<ConnectorDefintionFilterInput>>;
-  credentialId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  credentialId?: InputMaybe<UuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ConnectorDefintionFilterInput>>;
   properties?: InputMaybe<IDictionaryOfStringAndStringFilterInput>;
@@ -224,15 +106,25 @@ export type ConnectorsEdge = {
   node: ConnectorDefintion;
 };
 
+export type ContentTokenData = {
+  __typename?: 'ContentTokenData';
+  displays: Array<Scalars['String']>;
+  matchCount: Scalars['Int'];
+  tokenizer: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
+};
+
 export type Correspondent = Node & {
   __typename?: 'Correspondent';
+  detectRules?: Maybe<Array<Maybe<DetectRule>>>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
 };
 
 export type CorrespondentFilterInput = {
   and?: InputMaybe<Array<CorrespondentFilterInput>>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  detectRules?: InputMaybe<ListFilterInputTypeOfDetectRuleFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<CorrespondentFilterInput>>;
 };
@@ -257,7 +149,7 @@ export type CorrespondentsEdge = {
   node: Correspondent;
 };
 
-export type Credential = {
+export type Credential = Node & {
   __typename?: 'Credential';
   client?: Maybe<OAuthClient>;
   id: Scalars['ID'];
@@ -268,7 +160,7 @@ export type Credential = {
 export type CredentialFilterInput = {
   and?: InputMaybe<Array<CredentialFilterInput>>;
   client?: InputMaybe<OAuthClientFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<CredentialFilterInput>>;
   tokens?: InputMaybe<ListFilterInputTypeOfCredentialTokenFilterInput>;
@@ -285,9 +177,9 @@ export type CredentialToken = {
 
 export type CredentialTokenFilterInput = {
   and?: InputMaybe<Array<CredentialTokenFilterInput>>;
-  createdAt?: InputMaybe<ComparableDateTimeOffsetOperationFilterInput>;
-  expiresAt?: InputMaybe<ComparableNullableOfDateTimeOffsetOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  createdAt?: InputMaybe<DateTimeOperationFilterInput>;
+  expiresAt?: InputMaybe<DateTimeOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   or?: InputMaybe<Array<CredentialTokenFilterInput>>;
   type?: InputMaybe<TokenTypeOperationFilterInput>;
   value?: InputMaybe<ProtectedValueFilterInput>;
@@ -313,6 +205,55 @@ export type CredentialsEdge = {
   node: Credential;
 };
 
+export type DateTimeOperationFilterInput = {
+  eq?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  neq?: InputMaybe<Scalars['DateTime']>;
+  ngt?: InputMaybe<Scalars['DateTime']>;
+  ngte?: InputMaybe<Scalars['DateTime']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  nlt?: InputMaybe<Scalars['DateTime']>;
+  nlte?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type DetectResultOfCorrespondent = {
+  __typename?: 'DetectResultOfCorrespondent';
+  item: Correspondent;
+  scrore: Scalars['Int'];
+};
+
+export type DetectRule = {
+  __typename?: 'DetectRule';
+  expression: Scalars['String'];
+  field: Scalars['String'];
+  mode: DetectRuleMode;
+  weight: Scalars['Int'];
+};
+
+export type DetectRuleFilterInput = {
+  and?: InputMaybe<Array<DetectRuleFilterInput>>;
+  expression?: InputMaybe<StringOperationFilterInput>;
+  field?: InputMaybe<StringOperationFilterInput>;
+  mode?: InputMaybe<DetectRuleModeOperationFilterInput>;
+  or?: InputMaybe<Array<DetectRuleFilterInput>>;
+  weight?: InputMaybe<IntOperationFilterInput>;
+};
+
+export enum DetectRuleMode {
+  Regex = 'REGEX'
+}
+
+export type DetectRuleModeOperationFilterInput = {
+  eq?: InputMaybe<DetectRuleMode>;
+  in?: InputMaybe<Array<DetectRuleMode>>;
+  neq?: InputMaybe<DetectRuleMode>;
+  nin?: InputMaybe<Array<DetectRuleMode>>;
+};
+
 export type EntityVersion = {
   __typename?: 'EntityVersion';
   createdAt: Scalars['DateTime'];
@@ -322,10 +263,10 @@ export type EntityVersion = {
 
 export type EntityVersionFilterInput = {
   and?: InputMaybe<Array<EntityVersionFilterInput>>;
-  createdAt?: InputMaybe<ComparableDateTimeOperationFilterInput>;
-  createdBy?: InputMaybe<ComparableGuidOperationFilterInput>;
+  createdAt?: InputMaybe<DateTimeOperationFilterInput>;
+  createdBy?: InputMaybe<UuidOperationFilterInput>;
   or?: InputMaybe<Array<EntityVersionFilterInput>>;
-  version?: InputMaybe<ComparableInt32OperationFilterInput>;
+  version?: InputMaybe<IntOperationFilterInput>;
 };
 
 export type IDictionaryOfStringAndStringFilterInput = {
@@ -333,6 +274,10 @@ export type IDictionaryOfStringAndStringFilterInput = {
   keys?: InputMaybe<ListStringOperationFilterInput>;
   or?: InputMaybe<Array<IDictionaryOfStringAndStringFilterInput>>;
   values?: InputMaybe<ListStringOperationFilterInput>;
+};
+
+export type IThingContentData = {
+  source?: Maybe<Scalars['String']>;
 };
 
 export enum ImageFormat {
@@ -355,9 +300,9 @@ export type ImageSize = {
 
 export type ImageSizeFilterInput = {
   and?: InputMaybe<Array<ImageSizeFilterInput>>;
-  height?: InputMaybe<ComparableInt32OperationFilterInput>;
+  height?: InputMaybe<IntOperationFilterInput>;
   or?: InputMaybe<Array<ImageSizeFilterInput>>;
-  width?: InputMaybe<ComparableInt32OperationFilterInput>;
+  width?: InputMaybe<IntOperationFilterInput>;
 };
 
 export type InsertCorrespondentInput = {
@@ -369,6 +314,21 @@ export type InsertCorrespondentPayload = {
   correspondent?: Maybe<Correspondent>;
 };
 
+export type IntOperationFilterInput = {
+  eq?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  neq?: InputMaybe<Scalars['Int']>;
+  ngt?: InputMaybe<Scalars['Int']>;
+  ngte?: InputMaybe<Scalars['Int']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  nlt?: InputMaybe<Scalars['Int']>;
+  nlte?: InputMaybe<Scalars['Int']>;
+};
+
 export type JobAction = {
   __typename?: 'JobAction';
   destinationConnector?: Maybe<ConnectorDefintion>;
@@ -378,7 +338,7 @@ export type JobAction = {
 
 export type JobActionFilterInput = {
   and?: InputMaybe<Array<JobActionFilterInput>>;
-  destinationConnectorId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
+  destinationConnectorId?: InputMaybe<UuidOperationFilterInput>;
   mode?: InputMaybe<JobActionModeOperationFilterInput>;
   or?: InputMaybe<Array<JobActionFilterInput>>;
   source?: InputMaybe<SourceActionFilterInput>;
@@ -421,12 +381,12 @@ export type JobDefintionFilterInput = {
   cronSchedule?: InputMaybe<StringOperationFilterInput>;
   enabled?: InputMaybe<BooleanOperationFilterInput>;
   filter?: InputMaybe<StringOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<JobDefintionFilterInput>>;
   runMode?: InputMaybe<JobRunModeOperationFilterInput>;
   schedule?: InputMaybe<JobScheduleFilterInput>;
-  sourceConnectorId?: InputMaybe<ComparableGuidOperationFilterInput>;
+  sourceConnectorId?: InputMaybe<UuidOperationFilterInput>;
 };
 
 /** A connection to a list of items. */
@@ -471,7 +431,7 @@ export type JobSchedule = {
 export type JobScheduleFilterInput = {
   and?: InputMaybe<Array<JobScheduleFilterInput>>;
   cronExpression?: InputMaybe<StringOperationFilterInput>;
-  intervall?: InputMaybe<ComparableNullableOfInt32OperationFilterInput>;
+  intervall?: InputMaybe<IntOperationFilterInput>;
   or?: InputMaybe<Array<JobScheduleFilterInput>>;
   type?: InputMaybe<JobScheduleTypeOperationFilterInput>;
 };
@@ -500,18 +460,11 @@ export type KeyValuePairOfStringAndString = {
   value: Scalars['String'];
 };
 
-export type ListComparableByteOperationFilterInput = {
-  all?: InputMaybe<ComparableByteOperationFilterInput>;
+export type ListByteOperationFilterInput = {
+  all?: InputMaybe<ByteOperationFilterInput>;
   any?: InputMaybe<Scalars['Boolean']>;
-  none?: InputMaybe<ComparableByteOperationFilterInput>;
-  some?: InputMaybe<ComparableByteOperationFilterInput>;
-};
-
-export type ListComparableGuidOperationFilterInput = {
-  all?: InputMaybe<ComparableGuidOperationFilterInput>;
-  any?: InputMaybe<Scalars['Boolean']>;
-  none?: InputMaybe<ComparableGuidOperationFilterInput>;
-  some?: InputMaybe<ComparableGuidOperationFilterInput>;
+  none?: InputMaybe<ByteOperationFilterInput>;
+  some?: InputMaybe<ByteOperationFilterInput>;
 };
 
 export type ListFilterInputTypeOfCredentialTokenFilterInput = {
@@ -519,6 +472,13 @@ export type ListFilterInputTypeOfCredentialTokenFilterInput = {
   any?: InputMaybe<Scalars['Boolean']>;
   none?: InputMaybe<CredentialTokenFilterInput>;
   some?: InputMaybe<CredentialTokenFilterInput>;
+};
+
+export type ListFilterInputTypeOfDetectRuleFilterInput = {
+  all?: InputMaybe<DetectRuleFilterInput>;
+  any?: InputMaybe<Scalars['Boolean']>;
+  none?: InputMaybe<DetectRuleFilterInput>;
+  some?: InputMaybe<DetectRuleFilterInput>;
 };
 
 export type ListFilterInputTypeOfPropertyDefinitionLinkFilterInput = {
@@ -568,6 +528,13 @@ export type ListStringOperationFilterInput = {
   any?: InputMaybe<Scalars['Boolean']>;
   none?: InputMaybe<StringOperationFilterInput>;
   some?: InputMaybe<StringOperationFilterInput>;
+};
+
+export type ListUuidOperationFilterInput = {
+  all?: InputMaybe<UuidOperationFilterInput>;
+  any?: InputMaybe<Scalars['Boolean']>;
+  none?: InputMaybe<UuidOperationFilterInput>;
+  some?: InputMaybe<UuidOperationFilterInput>;
 };
 
 export type Mutation = {
@@ -665,6 +632,13 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
 };
 
+export type PageTextContent = IThingContentData & {
+  __typename?: 'PageTextContent';
+  lines: Array<Scalars['String']>;
+  pageNumber: Scalars['Int'];
+  source: Scalars['String'];
+};
+
 export enum PropertyDataType {
   Boolean = 'BOOLEAN',
   DateTime = 'DATE_TIME',
@@ -687,7 +661,7 @@ export type PropertyDefinitionLink = {
 
 export type PropertyDefinitionLinkFilterInput = {
   and?: InputMaybe<Array<PropertyDefinitionLinkFilterInput>>;
-  definitionId?: InputMaybe<ComparableGuidOperationFilterInput>;
+  definitionId?: InputMaybe<UuidOperationFilterInput>;
   or?: InputMaybe<Array<PropertyDefinitionLinkFilterInput>>;
 };
 
@@ -698,7 +672,7 @@ export type ProtectedValue = {
 
 export type ProtectedValueFilterInput = {
   and?: InputMaybe<Array<ProtectedValueFilterInput>>;
-  cipher?: InputMaybe<ListComparableByteOperationFilterInput>;
+  cipher?: InputMaybe<ListByteOperationFilterInput>;
   or?: InputMaybe<Array<ProtectedValueFilterInput>>;
   value?: InputMaybe<StringOperationFilterInput>;
 };
@@ -725,6 +699,7 @@ export type Query = {
   tagDefintions?: Maybe<TagDefintionsConnection>;
   thingById: Thing;
   thingClasses: Array<ThingClass>;
+  thingStates: Array<ThingState>;
   thingTypes: Array<ThingType>;
   things?: Maybe<ThingsConnection>;
   webHooks: Array<WebHook>;
@@ -841,7 +816,7 @@ export type Receiver = {
 
 export type ReceiverFilterInput = {
   and?: InputMaybe<Array<ReceiverFilterInput>>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ReceiverFilterInput>>;
 };
@@ -881,14 +856,14 @@ export type RelationTypeOperationFilterInput = {
 export type SourceAction = {
   __typename?: 'SourceAction';
   mode: SourceActionMode;
-  newConnectorId?: Maybe<Scalars['UUID']>;
+  newConnectorId?: Maybe<Scalars['ID']>;
   newLocation?: Maybe<Scalars['String']>;
 };
 
 export type SourceActionFilterInput = {
   and?: InputMaybe<Array<SourceActionFilterInput>>;
   mode?: InputMaybe<SourceActionModeOperationFilterInput>;
-  newConnectorId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
+  newConnectorId?: InputMaybe<UuidOperationFilterInput>;
   newLocation?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<SourceActionFilterInput>>;
 };
@@ -936,7 +911,7 @@ export type TagDefinition = {
 export type TagDefinitionFilterInput = {
   and?: InputMaybe<Array<TagDefinitionFilterInput>>;
   color?: InputMaybe<StringOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<TagDefinitionFilterInput>>;
 };
@@ -964,8 +939,9 @@ export type TagDefintionsEdge = {
 export type Thing = Node & {
   __typename?: 'Thing';
   class?: Maybe<ThingClass>;
+  content?: Maybe<ThingContentNode>;
   correspondent?: Maybe<Correspondent>;
-  date?: Maybe<Scalars['DateTime']>;
+  date?: Maybe<Scalars['Date']>;
   id: Scalars['ID'];
   label?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<ThingPropery>>>;
@@ -996,16 +972,31 @@ export type ThingClass = {
 
 export type ThingClassFilterInput = {
   and?: InputMaybe<Array<ThingClassFilterInput>>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ThingClassFilterInput>>;
   properties?: InputMaybe<ListFilterInputTypeOfPropertyDefinitionLinkFilterInput>;
   version?: InputMaybe<EntityVersionFilterInput>;
 };
 
+export type ThingContent = {
+  __typename?: 'ThingContent';
+  data?: Maybe<IThingContentData>;
+  id: Scalars['UUID'];
+  source?: Maybe<Scalars['String']>;
+};
+
+export type ThingContentNode = {
+  __typename?: 'ThingContentNode';
+  detectedCorrespondents: Array<DetectResultOfCorrespondent>;
+  items: Array<ThingContent>;
+  text: Scalars['String'];
+  tokens: Array<ContentTokenData>;
+};
+
 export type ThingDataReferenceFilterInput = {
   and?: InputMaybe<Array<ThingDataReferenceFilterInput>>;
-  connectorId?: InputMaybe<ComparableGuidOperationFilterInput>;
+  connectorId?: InputMaybe<UuidOperationFilterInput>;
   contentType?: InputMaybe<StringOperationFilterInput>;
   id?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ThingDataReferenceFilterInput>>;
@@ -1014,22 +1005,22 @@ export type ThingDataReferenceFilterInput = {
 
 export type ThingFilterInput = {
   and?: InputMaybe<Array<ThingFilterInput>>;
-  classId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
-  corespondentId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
+  classId?: InputMaybe<UuidOperationFilterInput>;
+  corespondentId?: InputMaybe<UuidOperationFilterInput>;
   data?: InputMaybe<ListFilterInputTypeOfThingDataReferenceFilterInput>;
-  date?: InputMaybe<ComparableNullableOfDateTimeOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  date?: InputMaybe<DateTimeOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   label?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ThingFilterInput>>;
   properties?: InputMaybe<ListFilterInputTypeOfThingProperyFilterInput>;
-  receiverId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
+  receiverId?: InputMaybe<UuidOperationFilterInput>;
   relations?: InputMaybe<ListFilterInputTypeOfThingRelationFilterInput>;
   source?: InputMaybe<ThingSourceFilterInput>;
   state?: InputMaybe<ThingStateOperationFilterInput>;
   tags?: InputMaybe<ListFilterInputTypeOfThingTagFilterInput>;
   thumbnails?: InputMaybe<ListFilterInputTypeOfThingThumbnailFilterInput>;
   title?: InputMaybe<StringOperationFilterInput>;
-  typeId?: InputMaybe<ComparableNullableOfGuidOperationFilterInput>;
+  typeId?: InputMaybe<UuidOperationFilterInput>;
   version?: InputMaybe<EntityVersionFilterInput>;
 };
 
@@ -1043,8 +1034,8 @@ export type ThingPropery = {
 
 export type ThingProperyFilterInput = {
   and?: InputMaybe<Array<ThingProperyFilterInput>>;
-  definitionId?: InputMaybe<ComparableGuidOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  definitionId?: InputMaybe<UuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   or?: InputMaybe<Array<ThingProperyFilterInput>>;
   value?: InputMaybe<StringOperationFilterInput>;
 };
@@ -1059,10 +1050,10 @@ export type ThingRelation = {
 
 export type ThingRelationFilterInput = {
   and?: InputMaybe<Array<ThingRelationFilterInput>>;
-  from?: InputMaybe<ComparableGuidOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  from?: InputMaybe<UuidOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   or?: InputMaybe<Array<ThingRelationFilterInput>>;
-  to?: InputMaybe<ComparableGuidOperationFilterInput>;
+  to?: InputMaybe<UuidOperationFilterInput>;
   type?: InputMaybe<RelationTypeOperationFilterInput>;
 };
 
@@ -1075,7 +1066,7 @@ export type ThingSource = {
 
 export type ThingSourceFilterInput = {
   and?: InputMaybe<Array<ThingSourceFilterInput>>;
-  connectorId?: InputMaybe<ComparableGuidOperationFilterInput>;
+  connectorId?: InputMaybe<UuidOperationFilterInput>;
   id?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ThingSourceFilterInput>>;
   uniqueId?: InputMaybe<StringOperationFilterInput>;
@@ -1083,8 +1074,10 @@ export type ThingSourceFilterInput = {
 
 export enum ThingState {
   Active = 'ACTIVE',
+  Archived = 'ARCHIVED',
   Deleted = 'DELETED',
   Draft = 'DRAFT',
+  New = 'NEW',
   Processing = 'PROCESSING'
 }
 
@@ -1102,7 +1095,7 @@ export type ThingTag = {
 
 export type ThingTagFilterInput = {
   and?: InputMaybe<Array<ThingTagFilterInput>>;
-  defintionId?: InputMaybe<ComparableGuidOperationFilterInput>;
+  defintionId?: InputMaybe<UuidOperationFilterInput>;
   or?: InputMaybe<Array<ThingTagFilterInput>>;
 };
 
@@ -1116,18 +1109,19 @@ export type ThingThumbnail = {
 
 export type ThingThumbnailFilterInput = {
   and?: InputMaybe<Array<ThingThumbnailFilterInput>>;
-  data?: InputMaybe<ListComparableByteOperationFilterInput>;
+  data?: InputMaybe<ListByteOperationFilterInput>;
   fileId?: InputMaybe<StringOperationFilterInput>;
   format?: InputMaybe<ImageFormatOperationFilterInput>;
   or?: InputMaybe<Array<ThingThumbnailFilterInput>>;
-  pageNumber?: InputMaybe<ComparableInt32OperationFilterInput>;
+  pageNumber?: InputMaybe<IntOperationFilterInput>;
   size?: InputMaybe<ImageSizeFilterInput>;
 };
 
 export type ThingType = {
   __typename?: 'ThingType';
   contentTypeMap?: Maybe<Array<Maybe<Scalars['String']>>>;
-  id: Scalars['UUID'];
+  detectRules?: Maybe<Array<Maybe<DetectRule>>>;
+  id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   validClasses: Array<ThingClass>;
   version: EntityVersion;
@@ -1136,10 +1130,11 @@ export type ThingType = {
 export type ThingTypeFilterInput = {
   and?: InputMaybe<Array<ThingTypeFilterInput>>;
   contentTypeMap?: InputMaybe<ListStringOperationFilterInput>;
-  id?: InputMaybe<ComparableGuidOperationFilterInput>;
+  detectRules?: InputMaybe<ListFilterInputTypeOfDetectRuleFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ThingTypeFilterInput>>;
-  validClasses?: InputMaybe<ListComparableGuidOperationFilterInput>;
+  validClasses?: InputMaybe<ListUuidOperationFilterInput>;
   version?: InputMaybe<EntityVersionFilterInput>;
 };
 
@@ -1195,6 +1190,7 @@ export type UpdateJobDefinitionPayload = {
 export type UpdateThingInput = {
   classId?: InputMaybe<Scalars['ID']>;
   correspondentId?: InputMaybe<Scalars['ID']>;
+  date?: InputMaybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   properties?: InputMaybe<Array<UpdateThingPropertyInput>>;
   receiverId?: InputMaybe<Scalars['ID']>;
@@ -1217,6 +1213,21 @@ export type UpdateThingPropertyInput = {
 export type UserError = {
   code: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type UuidOperationFilterInput = {
+  eq?: InputMaybe<Scalars['UUID']>;
+  gt?: InputMaybe<Scalars['UUID']>;
+  gte?: InputMaybe<Scalars['UUID']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['UUID']>>>;
+  lt?: InputMaybe<Scalars['UUID']>;
+  lte?: InputMaybe<Scalars['UUID']>;
+  neq?: InputMaybe<Scalars['UUID']>;
+  ngt?: InputMaybe<Scalars['UUID']>;
+  ngte?: InputMaybe<Scalars['UUID']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['UUID']>>>;
+  nlt?: InputMaybe<Scalars['UUID']>;
+  nlte?: InputMaybe<Scalars['UUID']>;
 };
 
 export type WebHook = {
@@ -1266,12 +1277,12 @@ export type GetThingByIdQuery = { __typename?: 'Query', thingById: (
     & { ' $fragmentRefs'?: { 'ThingDetailFragment': ThingDetailFragment } }
   ) };
 
-export type ThingDetailFragment = { __typename?: 'Thing', id: string, title?: string | null, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', id: any, name?: string | null } | null, class?: { __typename?: 'ThingClass', id: string, name?: string | null } | null, correspondent?: { __typename?: 'Correspondent', id: string, name?: string | null } | null, receiver?: { __typename?: 'Receiver', id: string, name?: string | null } | null, properties?: Array<{ __typename?: 'ThingPropery', id: string, value?: string | null, definition: { __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType } } | null> | null, tags: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }>, source?: { __typename?: 'ThingSource', connectorId: any, uniqueId?: string | null } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingDetailFragment' };
+export type ThingDetailFragment = { __typename?: 'Thing', id: string, title?: string | null, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', id: string, name?: string | null } | null, class?: { __typename?: 'ThingClass', id: string, name?: string | null } | null, correspondent?: { __typename?: 'Correspondent', id: string, name?: string | null } | null, receiver?: { __typename?: 'Receiver', id: string, name?: string | null } | null, properties?: Array<{ __typename?: 'ThingPropery', id: string, value?: string | null, definition: { __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType } } | null> | null, content?: { __typename?: 'ThingContentNode', text: string, detectedCorrespondents: Array<{ __typename?: 'DetectResultOfCorrespondent', scrore: number, item: { __typename?: 'Correspondent', id: string, name?: string | null } }>, tokens: Array<{ __typename?: 'ContentTokenData', tokenizer: string, value?: string | null, displays: Array<string>, matchCount: number }> } | null, tags: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }>, source?: { __typename?: 'ThingSource', connectorId: any, uniqueId?: string | null } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingDetailFragment' };
 
 export type LookupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LookupsQuery = { __typename?: 'Query', thingTypes: Array<{ __typename?: 'ThingType', id: any, name?: string | null, contentTypeMap?: Array<string | null> | null, validClasses: Array<{ __typename?: 'ThingClass', id: string, name?: string | null, properties: Array<{ __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType }> }> }>, tagDefintions?: { __typename?: 'TagDefintionsConnection', nodes?: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }> | null } | null };
+export type LookupsQuery = { __typename?: 'Query', thingStates: Array<ThingState>, thingTypes: Array<{ __typename?: 'ThingType', id: string, name?: string | null, contentTypeMap?: Array<string | null> | null, validClasses: Array<{ __typename?: 'ThingClass', id: string, name?: string | null, properties: Array<{ __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType }> }> }>, tagDefintions?: { __typename?: 'TagDefintionsConnection', nodes?: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }> | null } | null };
 
 export type SearchCorrespondentsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1291,12 +1302,12 @@ export type UpdateThingMutationVariables = Exact<{
 export type UpdateThingMutation = { __typename?: 'Mutation', updateThing: { __typename?: 'UpdateThingPayload', thing?: { __typename?: 'Thing', id: string } | null } };
 
 export const ThingItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingItemFragment, unknown>;
-export const ThingDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"receiver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"definition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"uniqueId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingDetailFragment, unknown>;
+export const ThingDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"receiver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"definition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"detectedCorrespondents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"scrore"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokens"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenizer"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"displays"}},{"kind":"Field","name":{"kind":"Name","value":"matchCount"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"uniqueId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingDetailFragment, unknown>;
 export const InsertCorrespondentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertCorrespondent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InsertCorrespondentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertCorrespondent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<InsertCorrespondentMutation, InsertCorrespondentMutationVariables>;
 export const ThingsSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"thingsSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"things"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingItem"}}]}}]}}]}},...ThingItemFragmentDoc.definitions]} as unknown as DocumentNode<ThingsSearchQuery, ThingsSearchQueryVariables>;
 export const AddTagDefintionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addTagDefintion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddTagDefintionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addTagDefintion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tagDefinition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<AddTagDefintionMutation, AddTagDefintionMutationVariables>;
 export const GetThingByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getThingById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingDetail"}}]}}]}},...ThingDetailFragmentDoc.definitions]} as unknown as DocumentNode<GetThingByIdQuery, GetThingByIdQueryVariables>;
-export const LookupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lookups"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validClasses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentTypeMap"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tagDefintions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<LookupsQuery, LookupsQueryVariables>;
+export const LookupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lookups"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validClasses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentTypeMap"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tagDefintions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"thingStates"}}]}}]} as unknown as DocumentNode<LookupsQuery, LookupsQueryVariables>;
 export const SearchCorrespondentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchCorrespondents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"correspondents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"50"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchCorrespondentsQuery, SearchCorrespondentsQueryVariables>;
 export const SearchReceiversDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchReceivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"receivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchReceiversQuery, SearchReceiversQueryVariables>;
 export const UpdateThingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateThing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateThingInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateThing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateThingMutation, UpdateThingMutationVariables>;

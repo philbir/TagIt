@@ -12,6 +12,8 @@ public interface IThingService
     Task<Thing> UpdateThingAsync(UpdateThingRequest request, CancellationToken cancellationToken);
 
     Task UpdateThumbnailsAsync(Guid id, List<ThingThumbnail> thumbails, CancellationToken cancellationToken);
+    Task UpdateStateAsync(Guid id, ThingState state, CancellationToken cancellationToken);
+    Task<Thing> UpdateThingAsync(Thing thing, CancellationToken cancellationToken);
 }
 
 public class UpdateThingRequest
@@ -31,6 +33,7 @@ public class UpdateThingRequest
     public IEnumerable<UpdateThingPropertyRequest> Properties { get; set; } = Enumerable.Empty<UpdateThingPropertyRequest>();
 
     public IEnumerable<Guid> Tags { get; set; } = Enumerable.Empty<Guid>();
+    public DateTimeOffset? Date { get; set; }
 }
 
 public class UpdateThingPropertyRequest

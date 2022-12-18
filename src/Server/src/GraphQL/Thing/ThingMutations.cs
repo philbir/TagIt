@@ -1,6 +1,6 @@
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Mutation)]
+[MutationType]
 public class ThingMutations
 {
     public Task<Thing> UpdateThingAsync(

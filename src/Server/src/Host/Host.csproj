@@ -4,7 +4,7 @@
         <AssemblyName>TagIt.Server.Host</AssemblyName>
         <UserSecretsId>dotnet-tagit</UserSecretsId>
         <!-- Required to make dotnet watch working even if defined in parent props -->
-        <TargetFramework>net70</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>

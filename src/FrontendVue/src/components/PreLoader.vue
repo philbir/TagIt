@@ -6,13 +6,18 @@
                     <div class="text-center">
                         <v-row>
                             <v-col>
-                                <v-progress-circular :size="110" color="blue" indeterminate></v-progress-circular>
+                                <v-progress-circular
+                                    :size="110"
+                                    color="blue"
+                                    indeterminate
+                                ></v-progress-circular>
                             </v-col>
                         </v-row>
 
                         <v-row>
-                            <v-subheader class="text-center" style="margin: auto">Starting tag
-                                engine...</v-subheader>
+                            <div class="text-center" style="margin: auto">
+                                Starting tag engine...
+                            </div>
                         </v-row>
                         <br />
                     </div>

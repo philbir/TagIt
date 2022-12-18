@@ -3,6 +3,7 @@
   <PropertyGroup>
       <RootNamespace>TagIt.Tests</RootNamespace>
       <AssemblyName>TagIt.Tests.Core</AssemblyName>
+      <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

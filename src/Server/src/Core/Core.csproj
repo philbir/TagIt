@@ -1,32 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>TagIt.Core</AssemblyName>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>TagIt.Core</AssemblyName>
+        <TargetFramework>net7.0</TargetFramework>
 
-  <ItemGroup>
-    <PackageReference Include="AnyClone" />
-    <PackageReference Include="HotChocolate.Types" />
-    <PackageReference Include="IdentityModel" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" />
-      <!--
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AnyClone" />
+        <PackageReference Include="HotChocolate.Types" />
+        <PackageReference Include="IdentityModel" />
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" />
+        <!--
     <PackageReference Include="Magick.NET-Q16-x64" />-->
-    <PackageReference Include="MassTransit.RabbitMQ" />
-    <PackageReference Include="MassTransit" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
-    <PackageReference Include="Microsoft.Extensions.Http" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
-    <PackageReference Include="MuPDFCore" />
-    <PackageReference Include="Quartz" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" />
-    <PackageReference Include="Serilog" />
-    <PackageReference Include="SixLabors.ImageSharp" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
-  </ItemGroup>
-  
+        <PackageReference Include="MassTransit.RabbitMQ" />
+        <PackageReference Include="MassTransit" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+        <PackageReference Include="Microsoft.Extensions.Http" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+        <PackageReference Include="MuPDFCore" />
+        <PackageReference Include="Quartz" />
+        <PackageReference Include="Quartz.Extensions.DependencyInjection" />
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="SixLabors.ImageSharp" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+        <PackageReference Include="itext7" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -1,18 +1,3 @@
-directive @authorize(
-  """
-  Defines when when the resolver shall be executed.By default the resolver is executed after the policy has determined that the current user is allowed to access the field.
-  """
-  apply: ApplyPolicy! = BEFORE_RESOLVER
-
-  """
-  The name of the authorization policy that determines access to the annotated resource.
-  """
-  policy: String
-
-  """Roles that are allowed to access the annotated resource."""
-  roles: [String!]
-) on FIELD_DEFINITION | OBJECT | SCHEMA
-
 """
 The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`.
 """
@@ -83,142 +68,22 @@ The `Byte` scalar type represents non-fractional whole numeric values. Byte can 
 """
 scalar Byte
 
-input ComparableByteOperationFilterInput {
+input ByteOperationFilterInput {
   eq: Byte
   gt: Byte
   gte: Byte
-  in: [Byte!]
+  in: [Byte]
   lt: Byte
   lte: Byte
   neq: Byte
   ngt: Byte
   ngte: Byte
-  nin: [Byte!]
+  nin: [Byte]
   nlt: Byte
   nlte: Byte
 }
 
-input ComparableDateTimeOffsetOperationFilterInput {
-  eq: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  neq: DateTime
-  ngt: DateTime
-  ngte: DateTime
-  nin: [DateTime!]
-  nlt: DateTime
-  nlte: DateTime
-}
-
-input ComparableDateTimeOperationFilterInput {
-  eq: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  neq: DateTime
-  ngt: DateTime
-  ngte: DateTime
-  nin: [DateTime!]
-  nlt: DateTime
-  nlte: DateTime
-}
-
-input ComparableGuidOperationFilterInput {
-  eq: UUID
-  gt: UUID
-  gte: UUID
-  in: [UUID!]
-  lt: UUID
-  lte: UUID
-  neq: UUID
-  ngt: UUID
-  ngte: UUID
-  nin: [UUID!]
-  nlt: UUID
-  nlte: UUID
-}
-
-input ComparableInt32OperationFilterInput {
-  eq: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  neq: Int
-  ngt: Int
-  ngte: Int
-  nin: [Int!]
-  nlt: Int
-  nlte: Int
-}
-
-input ComparableNullableOfDateTimeOffsetOperationFilterInput {
-  eq: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime]
-  lt: DateTime
-  lte: DateTime
-  neq: DateTime
-  ngt: DateTime
-  ngte: DateTime
-  nin: [DateTime]
-  nlt: DateTime
-  nlte: DateTime
-}
-
-input ComparableNullableOfDateTimeOperationFilterInput {
-  eq: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime]
-  lt: DateTime
-  lte: DateTime
-  neq: DateTime
-  ngt: DateTime
-  ngte: DateTime
-  nin: [DateTime]
-  nlt: DateTime
-  nlte: DateTime
-}
-
-input ComparableNullableOfGuidOperationFilterInput {
-  eq: UUID
-  gt: UUID
-  gte: UUID
-  in: [UUID]
-  lt: UUID
-  lte: UUID
-  neq: UUID
-  ngt: UUID
-  ngte: UUID
-  nin: [UUID]
-  nlt: UUID
-  nlte: UUID
-}
-
-input ComparableNullableOfInt32OperationFilterInput {
-  eq: Int
-  gt: Int
-  gte: Int
-  in: [Int]
-  lt: Int
-  lte: Int
-  neq: Int
-  ngt: Int
-  ngte: Int
-  nin: [Int]
-  nlt: Int
-  nlte: Int
-}
-
-type ConnectorDefintion implements Node {
+type ConnectorDefintion {
   credential: Credential
   id: ID!
   name: String
@@ -229,8 +94,8 @@ type ConnectorDefintion implements Node {
 
 input ConnectorDefintionFilterInput {
   and: [ConnectorDefintionFilterInput!]
-  credentialId: ComparableNullableOfGuidOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  credentialId: UuidOperationFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ConnectorDefintionFilterInput!]
   properties: IDictionaryOfStringAndStringFilterInput
@@ -259,14 +124,23 @@ type ConnectorsEdge {
   node: ConnectorDefintion!
 }
 
+type ContentTokenData {
+  displays: [String!]!
+  matchCount: Int!
+  tokenizer: String!
+  value: String
+}
+
 type Correspondent implements Node {
+  detectRules: [DetectRule]
   id: ID!
   name: String
 }
 
 input CorrespondentFilterInput {
   and: [CorrespondentFilterInput!]
-  id: ComparableGuidOperationFilterInput
+  detectRules: ListFilterInputTypeOfDetectRuleFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [CorrespondentFilterInput!]
 }
@@ -292,7 +166,7 @@ type CorrespondentsEdge {
   node: Correspondent!
 }
 
-type Credential {
+type Credential implements Node {
   client: OAuthClient
   id: ID!
   name: String
@@ -302,7 +176,7 @@ type Credential {
 input CredentialFilterInput {
   and: [CredentialFilterInput!]
   client: OAuthClientFilterInput
-  id: ComparableGuidOperationFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [CredentialFilterInput!]
   tokens: ListFilterInputTypeOfCredentialTokenFilterInput
@@ -318,9 +192,9 @@ type CredentialToken {
 
 input CredentialTokenFilterInput {
   and: [CredentialTokenFilterInput!]
-  createdAt: ComparableDateTimeOffsetOperationFilterInput
-  expiresAt: ComparableNullableOfDateTimeOffsetOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  createdAt: DateTimeOperationFilterInput
+  expiresAt: DateTimeOperationFilterInput
+  id: UuidOperationFilterInput
   or: [CredentialTokenFilterInput!]
   type: TokenTypeOperationFilterInput
   value: ProtectedValueFilterInput
@@ -347,8 +221,58 @@ type CredentialsEdge {
   node: Credential!
 }
 
+"""The `Date` scalar represents an ISO-8601 compliant date type."""
+scalar Date
+
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
+
+input DateTimeOperationFilterInput {
+  eq: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime]
+  lt: DateTime
+  lte: DateTime
+  neq: DateTime
+  ngt: DateTime
+  ngte: DateTime
+  nin: [DateTime]
+  nlt: DateTime
+  nlte: DateTime
+}
+
+type DetectResultOfCorrespondent {
+  item: Correspondent!
+  scrore: Int!
+}
+
+type DetectRule {
+  expression: String!
+  field: String!
+  mode: DetectRuleMode!
+  weight: Int!
+}
+
+input DetectRuleFilterInput {
+  and: [DetectRuleFilterInput!]
+  expression: StringOperationFilterInput
+  field: StringOperationFilterInput
+  mode: DetectRuleModeOperationFilterInput
+  or: [DetectRuleFilterInput!]
+  weight: IntOperationFilterInput
+}
+
+enum DetectRuleMode {
+  REGEX
+}
+
+input DetectRuleModeOperationFilterInput {
+  eq: DetectRuleMode
+  in: [DetectRuleMode!]
+  neq: DetectRuleMode
+  nin: [DetectRuleMode!]
+}
 
 type EntityVersion {
   createdAt: DateTime!
@@ -358,10 +282,10 @@ type EntityVersion {
 
 input EntityVersionFilterInput {
   and: [EntityVersionFilterInput!]
-  createdAt: ComparableDateTimeOperationFilterInput
-  createdBy: ComparableGuidOperationFilterInput
+  createdAt: DateTimeOperationFilterInput
+  createdBy: UuidOperationFilterInput
   or: [EntityVersionFilterInput!]
-  version: ComparableInt32OperationFilterInput
+  version: IntOperationFilterInput
 }
 
 input IDictionaryOfStringAndStringFilterInput {
@@ -369,6 +293,10 @@ input IDictionaryOfStringAndStringFilterInput {
   keys: ListStringOperationFilterInput
   or: [IDictionaryOfStringAndStringFilterInput!]
   values: ListStringOperationFilterInput
+}
+
+interface IThingContentData {
+  source: String
 }
 
 enum ImageFormat {
@@ -390,9 +318,9 @@ type ImageSize {
 
 input ImageSizeFilterInput {
   and: [ImageSizeFilterInput!]
-  height: ComparableInt32OperationFilterInput
+  height: IntOperationFilterInput
   or: [ImageSizeFilterInput!]
-  width: ComparableInt32OperationFilterInput
+  width: IntOperationFilterInput
 }
 
 input InsertCorrespondentInput {
@@ -403,6 +331,21 @@ type InsertCorrespondentPayload {
   correspondent: Correspondent
 }
 
+input IntOperationFilterInput {
+  eq: Int
+  gt: Int
+  gte: Int
+  in: [Int]
+  lt: Int
+  lte: Int
+  neq: Int
+  ngt: Int
+  ngte: Int
+  nin: [Int]
+  nlt: Int
+  nlte: Int
+}
+
 type JobAction {
   destinationConnector: ConnectorDefintion
   mode: JobActionMode!
@@ -411,7 +354,7 @@ type JobAction {
 
 input JobActionFilterInput {
   and: [JobActionFilterInput!]
-  destinationConnectorId: ComparableNullableOfGuidOperationFilterInput
+  destinationConnectorId: UuidOperationFilterInput
   mode: JobActionModeOperationFilterInput
   or: [JobActionFilterInput!]
   source: SourceActionFilterInput
@@ -453,12 +396,12 @@ input JobDefintionFilterInput {
   cronSchedule: StringOperationFilterInput
   enabled: BooleanOperationFilterInput
   filter: StringOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [JobDefintionFilterInput!]
   runMode: JobRunModeOperationFilterInput
   schedule: JobScheduleFilterInput
-  sourceConnectorId: ComparableGuidOperationFilterInput
+  sourceConnectorId: UuidOperationFilterInput
 }
 
 """A connection to a list of items."""
@@ -503,7 +446,7 @@ type JobSchedule {
 input JobScheduleFilterInput {
   and: [JobScheduleFilterInput!]
   cronExpression: StringOperationFilterInput
-  intervall: ComparableNullableOfInt32OperationFilterInput
+  intervall: IntOperationFilterInput
   or: [JobScheduleFilterInput!]
   type: JobScheduleTypeOperationFilterInput
 }
@@ -531,18 +474,11 @@ type KeyValuePairOfStringAndString {
   value: String!
 }
 
-input ListComparableByteOperationFilterInput {
-  all: ComparableByteOperationFilterInput
+input ListByteOperationFilterInput {
+  all: ByteOperationFilterInput
   any: Boolean
-  none: ComparableByteOperationFilterInput
-  some: ComparableByteOperationFilterInput
-}
-
-input ListComparableGuidOperationFilterInput {
-  all: ComparableGuidOperationFilterInput
-  any: Boolean
-  none: ComparableGuidOperationFilterInput
-  some: ComparableGuidOperationFilterInput
+  none: ByteOperationFilterInput
+  some: ByteOperationFilterInput
 }
 
 input ListFilterInputTypeOfCredentialTokenFilterInput {
@@ -550,6 +486,13 @@ input ListFilterInputTypeOfCredentialTokenFilterInput {
   any: Boolean
   none: CredentialTokenFilterInput
   some: CredentialTokenFilterInput
+}
+
+input ListFilterInputTypeOfDetectRuleFilterInput {
+  all: DetectRuleFilterInput
+  any: Boolean
+  none: DetectRuleFilterInput
+  some: DetectRuleFilterInput
 }
 
 input ListFilterInputTypeOfPropertyDefinitionLinkFilterInput {
@@ -599,6 +542,13 @@ input ListStringOperationFilterInput {
   any: Boolean
   none: StringOperationFilterInput
   some: StringOperationFilterInput
+}
+
+input ListUuidOperationFilterInput {
+  all: UuidOperationFilterInput
+  any: Boolean
+  none: UuidOperationFilterInput
+  some: UuidOperationFilterInput
 }
 
 type Mutation {
@@ -677,6 +627,12 @@ type PageInfo {
   startCursor: String
 }
 
+type PageTextContent implements IThingContentData {
+  lines: [String!]!
+  pageNumber: Int!
+  source: String!
+}
+
 enum PropertyDataType {
   BOOLEAN
   DATE_TIME
@@ -697,7 +653,7 @@ type PropertyDefinitionLink {
 
 input PropertyDefinitionLinkFilterInput {
   and: [PropertyDefinitionLinkFilterInput!]
-  definitionId: ComparableGuidOperationFilterInput
+  definitionId: UuidOperationFilterInput
   or: [PropertyDefinitionLinkFilterInput!]
 }
 
@@ -707,7 +663,7 @@ type ProtectedValue {
 
 input ProtectedValueFilterInput {
   and: [ProtectedValueFilterInput!]
-  cipher: ListComparableByteOperationFilterInput
+  cipher: ListByteOperationFilterInput
   or: [ProtectedValueFilterInput!]
   value: StringOperationFilterInput
 }
@@ -831,6 +787,7 @@ type Query {
   ): TagDefintionsConnection
   thingById(id: ID!): Thing!
   thingClasses(where: ThingClassFilterInput): [ThingClass!]!
+  thingStates: [ThingState!]!
   thingTypes(where: ThingTypeFilterInput): [ThingType!]!
   things(
     """Returns the elements in the list that come after the specified cursor."""
@@ -858,7 +815,7 @@ type Receiver {
 
 input ReceiverFilterInput {
   and: [ReceiverFilterInput!]
-  id: ComparableGuidOperationFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ReceiverFilterInput!]
 }
@@ -898,14 +855,14 @@ input RelationTypeOperationFilterInput {
 
 type SourceAction {
   mode: SourceActionMode!
-  newConnectorId: UUID
+  newConnectorId: ID
   newLocation: String
 }
 
 input SourceActionFilterInput {
   and: [SourceActionFilterInput!]
   mode: SourceActionModeOperationFilterInput
-  newConnectorId: ComparableNullableOfGuidOperationFilterInput
+  newConnectorId: UuidOperationFilterInput
   newLocation: StringOperationFilterInput
   or: [SourceActionFilterInput!]
 }
@@ -952,7 +909,7 @@ type TagDefinition {
 input TagDefinitionFilterInput {
   and: [TagDefinitionFilterInput!]
   color: StringOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [TagDefinitionFilterInput!]
 }
@@ -980,8 +937,9 @@ type TagDefintionsEdge {
 
 type Thing implements Node {
   class: ThingClass
+  content: ThingContentNode
   correspondent: Correspondent
-  date: DateTime
+  date: Date
   id: ID!
   label: String
   properties: [ThingPropery]
@@ -1005,16 +963,29 @@ type ThingClass {
 
 input ThingClassFilterInput {
   and: [ThingClassFilterInput!]
-  id: ComparableGuidOperationFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ThingClassFilterInput!]
   properties: ListFilterInputTypeOfPropertyDefinitionLinkFilterInput
   version: EntityVersionFilterInput
 }
 
+type ThingContent {
+  data: IThingContentData
+  id: UUID!
+  source: String
+}
+
+type ThingContentNode {
+  detectedCorrespondents: [DetectResultOfCorrespondent!]!
+  items: [ThingContent!]!
+  text: String!
+  tokens: [ContentTokenData!]!
+}
+
 input ThingDataReferenceFilterInput {
   and: [ThingDataReferenceFilterInput!]
-  connectorId: ComparableGuidOperationFilterInput
+  connectorId: UuidOperationFilterInput
   contentType: StringOperationFilterInput
   id: StringOperationFilterInput
   or: [ThingDataReferenceFilterInput!]
@@ -1023,22 +994,22 @@ input ThingDataReferenceFilterInput {
 
 input ThingFilterInput {
   and: [ThingFilterInput!]
-  classId: ComparableNullableOfGuidOperationFilterInput
-  corespondentId: ComparableNullableOfGuidOperationFilterInput
+  classId: UuidOperationFilterInput
+  corespondentId: UuidOperationFilterInput
   data: ListFilterInputTypeOfThingDataReferenceFilterInput
-  date: ComparableNullableOfDateTimeOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  date: DateTimeOperationFilterInput
+  id: UuidOperationFilterInput
   label: StringOperationFilterInput
   or: [ThingFilterInput!]
   properties: ListFilterInputTypeOfThingProperyFilterInput
-  receiverId: ComparableNullableOfGuidOperationFilterInput
+  receiverId: UuidOperationFilterInput
   relations: ListFilterInputTypeOfThingRelationFilterInput
   source: ThingSourceFilterInput
   state: ThingStateOperationFilterInput
   tags: ListFilterInputTypeOfThingTagFilterInput
   thumbnails: ListFilterInputTypeOfThingThumbnailFilterInput
   title: StringOperationFilterInput
-  typeId: ComparableNullableOfGuidOperationFilterInput
+  typeId: UuidOperationFilterInput
   version: EntityVersionFilterInput
 }
 
@@ -1051,8 +1022,8 @@ type ThingPropery {
 
 input ThingProperyFilterInput {
   and: [ThingProperyFilterInput!]
-  definitionId: ComparableGuidOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  definitionId: UuidOperationFilterInput
+  id: UuidOperationFilterInput
   or: [ThingProperyFilterInput!]
   value: StringOperationFilterInput
 }
@@ -1066,10 +1037,10 @@ type ThingRelation {
 
 input ThingRelationFilterInput {
   and: [ThingRelationFilterInput!]
-  from: ComparableGuidOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  from: UuidOperationFilterInput
+  id: UuidOperationFilterInput
   or: [ThingRelationFilterInput!]
-  to: ComparableGuidOperationFilterInput
+  to: UuidOperationFilterInput
   type: RelationTypeOperationFilterInput
 }
 
@@ -1081,7 +1052,7 @@ type ThingSource {
 
 input ThingSourceFilterInput {
   and: [ThingSourceFilterInput!]
-  connectorId: ComparableGuidOperationFilterInput
+  connectorId: UuidOperationFilterInput
   id: StringOperationFilterInput
   or: [ThingSourceFilterInput!]
   uniqueId: StringOperationFilterInput
@@ -1089,8 +1060,10 @@ input ThingSourceFilterInput {
 
 enum ThingState {
   ACTIVE
+  ARCHIVED
   DELETED
   DRAFT
+  NEW
   PROCESSING
 }
 
@@ -1107,7 +1080,7 @@ type ThingTag {
 
 input ThingTagFilterInput {
   and: [ThingTagFilterInput!]
-  defintionId: ComparableGuidOperationFilterInput
+  defintionId: UuidOperationFilterInput
   or: [ThingTagFilterInput!]
 }
 
@@ -1120,17 +1093,18 @@ type ThingThumbnail {
 
 input ThingThumbnailFilterInput {
   and: [ThingThumbnailFilterInput!]
-  data: ListComparableByteOperationFilterInput
+  data: ListByteOperationFilterInput
   fileId: StringOperationFilterInput
   format: ImageFormatOperationFilterInput
   or: [ThingThumbnailFilterInput!]
-  pageNumber: ComparableInt32OperationFilterInput
+  pageNumber: IntOperationFilterInput
   size: ImageSizeFilterInput
 }
 
 type ThingType {
   contentTypeMap: [String]
-  id: UUID!
+  detectRules: [DetectRule]
+  id: ID!
   name: String
   validClasses: [ThingClass!]!
   version: EntityVersion!
@@ -1139,10 +1113,11 @@ type ThingType {
 input ThingTypeFilterInput {
   and: [ThingTypeFilterInput!]
   contentTypeMap: ListStringOperationFilterInput
-  id: ComparableGuidOperationFilterInput
+  detectRules: ListFilterInputTypeOfDetectRuleFilterInput
+  id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ThingTypeFilterInput!]
-  validClasses: ListComparableGuidOperationFilterInput
+  validClasses: ListUuidOperationFilterInput
   version: EntityVersionFilterInput
 }
 
@@ -1200,6 +1175,7 @@ type UpdateJobDefinitionPayload {
 input UpdateThingInput {
   classId: ID
   correspondentId: ID
+  date: DateTime
   id: ID!
   properties: [UpdateThingPropertyInput!]
   receiverId: ID
@@ -1221,6 +1197,21 @@ input UpdateThingPropertyInput {
 interface UserError {
   code: String!
   message: String!
+}
+
+input UuidOperationFilterInput {
+  eq: UUID
+  gt: UUID
+  gte: UUID
+  in: [UUID]
+  lt: UUID
+  lte: UUID
+  neq: UUID
+  ngt: UUID
+  ngte: UUID
+  nin: [UUID]
+  nlt: UUID
+  nlte: UUID
 }
 
 type WebHook {

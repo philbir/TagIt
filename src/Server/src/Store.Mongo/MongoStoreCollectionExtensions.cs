@@ -35,11 +35,13 @@ public static class MongoStoreCollectionExtensions
         services.AddSingleton<IJobDefintionStore, JobDefintionStore>();
         services.AddSingleton<IJobRunStore, JobRunStore>();
         services.AddSingleton<IWebHookStore, WebHookStore>();
+        services.AddSingleton<IThingContentStore, ThingContentStore>();
         services.AddSingleton<IClientAuthStateStore, ClientAuthStateStore>();
         services.AddSingleton<IThumbnailStore, ThumbnailStore>();
         services.AddSingleton<IReceiverStore, ReceiverStore>();
         services.AddSingleton<IPropertyDefinitionStore, PropertyDefinitionStore>();
         services.AddSingleton<ITagDefinitionStore, TagDefinitionStore>();
+        services.AddSingleton<IWorkflowStore, WorkflowStore>();
 
         return services;
     }

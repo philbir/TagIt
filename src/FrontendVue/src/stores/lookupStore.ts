@@ -11,6 +11,7 @@ export const useLookupStore = defineStore("lookup", () => {
     const isReady = ref(false);
     const thingTypes = ref();
     const tagDefintions = ref();
+    const thingStates = ref();
 
     const load = () => {
         const { unsubscribe } = pipe(
@@ -18,6 +19,7 @@ export const useLookupStore = defineStore("lookup", () => {
             subscribe((result) => {
                 thingTypes.value = result.data?.thingTypes;
                 tagDefintions.value = result.data?.tagDefintions?.nodes;
+                thingStates.value = result.data?.thingStates;
                 isReady.value = true;
             })
         );
@@ -35,5 +37,5 @@ export const useLookupStore = defineStore("lookup", () => {
         return result.data?.addTagDefintion.tagDefinition;
     };
 
-    return { isReady, thingTypes, tagDefintions, load, addTagDefintion };
+    return { isReady, thingTypes, tagDefintions, load, addTagDefintion, thingStates };
 });

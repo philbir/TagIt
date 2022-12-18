@@ -21,11 +21,12 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public Guid? ReceiverId { get; set; }
 
-    public DateTime? Date { get; set; }
+    public DateTimeOffset? Date { get; set; }
 
-    public IReadOnlyList<ThingTag> Tags { get; set; }
+    public IReadOnlyList<ThingTag> Tags { get; set; } = Array.Empty<ThingTag>();
 
     public IReadOnlyList<ThingThumbnail> Thumbnails { get; set; } = new List<ThingThumbnail>();
+
 
     public IReadOnlyList<ThingRelation> Relations { get; set; } = new List<ThingRelation>();
 
@@ -43,6 +44,10 @@ public class ThingPropery
     public string Value { get; set; }
 }
 
+public interface IThingContentData
+{
+    public string Source { get; set; }
+}
 
 public class ThingDataReference
 {
@@ -118,7 +123,9 @@ public enum ThingState
 {
     Draft,
     Processing,
+    New,
     Active,
+    Archived,
     Deleted
 }
 

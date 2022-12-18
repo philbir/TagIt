@@ -1,6 +1,6 @@
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Query)]
+[QueryType]
 public class WebHookQueries
 {
     public Task<IQueryable<WebHook>> GetWebHooks(

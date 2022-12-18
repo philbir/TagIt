@@ -3,6 +3,7 @@
   <PropertyGroup>
     <AssemblyName>TagIt.Store.Mongo</AssemblyName>
     <RootNamespace>TagIt.Store.Mongo</RootNamespace>
+      <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

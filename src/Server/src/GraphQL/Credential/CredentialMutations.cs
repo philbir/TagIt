@@ -1,7 +1,7 @@
 
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Mutation)]
+[MutationType]
 public class CredentialMutations
 {
     public async Task<Credential> AddOAuthCredentialClientAsync(
