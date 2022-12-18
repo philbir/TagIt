@@ -11,6 +11,7 @@ using TagIt.Messaging;
 using TagIt.Configuration;
 using TagIt.Pdf;
 using TagIt.Image;
+using TagIt.Processing;
 
 namespace TagIt;
 
@@ -67,10 +68,15 @@ public static class TagItServerBuilderExtensions
         services.AddSingleton<IContentExtractionService, ContentExtractionService>();
         services.AddSingleton<IThingContentExtractor, PdfTextContentExtractor>();
 
+        services.AddSingleton<IContentTokenizerService, ContentTokenizerService>();
+        services.AddSingleton<IContentTokenizer, DateContentTokenizer>();
         services.AddSingleton<IConnectionManager>((sp) =>
         {
             return new DefaultConnectionManager(sp);
         });
+
+        services.AddSingleton<IContentDetectorService, ContentDetectorService>();
+        services.AddSingleton<IThingPostProcessingService, ThingPostProcessingService>();
 
         return services;
     }

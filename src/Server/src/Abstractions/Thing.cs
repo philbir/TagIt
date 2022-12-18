@@ -21,9 +21,9 @@ public class Thing : EntityWithVersion, IEntityWithVersion
 
     public Guid? ReceiverId { get; set; }
 
-    public DateTime? Date { get; set; }
+    public DateTimeOffset? Date { get; set; }
 
-    public IReadOnlyList<ThingTag> Tags { get; set; }
+    public IReadOnlyList<ThingTag> Tags { get; set; } = Array.Empty<ThingTag>();
 
     public IReadOnlyList<ThingThumbnail> Thumbnails { get; set; } = new List<ThingThumbnail>();
 
@@ -123,7 +123,9 @@ public enum ThingState
 {
     Draft,
     Processing,
+    New,
     Active,
+    Archived,
     Deleted
 }
 

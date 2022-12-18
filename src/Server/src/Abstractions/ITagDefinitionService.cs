@@ -6,4 +6,8 @@ public interface ITagDefinitionService
     Task<TagDefinition> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<IReadOnlyList<TagDefinition>> GetManyAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken);
     Task<IQueryable<TagDefinition>> Query(CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<DetectResult<TagDefinition>>> DetectFromContentAsync(
+        IThingContentAccessor content,
+        CancellationToken cancellationToken);
 }

@@ -13,3 +13,9 @@ public class ThingContent : IEntity
 
     public IThingContentData Data { get; set; }
 }
+
+public interface IThingContent
+{
+    string GetAllText();
+}
+

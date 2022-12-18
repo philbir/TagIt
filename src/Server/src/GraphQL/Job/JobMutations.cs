@@ -2,7 +2,7 @@
 
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Mutation)]
+[MutationType]
 public class JobMutations
 {
     public async Task<JobDefintion> UpdateJobDefinitionAsync(

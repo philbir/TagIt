@@ -33,21 +33,3 @@ public class ContentExtractionService : IContentExtractionService
         return result;
     }
 }
-
-
-
-public class MatchRule
-{
-    public MatchRuleType Type { get; set; }
-
-    public string Expression { get; set; }
-
-    public int Weight { get; set; }
-
-    public string Field { get; set; }
-}
-
-public enum MatchRuleType
-{
-    Regex
-}

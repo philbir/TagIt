@@ -33,30 +33,26 @@ fragment ThingDetail on Thing {
             dataType
         }
     }
-    contentText
     content {
-        id
-        source
-        data {
-            ... on PageTextContent {
-                pageNumber
-                lines
+        text
+        detectedCorrespondents {
+            item {
+                id
+                name
             }
+            scrore
+        }
+        tokens {
+            tokenizer
+            value
+            displays
+            matchCount
         }
     }
     tags {
         id
         name
         color
-    }
-    content {
-        source
-        data {
-            ... on PageTextContent {
-                pageNumber
-                lines
-            }
-        }
     }
     source {
         connectorId

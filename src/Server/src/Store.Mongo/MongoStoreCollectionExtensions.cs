@@ -41,6 +41,7 @@ public static class MongoStoreCollectionExtensions
         services.AddSingleton<IReceiverStore, ReceiverStore>();
         services.AddSingleton<IPropertyDefinitionStore, PropertyDefinitionStore>();
         services.AddSingleton<ITagDefinitionStore, TagDefinitionStore>();
+        services.AddSingleton<IWorkflowStore, WorkflowStore>();
 
         return services;
     }

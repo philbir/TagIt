@@ -20,4 +20,5 @@ query lookups {
             color
         }
     }
+    thingStates
 }

@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255. */
   Byte: any;
+  /** The `Date` scalar represents an ISO-8601 compliant date type. */
+  Date: any;
   /** The `DateTime` scalar represents an ISO-8601 compliant date time type. */
   DateTime: any;
   UUID: any;
@@ -104,14 +106,24 @@ export type ConnectorsEdge = {
   node: ConnectorDefintion;
 };
 
+export type ContentTokenData = {
+  __typename?: 'ContentTokenData';
+  displays: Array<Scalars['String']>;
+  matchCount: Scalars['Int'];
+  tokenizer: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
+};
+
 export type Correspondent = Node & {
   __typename?: 'Correspondent';
+  detectRules?: Maybe<Array<Maybe<DetectRule>>>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
 };
 
 export type CorrespondentFilterInput = {
   and?: InputMaybe<Array<CorrespondentFilterInput>>;
+  detectRules?: InputMaybe<ListFilterInputTypeOfDetectRuleFilterInput>;
   id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<CorrespondentFilterInput>>;
@@ -206,6 +218,40 @@ export type DateTimeOperationFilterInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   nlt?: InputMaybe<Scalars['DateTime']>;
   nlte?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type DetectResultOfCorrespondent = {
+  __typename?: 'DetectResultOfCorrespondent';
+  item: Correspondent;
+  scrore: Scalars['Int'];
+};
+
+export type DetectRule = {
+  __typename?: 'DetectRule';
+  expression: Scalars['String'];
+  field: Scalars['String'];
+  mode: DetectRuleMode;
+  weight: Scalars['Int'];
+};
+
+export type DetectRuleFilterInput = {
+  and?: InputMaybe<Array<DetectRuleFilterInput>>;
+  expression?: InputMaybe<StringOperationFilterInput>;
+  field?: InputMaybe<StringOperationFilterInput>;
+  mode?: InputMaybe<DetectRuleModeOperationFilterInput>;
+  or?: InputMaybe<Array<DetectRuleFilterInput>>;
+  weight?: InputMaybe<IntOperationFilterInput>;
+};
+
+export enum DetectRuleMode {
+  Regex = 'REGEX'
+}
+
+export type DetectRuleModeOperationFilterInput = {
+  eq?: InputMaybe<DetectRuleMode>;
+  in?: InputMaybe<Array<DetectRuleMode>>;
+  neq?: InputMaybe<DetectRuleMode>;
+  nin?: InputMaybe<Array<DetectRuleMode>>;
 };
 
 export type EntityVersion = {
@@ -428,6 +474,13 @@ export type ListFilterInputTypeOfCredentialTokenFilterInput = {
   some?: InputMaybe<CredentialTokenFilterInput>;
 };
 
+export type ListFilterInputTypeOfDetectRuleFilterInput = {
+  all?: InputMaybe<DetectRuleFilterInput>;
+  any?: InputMaybe<Scalars['Boolean']>;
+  none?: InputMaybe<DetectRuleFilterInput>;
+  some?: InputMaybe<DetectRuleFilterInput>;
+};
+
 export type ListFilterInputTypeOfPropertyDefinitionLinkFilterInput = {
   all?: InputMaybe<PropertyDefinitionLinkFilterInput>;
   any?: InputMaybe<Scalars['Boolean']>;
@@ -646,6 +699,7 @@ export type Query = {
   tagDefintions?: Maybe<TagDefintionsConnection>;
   thingById: Thing;
   thingClasses: Array<ThingClass>;
+  thingStates: Array<ThingState>;
   thingTypes: Array<ThingType>;
   things?: Maybe<ThingsConnection>;
   webHooks: Array<WebHook>;
@@ -885,10 +939,9 @@ export type TagDefintionsEdge = {
 export type Thing = Node & {
   __typename?: 'Thing';
   class?: Maybe<ThingClass>;
-  content: Array<ThingContent>;
-  contentText: Scalars['String'];
+  content?: Maybe<ThingContentNode>;
   correspondent?: Maybe<Correspondent>;
-  date?: Maybe<Scalars['DateTime']>;
+  date?: Maybe<Scalars['Date']>;
   id: Scalars['ID'];
   label?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<ThingPropery>>>;
@@ -931,7 +984,14 @@ export type ThingContent = {
   data?: Maybe<IThingContentData>;
   id: Scalars['UUID'];
   source?: Maybe<Scalars['String']>;
-  thingId: Scalars['UUID'];
+};
+
+export type ThingContentNode = {
+  __typename?: 'ThingContentNode';
+  detectedCorrespondents: Array<DetectResultOfCorrespondent>;
+  items: Array<ThingContent>;
+  text: Scalars['String'];
+  tokens: Array<ContentTokenData>;
 };
 
 export type ThingDataReferenceFilterInput = {
@@ -1014,8 +1074,10 @@ export type ThingSourceFilterInput = {
 
 export enum ThingState {
   Active = 'ACTIVE',
+  Archived = 'ARCHIVED',
   Deleted = 'DELETED',
   Draft = 'DRAFT',
+  New = 'NEW',
   Processing = 'PROCESSING'
 }
 
@@ -1058,7 +1120,8 @@ export type ThingThumbnailFilterInput = {
 export type ThingType = {
   __typename?: 'ThingType';
   contentTypeMap?: Maybe<Array<Maybe<Scalars['String']>>>;
-  id: Scalars['UUID'];
+  detectRules?: Maybe<Array<Maybe<DetectRule>>>;
+  id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   validClasses: Array<ThingClass>;
   version: EntityVersion;
@@ -1067,6 +1130,7 @@ export type ThingType = {
 export type ThingTypeFilterInput = {
   and?: InputMaybe<Array<ThingTypeFilterInput>>;
   contentTypeMap?: InputMaybe<ListStringOperationFilterInput>;
+  detectRules?: InputMaybe<ListFilterInputTypeOfDetectRuleFilterInput>;
   id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<ThingTypeFilterInput>>;
@@ -1126,6 +1190,7 @@ export type UpdateJobDefinitionPayload = {
 export type UpdateThingInput = {
   classId?: InputMaybe<Scalars['ID']>;
   correspondentId?: InputMaybe<Scalars['ID']>;
+  date?: InputMaybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   properties?: InputMaybe<Array<UpdateThingPropertyInput>>;
   receiverId?: InputMaybe<Scalars['ID']>;
@@ -1212,12 +1277,12 @@ export type GetThingByIdQuery = { __typename?: 'Query', thingById: (
     & { ' $fragmentRefs'?: { 'ThingDetailFragment': ThingDetailFragment } }
   ) };
 
-export type ThingDetailFragment = { __typename?: 'Thing', id: string, title?: string | null, contentText: string, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', id: any, name?: string | null } | null, class?: { __typename?: 'ThingClass', id: string, name?: string | null } | null, correspondent?: { __typename?: 'Correspondent', id: string, name?: string | null } | null, receiver?: { __typename?: 'Receiver', id: string, name?: string | null } | null, properties?: Array<{ __typename?: 'ThingPropery', id: string, value?: string | null, definition: { __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType } } | null> | null, content: Array<{ __typename?: 'ThingContent', id: any, source?: string | null, data?: { __typename?: 'PageTextContent', pageNumber: number, lines: Array<string> } | null }>, tags: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }>, source?: { __typename?: 'ThingSource', connectorId: any, uniqueId?: string | null } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingDetailFragment' };
+export type ThingDetailFragment = { __typename?: 'Thing', id: string, title?: string | null, date?: any | null, state: ThingState, type?: { __typename?: 'ThingType', id: string, name?: string | null } | null, class?: { __typename?: 'ThingClass', id: string, name?: string | null } | null, correspondent?: { __typename?: 'Correspondent', id: string, name?: string | null } | null, receiver?: { __typename?: 'Receiver', id: string, name?: string | null } | null, properties?: Array<{ __typename?: 'ThingPropery', id: string, value?: string | null, definition: { __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType } } | null> | null, content?: { __typename?: 'ThingContentNode', text: string, detectedCorrespondents: Array<{ __typename?: 'DetectResultOfCorrespondent', scrore: number, item: { __typename?: 'Correspondent', id: string, name?: string | null } }>, tokens: Array<{ __typename?: 'ContentTokenData', tokenizer: string, value?: string | null, displays: Array<string>, matchCount: number }> } | null, tags: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }>, source?: { __typename?: 'ThingSource', connectorId: any, uniqueId?: string | null } | null, thumbnail?: { __typename?: 'ThingThumbnail', url: string } | null } & { ' $fragmentName'?: 'ThingDetailFragment' };
 
 export type LookupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LookupsQuery = { __typename?: 'Query', thingTypes: Array<{ __typename?: 'ThingType', id: any, name?: string | null, contentTypeMap?: Array<string | null> | null, validClasses: Array<{ __typename?: 'ThingClass', id: string, name?: string | null, properties: Array<{ __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType }> }> }>, tagDefintions?: { __typename?: 'TagDefintionsConnection', nodes?: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }> | null } | null };
+export type LookupsQuery = { __typename?: 'Query', thingStates: Array<ThingState>, thingTypes: Array<{ __typename?: 'ThingType', id: string, name?: string | null, contentTypeMap?: Array<string | null> | null, validClasses: Array<{ __typename?: 'ThingClass', id: string, name?: string | null, properties: Array<{ __typename?: 'PropertyDefinition', id: string, name?: string | null, dataType: PropertyDataType }> }> }>, tagDefintions?: { __typename?: 'TagDefintionsConnection', nodes?: Array<{ __typename?: 'TagDefinition', id: string, name?: string | null, color?: string | null }> | null } | null };
 
 export type SearchCorrespondentsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1237,12 +1302,12 @@ export type UpdateThingMutationVariables = Exact<{
 export type UpdateThingMutation = { __typename?: 'Mutation', updateThing: { __typename?: 'UpdateThingPayload', thing?: { __typename?: 'Thing', id: string } | null } };
 
 export const ThingItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingItemFragment, unknown>;
-export const ThingDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"receiver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"definition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentText"}},{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"source"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageTextContent"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"lines"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"source"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageTextContent"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"lines"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"uniqueId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingDetailFragment, unknown>;
+export const ThingDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThingDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Thing"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"receiver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"definition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"detectedCorrespondents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"scrore"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokens"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenizer"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"displays"}},{"kind":"Field","name":{"kind":"Name","value":"matchCount"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"connectorId"}},{"kind":"Field","name":{"kind":"Name","value":"uniqueId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loadData"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode<ThingDetailFragment, unknown>;
 export const InsertCorrespondentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertCorrespondent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InsertCorrespondentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertCorrespondent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"correspondent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<InsertCorrespondentMutation, InsertCorrespondentMutationVariables>;
 export const ThingsSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"thingsSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"things"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingItem"}}]}}]}}]}},...ThingItemFragmentDoc.definitions]} as unknown as DocumentNode<ThingsSearchQuery, ThingsSearchQueryVariables>;
 export const AddTagDefintionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addTagDefintion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddTagDefintionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addTagDefintion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tagDefinition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<AddTagDefintionMutation, AddTagDefintionMutationVariables>;
 export const GetThingByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getThingById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThingDetail"}}]}}]}},...ThingDetailFragmentDoc.definitions]} as unknown as DocumentNode<GetThingByIdQuery, GetThingByIdQueryVariables>;
-export const LookupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lookups"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validClasses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentTypeMap"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tagDefintions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<LookupsQuery, LookupsQueryVariables>;
+export const LookupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lookups"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thingTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validClasses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dataType"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentTypeMap"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tagDefintions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"thingStates"}}]}}]} as unknown as DocumentNode<LookupsQuery, LookupsQueryVariables>;
 export const SearchCorrespondentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchCorrespondents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"correspondents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"50"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchCorrespondentsQuery, SearchCorrespondentsQueryVariables>;
 export const SearchReceiversDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchReceivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"receivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchReceiversQuery, SearchReceiversQueryVariables>;
 export const UpdateThingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateThing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateThingInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateThing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateThingMutation, UpdateThingMutationVariables>;

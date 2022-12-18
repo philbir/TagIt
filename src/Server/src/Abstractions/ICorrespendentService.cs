@@ -9,4 +9,8 @@ public interface ICorrespondentService
         cancellationToken);
 
     Task<IQueryable<Correspondent>> Query(CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<DetectResult<Correspondent>>> DetectFromContentAsync(
+        IThingContentAccessor content,
+        CancellationToken cancellationToken);
 }

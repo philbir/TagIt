@@ -1,27 +1,32 @@
 using MassTransit;
 using Serilog;
+using TagIt.Processing;
+
 namespace TagIt.Messaging;
 
 public class ThingAddedConsumer : IConsumer<ThingAddedMessage>
 {
-    private readonly IThumbnailGeneratorService _thumbnailGeneratorService;
+    private readonly IWorkflowEngine _workflowEngine;
+    private readonly IThingService _thingService;
 
-    public ThingAddedConsumer(IThumbnailGeneratorService thumbnailGeneratorService)
+    public ThingAddedConsumer(IWorkflowEngine workflowEngine, IThingService thingService)
     {
-        _thumbnailGeneratorService = thumbnailGeneratorService;
+        _workflowEngine = workflowEngine;
+        _thingService = thingService;
     }
 
     public async Task Consume(ConsumeContext<ThingAddedMessage> context)
     {
         Log.Information("Consume ThingAdded: {Id}", context.Message.Id);
 
-        // Start Post-Processing
-        // - Thumbnails
-        // - OCR
-        // - DataExtraction
-        // - Classifier
-        // - Actions
+        await _thingService.UpdateStateAsync(
+            context.Message.Id,
+            ThingState.Processing,
+            context.CancellationToken);
 
-        await _thumbnailGeneratorService.UpdateThumbnailsAsync(context.Message.Id, context.CancellationToken);
+        await _workflowEngine.StartWorkflow(
+            "ThingPostProcess",
+            new ThingWorkflowData(context.Message.Id),
+            context.CancellationToken);
     }
 }

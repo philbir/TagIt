@@ -1,6 +1,6 @@
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Mutation)]
+[MutationType]
 public class CorrespondentMutations
 {
     public async Task<Correspondent> InsertCorrespondentAsync(

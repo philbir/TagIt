@@ -40,6 +40,7 @@ public class ThingService : IThingService
         thing.Title = request.Title;
         thing.ReceiverId = request.ReceiverId;
         thing.CorespondentId = request.CorrespondentId;
+        thing.Date = request.Date;
         thing.Tags = request.Tags
             .Select(t => new ThingTag { DefintionId = t })
             .ToList();
@@ -51,6 +52,18 @@ public class ThingService : IThingService
             cancellationToken);
 
         return result.Entity;
+    }
+
+    public async Task<Thing> UpdateThingAsync(Thing thing, CancellationToken cancellationToken)
+    {
+        await _thingStore.UpdateAsync(thing, cancellationToken);
+
+        return thing;
+    }
+
+    public async Task UpdateStateAsync(Guid id, ThingState state, CancellationToken cancellationToken)
+    {
+        await _thingStore.UpdateStateAsync(id, state, cancellationToken);
     }
 
     private static void UpdateProperties(Thing thing, UpdateThingRequest request)

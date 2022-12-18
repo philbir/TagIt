@@ -25,4 +25,13 @@ public class ThingStore : Store<Thing>, IThingStore
             new UpdateOptions(),
             cancellationToken);
     }
+
+    public async Task UpdateStateAsync(Guid id, ThingState state, CancellationToken cancellationToken)
+    {
+        await Collection.UpdateOneAsync(
+            x => x.Id == id,
+            Builders<Thing>.Update.Set(f => f.State, state),
+            new UpdateOptions(),
+            cancellationToken);
+    }
 }

@@ -12,6 +12,8 @@ public interface IReceiverStore
         IEnumerable<Guid> ids, CancellationToken
         cancellationToken);
 
+    Task<IReadOnlyList<Receiver>> GetAllAsync(CancellationToken cancellationToken);
+
     public IQueryable<Receiver> Query();
 
 }

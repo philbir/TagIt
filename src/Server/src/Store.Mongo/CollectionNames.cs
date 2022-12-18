@@ -18,5 +18,6 @@ internal static class CollectionNames
     public static readonly string AuthState = "auth_state";
     public static readonly string WebHook = "web_hook";
     public static readonly string TagDefintion = "tag_defintion";
+    public static readonly string Workflow = "workflow";
 
 }

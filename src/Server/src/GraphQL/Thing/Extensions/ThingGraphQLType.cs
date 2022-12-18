@@ -11,6 +11,7 @@ public partial class ThingGraphQLType : ObjectType<Thing>
         descriptor.Field(x => x.ReceiverId).Ignore();
         descriptor.Field(x => x.ClassId).Ignore();
         descriptor.Field(x => x.TypeId).Ignore();
+        descriptor.Field(x => x.Date).Type<DateType>();
 
         descriptor.Ignore(x => x.Thumbnails);
         descriptor.Ignore(x => x.Data);
@@ -31,10 +32,7 @@ public partial class ThingGraphQLType : ObjectType<Thing>
             .ResolveWith<Resolvers>(x => x.GetTagsAsync(default!, default!, default!));
 
         descriptor.Field("content")
-            .ResolveWith<Resolvers>(x => x.GetContentsAsync(default!, default!, default!));
-
-        descriptor.Field("contentText")
-            .ResolveWith<Resolvers>(x => x.GetContentTextAsync(default!, default!, default!));
+            .Resolve(c => new ThingContentNode(c.Parent<Thing>().Id));
 
         descriptor.Field("thumbnail")
             .Argument("pageNumber", a => a
@@ -132,28 +130,6 @@ public partial class ThingGraphQLType : ObjectType<Thing>
 
             return null;
         }
-
-        internal Task<IReadOnlyList<ThingContent>> GetContentsAsync(
-            [Parent] Thing thing,
-            [Service] IThingContentService service,
-            CancellationToken cancellationToken)
-            => service.GetByThingIdAsync(thing.Id, cancellationToken);
-
-        internal async Task<string> GetContentTextAsync(
-            [Parent] Thing thing,
-            [Service] IThingContentService service,
-            CancellationToken cancellationToken)
-        {
-            IReadOnlyList<ThingContent> contents = await service.GetByThingIdAsync(
-                thing.Id,
-                cancellationToken);
-
-            var all = string.Join(
-                '\n',
-                contents.Select(x => x.Data.ToString()));
-
-            return all;
-        }
     }
 }
 
@@ -161,3 +137,4 @@ public class PageTextContentType : ObjectType<PageTextContent>
 {
 
 }
+

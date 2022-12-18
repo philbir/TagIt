@@ -1,3 +1,4 @@
+using MassTransit.Initializers;
 using TagIt.Store;
 
 namespace TagIt.GraphQL;
@@ -25,7 +26,3 @@ public class ThingTypeByIdDataLoader
         return types.ToDictionary(x => x.Id)!;
     }
 }
-
-
-
-

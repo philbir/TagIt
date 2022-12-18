@@ -2,7 +2,7 @@ using TagIt.Connectors;
 
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Query)]
+[QueryType]
 public class ConnectorQueries
 {
     [UsePaging]

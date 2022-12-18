@@ -11,7 +11,7 @@ const store = useLookupStore();
             <v-app-bar density="compact">
                 <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-                <v-toolbar-title>TagIt {{ store.isReady }}</v-toolbar-title>
+                <v-toolbar-title>TagIt</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>
                     <v-icon>mdi-dots-vertical</v-icon>

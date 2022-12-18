@@ -124,13 +124,22 @@ type ConnectorsEdge {
   node: ConnectorDefintion!
 }
 
+type ContentTokenData {
+  displays: [String!]!
+  matchCount: Int!
+  tokenizer: String!
+  value: String
+}
+
 type Correspondent implements Node {
+  detectRules: [DetectRule]
   id: ID!
   name: String
 }
 
 input CorrespondentFilterInput {
   and: [CorrespondentFilterInput!]
+  detectRules: ListFilterInputTypeOfDetectRuleFilterInput
   id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [CorrespondentFilterInput!]
@@ -212,6 +221,9 @@ type CredentialsEdge {
   node: Credential!
 }
 
+"""The `Date` scalar represents an ISO-8601 compliant date type."""
+scalar Date
+
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
 
@@ -228,6 +240,38 @@ input DateTimeOperationFilterInput {
   nin: [DateTime]
   nlt: DateTime
   nlte: DateTime
+}
+
+type DetectResultOfCorrespondent {
+  item: Correspondent!
+  scrore: Int!
+}
+
+type DetectRule {
+  expression: String!
+  field: String!
+  mode: DetectRuleMode!
+  weight: Int!
+}
+
+input DetectRuleFilterInput {
+  and: [DetectRuleFilterInput!]
+  expression: StringOperationFilterInput
+  field: StringOperationFilterInput
+  mode: DetectRuleModeOperationFilterInput
+  or: [DetectRuleFilterInput!]
+  weight: IntOperationFilterInput
+}
+
+enum DetectRuleMode {
+  REGEX
+}
+
+input DetectRuleModeOperationFilterInput {
+  eq: DetectRuleMode
+  in: [DetectRuleMode!]
+  neq: DetectRuleMode
+  nin: [DetectRuleMode!]
 }
 
 type EntityVersion {
@@ -442,6 +486,13 @@ input ListFilterInputTypeOfCredentialTokenFilterInput {
   any: Boolean
   none: CredentialTokenFilterInput
   some: CredentialTokenFilterInput
+}
+
+input ListFilterInputTypeOfDetectRuleFilterInput {
+  all: DetectRuleFilterInput
+  any: Boolean
+  none: DetectRuleFilterInput
+  some: DetectRuleFilterInput
 }
 
 input ListFilterInputTypeOfPropertyDefinitionLinkFilterInput {
@@ -736,6 +787,7 @@ type Query {
   ): TagDefintionsConnection
   thingById(id: ID!): Thing!
   thingClasses(where: ThingClassFilterInput): [ThingClass!]!
+  thingStates: [ThingState!]!
   thingTypes(where: ThingTypeFilterInput): [ThingType!]!
   things(
     """Returns the elements in the list that come after the specified cursor."""
@@ -885,10 +937,9 @@ type TagDefintionsEdge {
 
 type Thing implements Node {
   class: ThingClass
-  content: [ThingContent!]!
-  contentText: String!
+  content: ThingContentNode
   correspondent: Correspondent
-  date: DateTime
+  date: Date
   id: ID!
   label: String
   properties: [ThingPropery]
@@ -923,7 +974,13 @@ type ThingContent {
   data: IThingContentData
   id: UUID!
   source: String
-  thingId: UUID!
+}
+
+type ThingContentNode {
+  detectedCorrespondents: [DetectResultOfCorrespondent!]!
+  items: [ThingContent!]!
+  text: String!
+  tokens: [ContentTokenData!]!
 }
 
 input ThingDataReferenceFilterInput {
@@ -1003,8 +1060,10 @@ input ThingSourceFilterInput {
 
 enum ThingState {
   ACTIVE
+  ARCHIVED
   DELETED
   DRAFT
+  NEW
   PROCESSING
 }
 
@@ -1044,7 +1103,8 @@ input ThingThumbnailFilterInput {
 
 type ThingType {
   contentTypeMap: [String]
-  id: UUID!
+  detectRules: [DetectRule]
+  id: ID!
   name: String
   validClasses: [ThingClass!]!
   version: EntityVersion!
@@ -1053,6 +1113,7 @@ type ThingType {
 input ThingTypeFilterInput {
   and: [ThingTypeFilterInput!]
   contentTypeMap: ListStringOperationFilterInput
+  detectRules: ListFilterInputTypeOfDetectRuleFilterInput
   id: UuidOperationFilterInput
   name: StringOperationFilterInput
   or: [ThingTypeFilterInput!]
@@ -1114,6 +1175,7 @@ type UpdateJobDefinitionPayload {
 input UpdateThingInput {
   classId: ID
   correspondentId: ID
+  date: DateTime
   id: ID!
   properties: [UpdateThingPropertyInput!]
   receiverId: ID

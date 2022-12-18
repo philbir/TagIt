@@ -42,6 +42,7 @@ internal class TagIdDbContext : MongoDbContext, ITagIdDbContext
             .ConfigureCollection(new ThingContentConfiguration())
             .ConfigureCollection(new JobRunCollectionConfiguration())
             .ConfigureCollection(new WebHookCollectionConfiguration())
+            .ConfigureCollection(new WorkflowCollectionConfiguration())
             .ConfigureCollection(new EntityAuditEventConfiguration());
     }
 

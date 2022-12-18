@@ -2,6 +2,7 @@ using Serilog;
 using TagIt;
 using TagIt.Configuration;
 using TagIt.Messaging;
+using TagIt.Processing;
 using TagIt.Security;
 using TagIt.Store.Mongo;
 
@@ -18,7 +19,12 @@ IHost host = Host.CreateDefaultBuilder(args)
             {
                 b.AddConsumer<NewConnectorItemConsumer>();
                 b.AddConsumer<ThingAddedConsumer>();
-            });
+                b.AddConsumer<WorkflowChangedConsumer>();
+            })
+            .AddWorkflow()
+            .RegisterThingPostProcessing()
+            .RegisterStep<StepA>()
+            .RegisterStep<StepB>();
         builder.Services.AddHttpClient();
 
         builder.Services.AddSingleton<IUserContextFactory, UserContextFactory>();
@@ -26,7 +32,10 @@ IHost host = Host.CreateDefaultBuilder(args)
         //services.AddHostedService<TagItWorker>();
         //services.AddHostedService<JobWorker>();
 
-        builder.Services.AddHostedService<ContentExtractionWorker>();
+        //builder.Services.AddHostedService<ContentExtractionWorker>();
+        //builder.Services.AddHostedService<DetectionWorker>();
+        //builder.Services.AddHostedService<WorkflowWorker>();
+        builder.Services.AddHostedService<PostProcessingWorker>();
 
     })
     .UseSerilog()

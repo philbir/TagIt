@@ -1,6 +1,6 @@
 namespace TagIt.GraphQL;
 
-[ExtendObjectType(OperationTypeNames.Query)]
+[QueryType]
 public class ThingQueries
 {
     [UsePaging]
@@ -36,6 +36,14 @@ public class ThingQueries
     {
         return service.Query(cancellationToken);
     }
+
+    public IEnumerable<ThingState> GetThingStates()
+    {
+        var states = Enum.GetValues(typeof(ThingState))
+            .Cast<ThingState>();
+
+        return states;
+    }
 }
 
 public static class UpdateThingInputExtensions
@@ -51,6 +59,7 @@ public static class UpdateThingInputExtensions
             CorrespondentId = input.CorrespondentId,
             Title = input.Title,
             Tags = input.Tags,
+            Date = input.Date,
             Properties = input.Properties?.Select(p => new UpdateThingPropertyRequest
             {
                 Id = p.Id,
@@ -84,6 +93,8 @@ public class UpdateThingInput
 
     [ID(nameof(TagDefinition))]
     public IEnumerable<Guid> Tags { get; set; } = new List<Guid>();
+
+    public DateTimeOffset? Date { get; set; }
 }
 
 public class UpdateThingPropertyInput

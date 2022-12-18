@@ -41,6 +41,38 @@
                                     </v-row>
                                     <v-row>
                                         <v-col xs="6">
+                                            <v-select
+                                                label="State"
+                                                variant="solo"
+                                                v-model="editModel.state"
+                                                :items="lookupStore.thingStates"
+                                                item-value="id"
+                                                item-title="name"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col xs="6">
+                                            <v-text-field
+                                                variant="solo"
+                                                label="Date"
+                                                type="date"
+                                                v-model="editModel.date"
+                                            >
+                                                <template v-slot:append-inner>
+                                                    <ThingDatesMenu
+                                                        :tokens="
+                                                            thing?.content
+                                                                ?.tokens
+                                                        "
+                                                        @change="
+                                                            handleDateMenuSelected
+                                                        "
+                                                    ></ThingDatesMenu>
+                                                </template>
+                                            </v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col xs="6">
                                             <v-autocomplete
                                                 clearable
                                                 label="Correspondent"
@@ -71,6 +103,24 @@
                                                             >Add</v-btn
                                                         >
                                                     </v-sheet>
+                                                </template>
+                                                <template
+                                                    v-if="
+                                                        thing?.content
+                                                            ?.detectedCorrespondents
+                                                            .length
+                                                    "
+                                                    v-slot:append-inner
+                                                >
+                                                    <DetetectedItemsMenu
+                                                        @change="
+                                                            handleCorrespondentChange
+                                                        "
+                                                        :items="
+                                                            thing?.content
+                                                                ?.detectedCorrespondents
+                                                        "
+                                                    ></DetetectedItemsMenu>
                                                 </template>
                                             </v-autocomplete>
                                         </v-col>
@@ -195,7 +245,7 @@
                     <v-window-item value="content" key="content">
                         <v-textarea
                             variant="solo"
-                            :model-value="thing?.contentText"
+                            :model-value="thing?.content?.text"
                             :style="{
                                 height: display.height.value - 200 + 'px',
                             }"
@@ -206,7 +256,7 @@
                         </v-textarea>
                     </v-window-item> </v-window
             ></v-col>
-            <v-col md="6" v-if="true">
+            <v-col md="6" v-if="false">
                 <embed
                     width="100%"
                     :height="display.height.value - 140 + 'px'"
@@ -214,7 +264,7 @@
                     id="plugin"
                 />
             </v-col>
-            <v-col md="6" v-if="false">
+            <v-col md="6" v-if="true">
                 <pre>{{ editModel }}</pre>
                 <hr />
                 <pre>{{ properties }}</pre>
@@ -238,6 +288,9 @@ import { useCorrenspondentStore } from "@/stores/correspondentStore";
 import { ref, reactive, onMounted } from "vue";
 import ThingPropertyEdit from "./ThingPropertyEdit.vue";
 import { useRouter } from "vue-router";
+import ThingDatesMenu from "./ThingDatesMenu.vue";
+import { DateTime } from "luxon";
+import DetetectedItemsMenu from "./DetetectedItemsMenu.vue";
 
 const editModel = reactive<{
     id?: string | null;
@@ -247,6 +300,8 @@ const editModel = reactive<{
     correspondentId?: string | null;
     receiverId?: string | null;
     tags?: Array<string> | null;
+    state?: string | null;
+    date?: string | null;
     properties: Array<{
         id?: string | null;
         definitionId?: string | null;
@@ -273,6 +328,10 @@ const tagSearch = ref();
 // handlers
 const handlecorrespondentSearch = (e: string) => {
     correspondentSearch.value = e;
+};
+
+const handleCorrespondentChange = (e: string) => {
+    editModel.correspondentId = e;
 };
 
 const handleTagSearch = (e: string) => {
@@ -325,9 +384,14 @@ const handleClickSave = async () => {
         classId: editModel.classId,
         receiverId: editModel.receiverId,
         correspondentId: editModel.correspondentId,
+        date: editModel.date,
         properties: editModel.properties ?? [],
         tags: editModel.tags ?? [],
     });
+};
+
+const handleDateMenuSelected = (date: DateTime) => {
+    editModel.date = date.toISODate();
 };
 
 const props = defineProps({
@@ -402,13 +466,13 @@ onMounted(async () => {
 });
 
 const setModel = (thing: ThingDetailFragment) => {
-    console.log(thing.properties);
     editModel.title = thing.title;
     editModel.typeId = thing.type?.id;
     editModel.classId = thing.class?.id;
     editModel.receiverId = thing.receiver?.id;
     editModel.correspondentId = thing.correspondent?.id;
     editModel.tags = thing.tags.map((t) => t.id);
+    editModel.date = thing.date;
     editModel.properties = thing.properties?.map(
         (p: any) =>
             ({

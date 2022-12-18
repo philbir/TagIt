@@ -39,7 +39,7 @@ public class ContentExtractionWorker : BackgroundService
 
         var dateExtractor = new DateContentTokenizer();
 
-        var tokens = new List<TokenData>();
+        var tokens = new List<ContentTokenData>();
 
         foreach (var text in all.Split('\n'))
         {
