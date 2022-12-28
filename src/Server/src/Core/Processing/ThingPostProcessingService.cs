@@ -34,7 +34,7 @@ public class ThingPostProcessingService : IThingPostProcessingService
         _tokenizerService = tokenizerService;
     }
 
-    public async Task UpdateThumbnailsAsync(Guid thingId, CancellationToken cancellationToken)
+    public async Task UpdateContentAsync(Guid thingId, CancellationToken cancellationToken)
     {
         Thing thing = await _thingService.GetByIdAsync(thingId, cancellationToken);
 
@@ -56,53 +56,25 @@ public class ThingPostProcessingService : IThingPostProcessingService
             return;
         }
 
-        // Detect correspondent
-        if (!thing.CorespondentId.HasValue)
-        {
-            IReadOnlyList<DetectResult<Correspondent>> correspondents =
-                await _correspondentService.DetectFromContentAsync(
-                    content,
-                    cancellationToken);
-
-            thing.CorespondentId = correspondents.FirstOrDefault()?.Item.Id;
-        }
-
-        //Detect class
-        if (!thing.ClassId.HasValue && thing.TypeId.HasValue)
-        {
-            IReadOnlyList<DetectResult<ThingClass>> classes = await _thingClassService.DetectFromContentAsync(
-                thing.TypeId.Value,
-                content,
-                cancellationToken);
-
-            thing.ClassId = classes.FirstOrDefault()?.Item.Id;
-        }
-
-        //Detect tags
-        if (thing.Tags is null || !thing.Tags.Any())
-        {
-            IReadOnlyList<DetectResult<TagDefinition>> tags = await _tagDefinitionService.DetectFromContentAsync(
-                content,
-                cancellationToken);
-
-            thing.Tags = tags.Select(t => new ThingTag() { DefintionId = t.Item.Id }).ToList();
-        }
-
-        //Detect receiver
-        if (!thing.ReceiverId.HasValue)
-        {
-            IReadOnlyList<DetectResult<Receiver>> receivers = await _receiverService.DetectFromConteÈntAsync(
-                content,
-                cancellationToken);
-
-            thing.ReceiverId = receivers.FirstOrDefault()?.Item.Id;
-        }
-
         IReadOnlyList<ContentTokenData> contentTokens = await _tokenizerService.TokenizeAsync(
             content.GetAllText(),
             cancellationToken);
 
-        //Detect Dates
+        await DetectCorrespondentAsync(thing, content, cancellationToken);
+
+        await DetectClassAsync(thing, content, cancellationToken);
+
+        await DetectTagsAsync(thing, content, cancellationToken);
+
+        await DetectReceiverAsync(thing, content, cancellationToken);
+
+        DetectDate(thing, contentTokens);
+
+        await _thingService.UpdateThingAsync(thing, cancellationToken);
+    }
+
+    private static void DetectDate(Thing thing, IReadOnlyList<ContentTokenData> contentTokens)
+    {
         if (!thing.Date.HasValue)
         {
             IEnumerable<DateTimeOffset> dates = contentTokens
@@ -114,7 +86,56 @@ public class ThingPostProcessingService : IThingPostProcessingService
                 .OrderBy(x => x)
                 .LastOrDefault();
         }
+    }
 
-        await _thingService.UpdateThingAsync(thing, cancellationToken);
+    private async Task DetectReceiverAsync(Thing thing, ThingContentAccessor content, CancellationToken cancellationToken)
+    {
+        if (!thing.ReceiverId.HasValue)
+        {
+            IReadOnlyList<DetectResult<Receiver>> receivers = await _receiverService.DetectFromConteÈntAsync(
+                content,
+                cancellationToken);
+
+            thing.ReceiverId = receivers.FirstOrDefault()?.Item.Id;
+        }
+    }
+
+    private async Task DetectTagsAsync(Thing thing, ThingContentAccessor content, CancellationToken cancellationToken)
+    {
+        if (thing.Tags is null || !thing.Tags.Any())
+        {
+            IReadOnlyList<DetectResult<TagDefinition>> tags = await _tagDefinitionService.DetectFromContentAsync(
+                content,
+                cancellationToken);
+
+            thing.Tags = tags.Select(t => new ThingTag() { DefintionId = t.Item.Id }).ToList();
+        }
+    }
+
+    private async Task DetectClassAsync(Thing thing, ThingContentAccessor content, CancellationToken cancellationToken)
+    {
+        if (!thing.ClassId.HasValue && thing.TypeId.HasValue)
+        {
+            IReadOnlyList<DetectResult<ThingClass>> classes = await _thingClassService.DetectFromContentAsync(
+                thing.TypeId.Value,
+                content,
+                cancellationToken);
+
+            thing.ClassId = classes.FirstOrDefault()?.Item.Id;
+        }
+    }
+
+    private async Task DetectCorrespondentAsync(Thing thing, ThingContentAccessor content,
+        CancellationToken cancellationToken)
+    {
+        if (!thing.CorespondentId.HasValue)
+        {
+            IReadOnlyList<DetectResult<Correspondent>> correspondents =
+                await _correspondentService.DetectFromContentAsync(
+                    content,
+                    cancellationToken);
+
+            thing.CorespondentId = correspondents.FirstOrDefault()?.Item.Id;
+        }
     }
 }

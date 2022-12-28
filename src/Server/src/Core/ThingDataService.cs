@@ -3,12 +3,12 @@ using TagIt.Store;
 
 namespace TagIt;
 
-public class ThingDataResolver : IThingDataResolver
+public class ThingDataService : IThingDataService
 {
     private readonly IThingStore _thingStore;
     private readonly IConnectorFactory _connectorFactory;
 
-    public ThingDataResolver(
+    public ThingDataService(
         IThingStore thingStore,
         IConnectorFactory connectorFactory)
     {

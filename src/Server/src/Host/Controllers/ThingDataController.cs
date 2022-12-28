@@ -8,18 +8,18 @@ namespace TagIt.Controllers;
 public class ThingDataController : Controller
 {
     private readonly IIdSerializer _idSerializer;
-    private readonly IThingDataResolver _thingDataResolver;
+    private readonly IThingDataService _thingDataService;
     private readonly IThingService _thingService;
     private readonly IThumbnailStore _thumbnailStore;
 
     public ThingDataController(
         IIdSerializer idSerializer,
-        IThingDataResolver thingDataResolver,
+        IThingDataService thingDataService,
         IThingService thingService,
         IThumbnailStore thumbnailStore)
     {
         _idSerializer = idSerializer;
-        _thingDataResolver = thingDataResolver;
+        _thingDataService = thingDataService;
         _thingService = thingService;
         _thumbnailStore = thumbnailStore;
     }
@@ -38,7 +38,7 @@ public class ThingDataController : Controller
             cancellationToken);
 
 
-        ThingData data = await _thingDataResolver.GetOriginalAsync(
+        ThingData data = await _thingDataService.GetOriginalAsync(
             thing,
             cancellationToken);
         return new FileStreamResult(data.Stream, "application/pdf");

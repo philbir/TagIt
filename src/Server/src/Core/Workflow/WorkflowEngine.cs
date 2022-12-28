@@ -166,7 +166,7 @@ public static class WorkflowChangedActivities
 public static class WorkflowStepNames
 {
     public static readonly string CreateThmumbnails = "CreateThmumbnails";
-    public static readonly string OCR = "OCR";
+    public static readonly string PdfOcr = "OCR";
     public static readonly string ThingContentExtraction = "ThingContentExtracation";
     public static readonly string ThingDetectProperties = "ThingDetectProperties";
     public static readonly string ThingPostProcessingCompleted = "ThingPostProcessingCompleted";

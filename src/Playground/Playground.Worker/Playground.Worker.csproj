@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\PaperlessNgx\PaperlessNgx.csproj" />
     <ProjectReference Include="..\..\Server\src\Hosting\Hosting.csproj" />
     <ProjectReference Include="..\..\Server\src\Connector.MicrosoftGraph\Connector.Microsoft.Graph.csproj" />
     <ProjectReference Include="..\..\Server\src\Core\Core.csproj" />

@@ -45,7 +45,7 @@ public static class TagItServerBuilderExtensions
         services.AddSingleton<IConnectorFactory, ConnectorFactory>();
         services.AddSingleton<IWebHookService, WebHookService>();
         services.AddSingleton<IThingIngestService, ThingIngestService>();
-        services.AddSingleton<IThingDataResolver, ThingDataResolver>();
+        services.AddSingleton<IThingDataService, ThingDataService>();
         services.AddEntityService<IThingService, ThingService, Thing>();
         services.AddEntityService<IThingTypeService, ThingTypeService, ThingType>();
         services.AddEntityService<IThingClassService, ThingClassService, ThingClass>();
