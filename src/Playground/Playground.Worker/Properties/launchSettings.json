@@ -4,7 +4,7 @@
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
-          "HTTP_PROXY": "http://localhost:8080"
+          "ZZHTTP_PROXY": "http://localhost:8080"
       },
       "dotnetRunMessages": true
     },

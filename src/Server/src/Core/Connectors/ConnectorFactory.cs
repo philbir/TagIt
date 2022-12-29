@@ -21,7 +21,7 @@ public class ConnectorFactory : IConnectorFactory
     {
         await LoadConnectorsAsync(cancellationToken);
         //Todo: Get from application config
-        var connector = _connectorDefintions.Single(x => x.Name == "Default");
+        ConnectorDefintion connector = _connectorDefintions.Single(x => x.Name == "Default");
 
         return await CreateManagerAsync(connector, cancellationToken);
     }

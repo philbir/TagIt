@@ -1,12 +1,14 @@
+using TagIt.Store;
+
 namespace TagIt.Processing;
 
-public class OCRStep : IWorkflowStep
+public class PdfOcrStep : IWorkflowStep
 {
     private readonly IThingService _thingService;
     private readonly IThingDataService _thingDataService;
     private readonly IPdfOcrService _pdfOcrService;
 
-    public OCRStep(
+    public PdfOcrStep(
         IThingService thingService,
         IThingDataService thingDataService,
         IPdfOcrService pdfOcrService)
@@ -24,16 +26,19 @@ public class OCRStep : IWorkflowStep
 
         ThingData original = await _thingDataService.GetOriginalAsync(thing, context.CancellationToken);
 
-        Task<CreatePdfResult> pdf = _pdfOcrService.CreatePdfAsync(
+        CreatePdfResult pdf = await _pdfOcrService.CreatePdfAsync(
             new CreatePdfRequest(original.Id, original.Stream),
             context.CancellationToken);
 
+        await _thingDataService.AddDataAsync(thing,
+            new AddThingDataRequest
+            {
+                Stream = new MemoryStream(pdf.Data),
+                Filename = $"{thing.Id:N}_Archive.pdf",
+                Type = DataRefNames.PdfArchive
+            }, context.CancellationToken);
 
-
-
-
-
-
+        return new WorkflowStepResult();
     }
 
     public string Name => WorkflowStepNames.PdfOcr;

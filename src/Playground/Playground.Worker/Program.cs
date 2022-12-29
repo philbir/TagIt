@@ -37,8 +37,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         //builder.Services.AddHostedService<ContentExtractionWorker>();
         //builder.Services.AddHostedService<DetectionWorker>();
         //builder.Services.AddHostedService<WorkflowWorker>();
-        //builder.Services.AddHostedService<PostProcessingWorker>();
-        builder.Services.AddHostedService<PaperlessWorker>();
+        builder.Services.AddHostedService<PostProcessingWorker>();
+        //builder.Services.AddHostedService<PaperlessWorker>();
 
     })
     .UseSerilog()

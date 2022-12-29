@@ -11,7 +11,7 @@ public static class WorkflowTemplates
             Name = "ThingPostProcess",
             Steps = new List<string>
             {
-                WorkflowStepNames.CreateThmumbnails,
+                WorkflowStepNames.CreateThumbnails,
                 WorkflowStepNames.PdfOcr,
                 WorkflowStepNames.ThingContentExtraction,
                 WorkflowStepNames.ThingDetectProperties,

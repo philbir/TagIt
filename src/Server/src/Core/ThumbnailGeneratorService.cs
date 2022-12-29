@@ -40,7 +40,7 @@ public class ThumbnailGeneratorService : IThumbnailGeneratorService
 
         foreach (ImageData thumbnail in thumbnails)
         {
-            ThingThumbnail thumbnailReference = new ThingThumbnail
+            var thumbnailReference = new ThingThumbnail
             {
                 FileId = Guid.NewGuid().ToString("N"),
                 Format = thumbnail.Format,

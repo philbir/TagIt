@@ -17,10 +17,10 @@ public class PostProcessingWorker : BackgroundService
 
         var template = new WorkflowTemplate()
         {
-            Name = "ThingPostProcess", Steps = new List<string> { WorkflowStepNames.ThingDetectProperties }
+            Name = "ThingPostProcess", Steps = new List<string> { WorkflowStepNames.PdfOcr }
         };
 
-        foreach (var thing in things)
+        foreach (Thing thing in things.Skip(1).Take(10))
         {
             await _engine.StartWorkflow(
                 template,

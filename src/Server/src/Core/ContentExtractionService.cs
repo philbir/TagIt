@@ -20,7 +20,7 @@ public class ContentExtractionService : IContentExtractionService
 
         // Build Context
         var context = new ThingContentExtractionContext(thing);
-        context.ArchivedData = await _thingDataService.GetOriginalAsync(thing, cancellationToken);
+        context.ArchivedData = await _thingDataService.GetPdfArchiveAsync(thing, cancellationToken);
 
         var result = new List<IThingContentData>();
 

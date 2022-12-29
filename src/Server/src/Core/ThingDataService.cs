@@ -16,12 +16,33 @@ public class ThingDataService : IThingDataService
         _connectorFactory = connectorFactory;
     }
 
-    public async Task<ThingData> GetOriginalAsync(
+    public async Task AddDataAsync(Thing thing, AddThingDataRequest request, CancellationToken cancellationToken)
+    {
+        IConnector connector = await _connectorFactory.CreateDefaultAsync(cancellationToken);
+
+        var dataRef = new ThingDataReference
+        {
+            ConnectorId = connector.Id,
+            ContentType = Path.GetExtension(request.Filename).Split('.').Last().ToLower(),
+            Type = request.Type
+        };
+
+        dataRef.Id = await connector.UploadAsync(request.Filename, request.Stream, cancellationToken);
+
+        var data = thing.Data.ToList();
+        data.Add(dataRef);
+
+        thing.Data = data;
+
+        await _thingStore.UpdateAsync(thing, cancellationToken);
+    }
+
+    public async Task<ThingData> GetByTypeAsync(
         Thing thing,
+        string type,
         CancellationToken cancellationToken)
     {
-        //TODO: Get original
-        ThingDataReference dataRef = thing.Data.Single(x => x.Type == DataRefNames.Original);
+        ThingDataReference dataRef = thing.Data.Single(x => x.Type == type);
 
         IConnector connector = await _connectorFactory
             .CreateAsync(dataRef.ConnectorId, cancellationToken);
@@ -36,4 +57,14 @@ public class ThingDataService : IThingDataService
             Stream = data
         };
     }
+
+    public Task<ThingData> GetOriginalAsync(
+        Thing thing,
+        CancellationToken cancellationToken)
+            => GetByTypeAsync(thing, DataRefNames.Original, cancellationToken);
+
+    public Task<ThingData> GetPdfArchiveAsync(
+        Thing thing,
+        CancellationToken cancellationToken)
+        => GetByTypeAsync(thing, DataRefNames.PdfArchive, cancellationToken);
 }
