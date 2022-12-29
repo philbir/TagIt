@@ -2,14 +2,14 @@ namespace TagIt;
 
 public class ContentExtractionService : IContentExtractionService
 {
-    private readonly IThingDataResolver _thingDataResolver;
+    private readonly IThingDataService _thingDataService;
     private readonly IEnumerable<IThingContentExtractor> _thingDataExtractors;
 
     public ContentExtractionService(
-        IThingDataResolver thingDataResolver,
+        IThingDataService thingDataService,
         IEnumerable<IThingContentExtractor> thingDataExtractors)
     {
-        _thingDataResolver = thingDataResolver;
+        _thingDataService = thingDataService;
         _thingDataExtractors = thingDataExtractors;
     }
 
@@ -20,7 +20,7 @@ public class ContentExtractionService : IContentExtractionService
 
         // Build Context
         var context = new ThingContentExtractionContext(thing);
-        context.ArchivedData = await _thingDataResolver.GetOriginalAsync(thing, cancellationToken);
+        context.ArchivedData = await _thingDataService.GetPdfArchiveAsync(thing, cancellationToken);
 
         var result = new List<IThingContentData>();
 

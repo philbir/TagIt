@@ -49,6 +49,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".props", ".props", "{6A3BD8
 		test\Directory.Build.props = test\Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperlessNgx", "PaperlessNgx\PaperlessNgx.csproj", "{857869E2-DD0A-450A-9AFC-10BB51D25647}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{01D4957A-C381-43AE-B178-A5684B16A602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01D4957A-C381-43AE-B178-A5684B16A602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01D4957A-C381-43AE-B178-A5684B16A602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857869E2-DD0A-450A-9AFC-10BB51D25647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857869E2-DD0A-450A-9AFC-10BB51D25647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857869E2-DD0A-450A-9AFC-10BB51D25647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857869E2-DD0A-450A-9AFC-10BB51D25647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{8A7ABF11-0759-45D5-B661-2049F955C357} = {46573F9E-AA32-413E-AE4B-2BD8DCC26304}
 		{01D4957A-C381-43AE-B178-A5684B16A602} = {8A7ABF11-0759-45D5-B661-2049F955C357}
 		{6A3BD897-206A-4DA7-A75C-ADD36EFF3B46} = {8A7ABF11-0759-45D5-B661-2049F955C357}
+		{857869E2-DD0A-450A-9AFC-10BB51D25647} = {AC4C6D29-3027-4147-8EF2-B0C066A855C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C0CF317-4734-47FC-862B-EF48BB12753A}

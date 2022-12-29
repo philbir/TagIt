@@ -2,6 +2,7 @@ using Serilog;
 using TagIt;
 using TagIt.Configuration;
 using TagIt.Messaging;
+using TagIt.PaperlessNgx;
 using TagIt.Processing;
 using TagIt.Security;
 using TagIt.Store.Mongo;
@@ -21,6 +22,7 @@ IHost host = Host.CreateDefaultBuilder(args)
                 b.AddConsumer<ThingAddedConsumer>();
                 b.AddConsumer<WorkflowChangedConsumer>();
             })
+            .AddPaperlessNgx()
             .AddWorkflow()
             .RegisterThingPostProcessing()
             .RegisterStep<StepA>()
@@ -36,6 +38,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         //builder.Services.AddHostedService<DetectionWorker>();
         //builder.Services.AddHostedService<WorkflowWorker>();
         builder.Services.AddHostedService<PostProcessingWorker>();
+        //builder.Services.AddHostedService<PaperlessWorker>();
 
     })
     .UseSerilog()

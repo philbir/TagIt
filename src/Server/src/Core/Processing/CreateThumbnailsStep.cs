@@ -18,5 +18,5 @@ public class CreateThumbnailsStep : IWorkflowStep
         return new WorkflowStepResult();
     }
 
-    public string Name => WorkflowStepNames.CreateThmumbnails;
+    public string Name => WorkflowStepNames.CreateThumbnails;
 }

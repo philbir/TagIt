@@ -11,8 +11,8 @@ public static class WorkflowTemplates
             Name = "ThingPostProcess",
             Steps = new List<string>
             {
-                WorkflowStepNames.CreateThmumbnails,
-                WorkflowStepNames.OCR,
+                WorkflowStepNames.CreateThumbnails,
+                WorkflowStepNames.PdfOcr,
                 WorkflowStepNames.ThingContentExtraction,
                 WorkflowStepNames.ThingDetectProperties,
                 WorkflowStepNames.ThingPostProcessingCompleted
@@ -22,7 +22,7 @@ public static class WorkflowTemplates
         builder.Services.AddSingleton(template);
 
         builder.RegisterStep<CreateThumbnailsStep>();
-        builder.RegisterStep<OCRStep>();
+        builder.RegisterStep<PdfOcrStep>();
         builder.RegisterStep<ThingContentExtractionStep>();
         builder.RegisterStep<ThingDetectPropertiesStep>();
         builder.RegisterStep<ThingPostProcessingCompletedStep>();

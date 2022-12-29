@@ -6,7 +6,7 @@ namespace TagIt;
 public class ThumbnailGeneratorService : IThumbnailGeneratorService
 {
     private readonly IThingService _thingService;
-    private readonly IThingDataResolver _dataResolver;
+    private readonly IThingDataService _dataService;
     private readonly IConnectorFactory _connectorFactory;
     private readonly IEnumerable<IImageExtractor> _extractors;
     private readonly IImageConverter _imageConverter;
@@ -14,14 +14,14 @@ public class ThumbnailGeneratorService : IThumbnailGeneratorService
 
     public ThumbnailGeneratorService(
         IThingService thingService,
-        IThingDataResolver dataResolver,
+        IThingDataService dataService,
         IConnectorFactory connectorFactory,
         IEnumerable<IImageExtractor> extractors,
         IImageConverter imageConverter,
         IThumbnailStore thumbnailStore)
     {
         _thingService = thingService;
-        _dataResolver = dataResolver;
+        _dataService = dataService;
         _connectorFactory = connectorFactory;
         _extractors = extractors;
         _imageConverter = imageConverter;
@@ -40,7 +40,7 @@ public class ThumbnailGeneratorService : IThumbnailGeneratorService
 
         foreach (ImageData thumbnail in thumbnails)
         {
-            ThingThumbnail thumbnailReference = new ThingThumbnail
+            var thumbnailReference = new ThingThumbnail
             {
                 FileId = Guid.NewGuid().ToString("N"),
                 Format = thumbnail.Format,
@@ -71,7 +71,7 @@ public class ThumbnailGeneratorService : IThumbnailGeneratorService
         }
         else
         {
-            ThingData data = await _dataResolver
+            ThingData data = await _dataService
                 .GetOriginalAsync(thing, cancellationToken);
 
             IImageExtractor? imageExtractor = _extractors.FirstOrDefault(
